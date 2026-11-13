@@ -2,267 +2,357 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: sticky top bar with tabs, one centered working column (max 1180px); views swap below. */
+/* Layout: translucent top bar (segmented tabs) on desktop, iOS-style bottom tab bar on phones.
+   Content column up to 1440px, split into purposeful columns (calendar + day panel, settings + results) instead of stretching. */
 :root {
-  --accent-l: #0f7a6a; --accent-d: #46c2aa;
-  --bg: #f2f5f4; --surface: #ffffff; --surface-2: #eaefed; --surface-3: #dde5e2;
-  --ink: #15201c; --ink-2: #3a4843; --muted: #64736e; --line: #d5dedb; --line-strong: #b9c6c1;
+  --accent-l: #007aff; --accent-d: #0a84ff;
+  --bg: #f2f2f7; --surface: #ffffff; --surface-2: #f2f2f7; --surface-3: #e5e5ea; --elev: rgba(255,255,255,.72);
+  --ink: #1c1c1e; --ink-2: #3a3a3c; --muted: #8a8a8e; --line: rgba(60,60,67,.13); --line-strong: rgba(60,60,67,.24);
   --accent: var(--accent-l); --accent-ink: #ffffff; --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
-  --good: #1b7f4b; --warn: #a96500; --bad: #c0392b; --warn-soft: #fff3dc; --bad-soft: #fde8e6; --good-soft: #e3f4ea;
-  --k-dag: #2f6fd0; --k-dag-bg: #e3edfc;
-  --k-kveld: #7a4fc9; --k-kveld-bg: #efe7fc;
-  --k-lang: #0f7a6a; --k-lang-bg: #dcf2ec;
-  --k-natt: #34408f; --k-natt-bg: #e2e5f7;
-  --k-fri: #6b7672; --k-fri-bg: #eceeed;
-  --k-ferie: #a35f00; --k-ferie-bg: #fdf0d9;
-  --k-annet: #b23a6b; --k-annet-bg: #fbe5ee;
-  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
-  --radius: 10px; --cell-h: 92px;
+  --good: #248a3d; --warn: #c56a00; --bad: #d70015; --holiday: #e0281c;
+  --warn-soft: color-mix(in srgb, #ff9500 13%, var(--surface)); --bad-soft: color-mix(in srgb, #ff3b30 11%, var(--surface)); --good-soft: color-mix(in srgb, #34c759 13%, var(--surface));
+  --k-dag: #0a6cdf; --k-kveld: #9b3fd1; --k-lang: #1c9a4f; --k-natt: #4b4fd6; --k-fri: #8e8e93; --k-ferie: #d27c00; --k-annet: #d6316a;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 18px rgba(0,0,0,.05);
+  --shadow-pop: 0 10px 40px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  --r-lg: 18px; --r: 14px; --r-sm: 10px; --cell-h: 104px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0e1312; --surface: #161c1a; --surface-2: #1d2522; --surface-3: #26302d;
-  --ink: #e7eeeb; --ink-2: #c3cfca; --muted: #8e9d98; --line: #29332f; --line-strong: #3a4743;
-  --accent: var(--accent-d); --accent-ink: #08130f;
-  --good: #4cc88a; --warn: #f0b04a; --bad: #f17a6d; --warn-soft: #3a2a0c; --bad-soft: #3d1a17; --good-soft: #12301f;
-  --k-dag: #8db7ff; --k-dag-bg: #1b2a44; --k-kveld: #c3a4ff; --k-kveld-bg: #2c2143;
-  --k-lang: #5fd3b8; --k-lang-bg: #123430; --k-natt: #a9b1f5; --k-natt-bg: #20244a;
-  --k-fri: #a4adaa; --k-fri-bg: #252d2a; --k-ferie: #f3bd62; --k-ferie-bg: #3a2b10;
-  --k-annet: #f19bbf; --k-annet-bg: #3d1c2b; color-scheme: dark; } }
+  --bg: #000000; --surface: #1c1c1e; --surface-2: #2c2c2e; --surface-3: #3a3a3c; --elev: rgba(28,28,30,.72);
+  --ink: #f5f5f7; --ink-2: #d1d1d6; --muted: #98989f; --line: rgba(84,84,88,.42); --line-strong: rgba(120,120,128,.55);
+  --accent: var(--accent-d); --good: #30d158; --warn: #ffb340; --bad: #ff6961; --holiday: #ff6961;
+  --warn-soft: color-mix(in srgb, #ff9f0a 16%, var(--surface)); --bad-soft: color-mix(in srgb, #ff453a 16%, var(--surface)); --good-soft: color-mix(in srgb, #30d158 15%, var(--surface));
+  --k-dag: #4aa3ff; --k-kveld: #c77dff; --k-lang: #32d27a; --k-natt: #8e91ff; --k-fri: #98989d; --k-ferie: #ffb340; --k-annet: #ff6b9a;
+  --shadow: 0 0 0 1px rgba(255,255,255,.04); --shadow-pop: 0 10px 40px rgba(0,0,0,.6); color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --bg: #0e1312; --surface: #161c1a; --surface-2: #1d2522; --surface-3: #26302d;
-  --ink: #e7eeeb; --ink-2: #c3cfca; --muted: #8e9d98; --line: #29332f; --line-strong: #3a4743;
-  --accent: var(--accent-d); --accent-ink: #08130f;
-  --good: #4cc88a; --warn: #f0b04a; --bad: #f17a6d; --warn-soft: #3a2a0c; --bad-soft: #3d1a17; --good-soft: #12301f;
-  --k-dag: #8db7ff; --k-dag-bg: #1b2a44; --k-kveld: #c3a4ff; --k-kveld-bg: #2c2143;
-  --k-lang: #5fd3b8; --k-lang-bg: #123430; --k-natt: #a9b1f5; --k-natt-bg: #20244a;
-  --k-fri: #a4adaa; --k-fri-bg: #252d2a; --k-ferie: #f3bd62; --k-ferie-bg: #3a2b10;
-  --k-annet: #f19bbf; --k-annet-bg: #3d1c2b; color-scheme: dark; }
+  --bg: #000000; --surface: #1c1c1e; --surface-2: #2c2c2e; --surface-3: #3a3a3c; --elev: rgba(28,28,30,.72);
+  --ink: #f5f5f7; --ink-2: #d1d1d6; --muted: #98989f; --line: rgba(84,84,88,.42); --line-strong: rgba(120,120,128,.55);
+  --accent: var(--accent-d); --good: #30d158; --warn: #ffb340; --bad: #ff6961; --holiday: #ff6961;
+  --warn-soft: color-mix(in srgb, #ff9f0a 16%, var(--surface)); --bad-soft: color-mix(in srgb, #ff453a 16%, var(--surface)); --good-soft: color-mix(in srgb, #30d158 15%, var(--surface));
+  --k-dag: #4aa3ff; --k-kveld: #c77dff; --k-lang: #32d27a; --k-natt: #8e91ff; --k-fri: #98989d; --k-ferie: #ffb340; --k-annet: #ff6b9a;
+  --shadow: 0 0 0 1px rgba(255,255,255,.04); --shadow-pop: 0 10px 40px rgba(0,0,0,.6); color-scheme: dark; }
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { background: var(--bg); color: var(--ink); }
-body { font-family: var(--font-body); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
-body.compact { --cell-h: 64px; font-size: 14px; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
-button, input, select, textarea { font: inherit; color: inherit; }
-button { cursor: pointer; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+body { font-family: var(--font); font-size: 15px; line-height: 1.42; letter-spacing: -0.005em; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body.compact { --cell-h: 70px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--elev); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
 .num { font-variant-numeric: tabular-nums; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
-.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.022em; text-wrap: balance; margin: 0; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+@media (max-width: 600px) { .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
 
 /* Top bar */
-.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
-.topbar-inner { display: flex; align-items: center; gap: 16px; padding-block: 12px 0; flex-wrap: wrap; }
-.brand { display: flex; flex-direction: column; min-width: 0; flex: 1 1 260px; }
-.brand h1 { font-size: 21px; line-height: 1.15; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--elev); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px; padding-block: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-icon { width: 38px; height: 38px; border-radius: 10px; flex: none; display: grid; place-items: center; background: linear-gradient(160deg, #ff5f6d, #e8264a); box-shadow: 0 2px 6px rgba(232,38,74,.35); }
+.brand-icon svg { width: 22px; height: 22px; }
+.brand-text { min-width: 0; }
+.brand h1 { font-size: 17px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .brand-sub { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
+.top-right { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); padding: 5px 11px; background: var(--surface-2); border-radius: 999px; white-space: nowrap; }
 .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
 .status-pill.saving .dot { background: var(--warn); }
-.status-pill.error .dot, .status-pill.local .dot { background: var(--bad); }
+.status-pill.error .dot { background: var(--bad); }
 .status-pill.local .dot { background: var(--muted); }
-.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; width: 100%; margin-top: 4px; }
-.tabs::-webkit-scrollbar { display: none; }
-.tab { background: none; border: 0; padding: 10px 14px 11px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; font-size: 14px; }
+.tabs { display: inline-flex; gap: 2px; padding: 3px; background: color-mix(in srgb, var(--surface-3) 80%, transparent); border-radius: 11px; }
+.tab { background: none; border: 0; padding: 6px 14px; font-weight: 500; font-size: 13.5px; color: var(--ink-2); border-radius: 8px; white-space: nowrap; }
 .tab:hover { color: var(--ink); }
-.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab[aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 0 0 .5px rgba(0,0,0,.04); }
+@media (max-width: 1080px) { .topbar-inner { grid-template-columns: minmax(0, 1fr) auto; } .tabs-holder { grid-column: 1 / -1; overflow-x: auto; scrollbar-width: none; } .tabs-holder::-webkit-scrollbar { display: none; } }
 
-main { padding-block: 22px 64px; }
-.view { display: grid; gap: 18px; }
+/* Bottom tab bar on phones */
+.bnav { display: none; }
+@media (max-width: 720px) {
+  .tabs-holder { display: none; }
+  .bnav { display: grid; grid-template-columns: repeat(6, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--elev); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--line);
+    padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px)); }
+  .bnav button { background: none; border: 0; display: grid; justify-items: center; gap: 2px; padding: 4px 0; font-size: 10.5px; font-weight: 500; color: var(--muted); }
+  .bnav button svg { width: 24px; height: 24px; }
+  .bnav button[aria-selected="true"] { color: var(--accent); }
+  main { padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important; }
+  .toast { bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important; }
+  .status-pill span:last-child { display: none; }
+}
+
+main { padding-block: 24px 64px; }
+.view { display: grid; gap: 20px; }
 .view[hidden] { display: none !important; }
 
 /* Generic blocks */
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-width: 0; }
-.panel h2 { font-size: 17px; margin-bottom: 4px; }
-.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
-.hint { color: var(--muted); font-size: 13px; }
-.eyebrow { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
-.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); padding: 8px 14px; border-radius: 8px; font-weight: 500; font-size: 14px; min-height: 38px; }
-.btn:hover { background: var(--surface-2); }
-.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.btn.primary:hover { filter: brightness(1.06); }
-.btn.ghost { border-color: transparent; background: none; }
+.panel { background: var(--surface); border-radius: var(--r-lg); padding: 20px; min-width: 0; box-shadow: var(--shadow); }
+.panel h2 { font-size: 19px; margin-bottom: 2px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.section-title { font-size: 22px; }
+.hint { color: var(--muted); font-size: 13.5px; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; background: var(--surface-2); color: var(--accent); padding: 8px 16px; border-radius: 999px; font-weight: 600; font-size: 14.5px; min-height: 36px; }
+.btn:hover { background: var(--surface-3); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { background: none; padding-inline: 8px; }
 .btn.danger { color: var(--bad); }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.icon { width: 36px; padding: 0; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; }
-.seg button { border: 0; background: var(--surface); padding: 7px 12px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); }
-.seg button + button { border-left: 1px solid var(--line); }
-.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
-.field { display: grid; gap: 5px; min-width: 0; }
-.field label, .field .lbl { font-size: 12.5px; color: var(--muted); font-weight: 500; }
-.input, select.input { width: 100%; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 8px 10px; min-height: 38px; }
-.input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
-.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
-.check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-.check input { width: 18px; height: 18px; accent-color: var(--accent); }
-.banner { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: var(--radius); background: var(--warn-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); flex-wrap: wrap; }
+.seg { display: inline-flex; gap: 2px; padding: 2px; background: var(--surface-3); border-radius: 9px; flex-wrap: wrap; }
+.seg button { border: 0; background: none; padding: 6px 13px; font-size: 13.5px; font-weight: 500; color: var(--ink); border-radius: 7px; }
+.seg button[aria-pressed="true"] { background: var(--surface); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.14); }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .field .lbl { font-size: 13px; color: var(--muted); font-weight: 500; }
+.input, select.input { width: 100%; border: 0; background: var(--surface-2); border-radius: var(--r-sm); padding: 9px 12px; min-height: 40px; }
+.input:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px; }
+.check { display: flex; align-items: center; gap: 10px; font-size: 14.5px; }
+.check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+/* iOS-bryter */
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; cursor: pointer; }
+.switch input { appearance: none; -webkit-appearance: none; width: 51px; height: 31px; border-radius: 999px; background: var(--surface-3); position: relative; flex: none; cursor: pointer; transition: background .2s; margin: 0; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.15), 0 1px 1px rgba(0,0,0,.16); transition: transform .2s; }
+.switch input:checked { background: #34c759; }
+.switch input:checked::after { transform: translateX(20px); }
+.list { display: grid; background: var(--surface); border-radius: var(--r); overflow: hidden; }
+.list > * { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.list > *:last-child { border-bottom: 0; }
+.list.inset { background: var(--surface-2); }
+.banner { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--r); background: var(--warn-soft); color: var(--ink); flex-wrap: wrap; }
 .banner strong { color: var(--warn); }
 .banner .grow { flex: 1 1 260px; min-width: 0; }
-.banner.info { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.banner.info { background: var(--accent-soft); }
 .banner.info strong { color: var(--accent); }
-.banner.bad { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 35%, transparent); }
+.banner.bad { background: var(--bad-soft); }
 .banner.bad strong { color: var(--bad); }
 
 /* Shift chips */
-.chip { --c: var(--k-annet); --cb: var(--k-annet-bg); display: inline-flex; align-items: center; justify-content: center; min-width: 36px; padding: 3px 7px; border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 12.5px; color: var(--c); background: var(--cb); border: 1px solid color-mix(in srgb, var(--c) 28%, transparent); line-height: 1.2; white-space: nowrap; }
-.chip.k-dag { --c: var(--k-dag); --cb: var(--k-dag-bg); }
-.chip.k-kveld { --c: var(--k-kveld); --cb: var(--k-kveld-bg); }
-.chip.k-lang { --c: var(--k-lang); --cb: var(--k-lang-bg); }
-.chip.k-natt { --c: var(--k-natt); --cb: var(--k-natt-bg); }
-.chip.k-fri { --c: var(--k-fri); --cb: var(--k-fri-bg); }
-.chip.k-ferie { --c: var(--k-ferie); --cb: var(--k-ferie-bg); }
-.chip.custom { --c: var(--cc); --cb: color-mix(in srgb, var(--cc) 16%, var(--surface)); }
-.chip.empty { --c: var(--muted); --cb: transparent; border-style: dashed; font-weight: 500; }
-.chip.unknown { --c: var(--bad); --cb: var(--bad-soft); }
+.chip { --c: var(--k-annet); display: inline-flex; align-items: center; justify-content: center; min-width: 34px; padding: 3px 8px; border-radius: 7px; font-weight: 700; font-size: 12.5px; color: var(--c); background: color-mix(in srgb, var(--c) 15%, var(--surface)); line-height: 1.25; white-space: nowrap; letter-spacing: 0; }
+.chip.k-dag { --c: var(--k-dag); } .chip.k-kveld { --c: var(--k-kveld); } .chip.k-lang { --c: var(--k-lang); } .chip.k-natt { --c: var(--k-natt); }
+.chip.k-fri { --c: var(--k-fri); } .chip.k-ferie { --c: var(--k-ferie); } .chip.custom { --c: var(--cc); }
+.chip.empty { --c: var(--muted); background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); font-weight: 500; }
+.chip.unknown { --c: var(--bad); }
+.chip.solid { background: var(--c); color: #fff; }
 
 /* Overview */
-.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; }
-@media (max-width: 820px) { .hero { grid-template-columns: 1fr; } }
-.next { display: grid; gap: 14px; }
+.ov-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+.ov-grid > * { grid-column: span 12; min-width: 0; }
+@media (min-width: 1000px) { .ov-next { grid-column: span 7 !important; } .ov-pay { grid-column: span 5 !important; } .ov-chart { grid-column: span 8 !important; } .ov-up { grid-column: span 4 !important; } }
+.next { display: grid; gap: 18px; align-content: start; }
 .next-main { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-.next-code { font-family: var(--font-mono); font-weight: 700; font-size: 34px; padding: 10px 16px; border-radius: 12px; min-width: 84px; text-align: center; }
-.next-when { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; }
-.next-time { color: var(--ink-2); font-size: 15px; }
+.next-code { font-size: 30px; font-weight: 800; padding: 14px 0; border-radius: 16px; width: 88px; text-align: center; }
+.next-when { font-family: var(--font-display); font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; }
+.next-time { color: var(--ink-2); font-size: 15px; margin-top: 3px; }
 .weekstrip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.weekstrip .d { display: grid; gap: 4px; justify-items: center; padding: 8px 2px; border-radius: 8px; background: var(--surface-2); font-size: 12px; color: var(--muted); }
-.weekstrip .d.today { outline: 2px solid var(--accent); background: var(--accent-soft); color: var(--ink); }
-.weekstrip .d b { color: var(--ink); font-size: 13px; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 2px; min-width: 0; }
-.stat .v { font-family: var(--font-display); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.15; }
-.stat .s { font-size: 12.5px; color: var(--muted); }
+.weekstrip .d { display: grid; gap: 5px; justify-items: center; padding: 10px 2px; border-radius: 12px; background: var(--surface-2); font-size: 12px; color: var(--muted); border: 0; }
+.weekstrip .d:hover { background: var(--surface-3); }
+.weekstrip .d.today { background: var(--accent); color: var(--accent-ink); }
+.weekstrip .d.today b { color: var(--accent-ink); }
+.weekstrip .d.today .chip { background: rgba(255,255,255,.92); }
+.weekstrip .d b { color: var(--ink); font-size: 16px; font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px; }
+.stat { background: var(--surface); border-radius: var(--r); padding: 16px 18px; display: grid; gap: 3px; min-width: 0; box-shadow: var(--shadow); }
+.stat .v { font-family: var(--font-display); font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.15; letter-spacing: -0.02em; }
+.stat .s { font-size: 13px; color: var(--muted); }
 .stat.warn .v { color: var(--warn); } .stat.good .v { color: var(--good); } .stat.accent .v { color: var(--accent); }
-.pay { display: grid; gap: 10px; }
-.pay-big { font-family: var(--font-display); font-size: 34px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
-.kv { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; font-size: 14px; }
+.pay { display: grid; gap: 12px; align-content: start; }
+.pay-big { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.05; letter-spacing: -0.03em; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 8px 14px; font-size: 14.5px; }
 .kv span:nth-child(even) { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
-.kv .tot { border-top: 1px solid var(--line); padding-top: 6px; font-weight: 600; }
+.kv .tot { border-top: 1px solid var(--line); padding-top: 8px; font-weight: 600; }
+.upcoming { display: grid; }
+.up-row { display: grid; grid-template-columns: 46px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); background: none; border-left: 0; border-right: 0; border-top: 0; text-align: left; }
+.up-row:last-child { border-bottom: 0; }
+.up-date { display: grid; justify-items: center; line-height: 1.05; }
+.up-date small { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 600; letter-spacing: .04em; }
+.up-date b { font-size: 21px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.up-date.hol small, .up-date.hol b { color: var(--holiday); }
+.up-main { min-width: 0; }
+.up-main .t { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.up-main .s { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-/* Calendar */
-.cal-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
-.cal-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; min-width: 190px; }
-.cal-scroll { overflow-x: auto; }
-.cal { display: grid; grid-template-columns: 34px repeat(7, minmax(84px, 1fr)); gap: 4px; min-width: 640px; }
-.cal .dow { font-size: 12px; color: var(--muted); text-align: center; padding: 4px 0; font-weight: 600; }
-.cal .wk { font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; writing-mode: vertical-rl; transform: rotate(180deg); }
-.day { position: relative; min-height: var(--cell-h); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 7px; display: flex; flex-direction: column; gap: 4px; text-align: left; min-width: 0; }
-.day:hover { border-color: var(--line-strong); }
-.day.other { background: transparent; border-style: dashed; opacity: .55; }
-.day.weekend { background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); }
-.day.holiday { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
-.day.today { outline: 2px solid var(--accent); outline-offset: -1px; }
-.day .dn { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; display: flex; justify-content: space-between; gap: 4px; }
-.day .hn { font-size: 10.5px; color: var(--warn); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.day .tm { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.day .edited { position: absolute; top: 5px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-body.compact .day .tm, body.hide-times .day .tm { display: none; }
-.month-sum { display: flex; gap: 8px 22px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-2); }
-.month-sum b { font-variant-numeric: tabular-nums; color: var(--ink); }
-.legend { display: flex; gap: 8px 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); align-items: center; }
-.legend .chip { min-width: 0; }
+/* Calendar (Kalender-app-inspirert) */
+.cal-layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1100px) { .cal-layout { grid-template-columns: minmax(0, 1fr) 360px; } .side { position: sticky; top: calc(84px + env(safe-area-inset-top, 0px)); } }
+.cal-card { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; min-width: 0; }
+.cal-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 18px 20px 10px; }
+.cal-title { font-family: var(--font-display); font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.cal-title span { color: var(--muted); font-weight: 500; }
+.cal-nav { display: flex; align-items: center; gap: 6px; }
+.round { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--surface-2); color: var(--accent); display: grid; place-items: center; font-size: 17px; font-weight: 600; }
+.round:hover { background: var(--surface-3); }
+.round:disabled { opacity: .35; cursor: default; }
+.mchips { display: flex; gap: 6px; padding: 0 20px 14px; overflow-x: auto; scrollbar-width: none; }
+.mchips::-webkit-scrollbar { display: none; }
+.mchip { border: 0; background: var(--surface-2); color: var(--ink-2); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.mchip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.mgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.mgrid.wn { grid-template-columns: 30px repeat(7, minmax(0, 1fr)); }
+.mgrid .dow { font-size: 12px; color: var(--muted); text-align: right; padding: 8px 10px 6px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--line); }
+.mgrid .dow.we { color: color-mix(in srgb, var(--muted) 75%, var(--holiday)); }
+.mgrid .wkn { font-size: 10.5px; color: var(--muted); display: flex; align-items: flex-start; justify-content: center; padding-top: 12px; font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--line); }
+.mday { position: relative; min-height: var(--cell-h); border: 0; border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); background: var(--surface); padding: 6px 6px 8px; display: flex; flex-direction: column; gap: 4px; text-align: left; min-width: 0; color: var(--ink); }
+.mday:hover { background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); }
+.mday.we { background: color-mix(in srgb, var(--surface-2) 45%, var(--surface)); }
+.mday.other { color: var(--muted); }
+.mday.other .ev { opacity: .45; }
+.mday.sel { box-shadow: inset 0 0 0 2px var(--accent); z-index: 1; }
+.mday .top { display: flex; align-items: center; justify-content: flex-end; gap: 4px; min-height: 26px; }
+.mday .n { font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; min-width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; }
+.mday.today .n { background: var(--holiday); color: #fff; font-weight: 700; }
+.mday.hol .n { color: var(--holiday); font-weight: 600; }
+.mday.today.hol .n { color: #fff; }
+.mday .hn { font-size: 11px; color: var(--holiday); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: auto; }
+.ev { --c: var(--k-annet); display: grid; gap: 1px; padding: 5px 7px 5px 9px; border-radius: 7px; background: color-mix(in srgb, var(--c) 16%, var(--surface)); color: color-mix(in srgb, var(--c) 82%, var(--ink)); position: relative; overflow: hidden; min-width: 0; }
+.ev::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+.ev .nm { font-weight: 500; }
+.ev b { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ev small { font-size: 11.5px; font-variant-numeric: tabular-nums; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ev.k-dag { --c: var(--k-dag); } .ev.k-kveld { --c: var(--k-kveld); } .ev.k-lang { --c: var(--k-lang); } .ev.k-natt { --c: var(--k-natt); } .ev.k-ferie { --c: var(--k-ferie); } .ev.custom { --c: var(--cc); }
+.ev.k-fri { --c: var(--k-fri); background: transparent; } .ev.k-fri::before { display: none; }
+.ev.unknown { --c: var(--bad); }
+.mday .edited { position: absolute; top: 9px; left: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+body.hide-times .ev small, body.compact .ev small { display: none; }
+@media (max-width: 720px) {
+  .mgrid.wn { grid-template-columns: repeat(7, minmax(0, 1fr)); } .mgrid .wkn, .mgrid .wkc, .ev .nm { display: none; }
+  .mday { min-height: 66px; padding: 4px 3px 6px; align-items: center; }
+  .mday .top { justify-content: center; } .mday .hn { display: none; }
+  .mday .n { font-size: 14px; width: 26px; }
+  .ev { padding: 3px 0; justify-items: center; width: 100%; } .ev::before { display: none; } .ev small { display: none; } .ev b { font-size: 12px; }
+  .mgrid .dow { text-align: center; padding-inline: 0; font-size: 11px; }
+  .cal-title { font-size: 26px; } .mday .edited { top: 6px; left: 5px; }
+}
+.side { display: grid; gap: 20px; }
+.day-card { display: grid; gap: 14px; }
+.day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.day-head h2 { font-size: 22px; }
+.day-ev { display: grid; grid-template-columns: 6px 1fr; gap: 12px; padding: 12px; border-radius: 12px; background: color-mix(in srgb, var(--c, var(--k-fri)) 12%, var(--surface)); }
+.day-ev i { border-radius: 4px; background: var(--c, var(--k-fri)); }
+.day-ev b { font-size: 17px; }
+.codes-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.codes-grid button { border: 0; background: var(--surface-2); border-radius: 10px; padding: 8px 2px; display: grid; justify-items: center; gap: 2px; font-size: 11px; color: var(--muted); }
+.codes-grid button:hover { background: var(--surface-3); }
+.codes-grid button[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-soft); }
+.month-sum { display: grid; grid-template-columns: 1fr auto; gap: 9px 12px; font-size: 14.5px; }
+.month-sum span:nth-child(even) { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend { display: grid; gap: 8px; font-size: 13.5px; }
+.legend .row { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; }
+.legend .row span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 13px; }
+.legend.inline { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.legend.inline .row { grid-template-columns: auto auto auto; gap: 6px; }
 
 /* Tables */
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: 14px; }
-th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th { font-size: 12px; color: var(--muted); font-weight: 600; background: var(--surface-2); position: sticky; top: 0; }
+.table-wrap { overflow-x: auto; border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--surface); position: sticky; top: 0; }
 tr:last-child td { border-bottom: 0; }
 td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
 td.c, th.c { text-align: center; }
-tr.hl td { background: var(--warn-soft); }
+tr.hl td { background: color-mix(in srgb, var(--holiday) 6%, var(--surface)); }
 tr.clickable { cursor: pointer; }
 tr.clickable:hover td { background: var(--surface-2); }
 tr.open td { background: var(--accent-soft); }
 .wk-cell { font-weight: 600; }
 .cellbtn { background: none; border: 0; padding: 0; }
 .cellbtn.editable .chip { cursor: pointer; }
-.mismatch { color: var(--warn); font-weight: 600; }
+.mismatch { color: var(--holiday); font-weight: 600; }
 .ok { color: var(--good); }
 .month-filter { display: flex; gap: 6px; flex-wrap: wrap; }
-.pillbtn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 500; color: var(--ink-2); }
-.pillbtn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.pillbtn { border: 0; background: var(--surface); border-radius: 999px; padding: 6px 13px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); box-shadow: var(--shadow); }
+.pillbtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .breakdown td { background: var(--surface-2); white-space: normal; }
-.breakdown .kv { max-width: 560px; font-size: 13.5px; }
+.breakdown .kv { max-width: 560px; font-size: 14px; }
+
+/* Pay layout */
+.pay-layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1100px) { .pay-layout { grid-template-columns: 380px minmax(0, 1fr); } .pay-side { position: sticky; top: calc(84px + env(safe-area-inset-top, 0px)); } .pay-side .fields { grid-template-columns: 1fr 1fr; } }
+.pay-main { display: grid; gap: 20px; min-width: 0; }
 
 /* Chart */
 .chart { width: 100%; height: auto; display: block; }
-.chart text { fill: var(--muted); font-size: 11px; font-family: var(--font-body); }
+.chart text { fill: var(--muted); font-size: 11px; font-family: var(--font); }
 .chart .grid { stroke: var(--line); stroke-width: 1; }
-.chart .b-fast { fill: color-mix(in srgb, var(--accent) 55%, var(--surface)); }
+.chart .b-fast { fill: color-mix(in srgb, var(--accent) 35%, var(--surface)); }
 .chart .b-till { fill: var(--accent); }
 .chart .b-net { fill: none; stroke: var(--ink); stroke-width: 2; }
 .chart .lbl { fill: var(--ink-2); font-weight: 600; }
-.chart .ref { stroke: var(--warn); stroke-dasharray: 4 3; stroke-width: 1.5; }
-.chart .bar { fill: color-mix(in srgb, var(--accent) 70%, var(--surface)); }
+.chart .ref { stroke: var(--holiday); stroke-dasharray: 4 3; stroke-width: 1.5; }
+.chart .bar { fill: color-mix(in srgb, var(--accent) 40%, var(--surface)); }
 .chart .bar.over { fill: var(--accent); }
 .key { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
-.key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+.key i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: 0; margin-right: 5px; }
 
-/* Picker */
-.sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.28); z-index: 40; }
-.sheet { position: fixed; z-index: 41; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.22); width: 320px; max-width: calc(100vw - 24px); padding: 12px; display: grid; gap: 10px; max-height: min(78vh, 560px); overflow-y: auto; }
-.sheet h3 { font-size: 16px; }
-.sheet .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 6px; }
-.opt { display: grid; gap: 3px; justify-items: start; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: left; }
-.opt:hover { border-color: var(--accent); }
-.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+/* Picker sheet */
+.sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.25); z-index: 40; }
+.sheet { position: fixed; z-index: 41; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-pop); width: 340px; max-width: calc(100vw - 24px); padding: 16px; display: grid; gap: 12px; max-height: min(80vh, 600px); overflow-y: auto; }
+.sheet h3 { font-size: 18px; }
+.sheet .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
+.opt { display: grid; gap: 3px; justify-items: start; padding: 9px 10px; border: 0; border-radius: 11px; background: var(--surface-2); text-align: left; }
+.opt:hover { background: var(--surface-3); }
+.opt[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-soft); }
 .opt small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.grabber { display: none; width: 36px; height: 5px; border-radius: 3px; background: var(--surface-3); justify-self: center; margin-top: -6px; }
 @media (max-width: 640px) {
   .sheet { left: 0 !important; right: 0; bottom: 0; top: auto !important; width: 100%; max-width: none; border-radius: 16px 16px 0 0; padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  .grabber { display: block; }
 }
 
 /* Import */
-.drop { border: 2px dashed var(--line-strong); border-radius: var(--radius); padding: 26px 18px; text-align: center; display: grid; gap: 8px; justify-items: center; background: var(--surface-2); }
+.drop { border: 2px dashed var(--line-strong); border-radius: var(--r); padding: 28px 18px; text-align: center; display: grid; gap: 8px; justify-items: center; background: var(--surface-2); cursor: pointer; }
 .drop.over { border-color: var(--accent); background: var(--accent-soft); }
 .thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
 .thumbs figure { margin: 0; position: relative; }
-.thumbs img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }
-.thumbs button { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface); font-size: 12px; line-height: 1; padding: 0; }
-.progress { font-size: 13.5px; color: var(--muted); white-space: pre-wrap; max-height: 140px; overflow: auto; font-family: var(--font-mono); background: var(--surface-2); border-radius: 8px; padding: 10px; }
+.thumbs img { width: 96px; height: 96px; object-fit: cover; border-radius: 12px; display: block; }
+.thumbs button { position: absolute; top: -6px; right: -6px; width: 24px; height: 24px; border-radius: 50%; border: 0; background: var(--ink); color: var(--bg); font-size: 12px; line-height: 1; padding: 0; }
+.progress { font-size: 13px; color: var(--muted); white-space: pre-wrap; max-height: 140px; overflow: auto; font-family: var(--font-mono); background: var(--surface-2); border-radius: var(--r-sm); padding: 10px; }
 .diffcell.changed .chip { box-shadow: 0 0 0 2px var(--accent); }
-.diffcell .was { display: block; font-size: 10.5px; color: var(--muted); text-decoration: line-through; font-family: var(--font-mono); }
+.diffcell .was { display: block; font-size: 10.5px; color: var(--muted); text-decoration: line-through; }
 textarea.input { min-height: 110px; resize: vertical; font-family: var(--font-mono); font-size: 13px; }
 
 /* Settings */
-.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
-.swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line-strong); padding: 0; }
-.swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); }
-.codes-table input.input { min-height: 32px; padding: 5px 8px; }
-.codes-table td { padding: 6px 8px; }
-.codes-table input[type="color"] { width: 40px; height: 32px; padding: 2px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); }
-.w-code { width: 70px; } .w-name { width: 190px; } .w-time { width: 98px; } .w-h { width: 74px; }
+.swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+.swatch { width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.1); }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--ink); }
+.codes-table input.input { min-height: 34px; padding: 6px 9px; }
+.codes-table td { padding: 7px 8px; }
+.codes-table input[type="color"] { width: 40px; height: 32px; padding: 0; border: 0; border-radius: 8px; background: none; }
+.w-code { width: 70px; } .w-name { width: 200px; } .w-time { width: 104px; } .w-h { width: 76px; }
 .empty-state { text-align: center; padding: 48px 18px; display: grid; gap: 12px; justify-items: center; }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 60; display: flex; gap: 12px; align-items: center; max-width: calc(100vw - 32px); }
-.toast button { background: none; border: 0; color: var(--bg); font-weight: 700; text-decoration: underline; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--ink) 92%, transparent); color: var(--bg); padding: 11px 18px; border-radius: 999px; font-size: 14px; z-index: 60; display: flex; gap: 12px; align-items: center; max-width: calc(100vw - 32px); box-shadow: var(--shadow-pop); backdrop-filter: blur(10px); }
+.toast button { background: none; border: 0; color: var(--bg); font-weight: 700; }
 .src { font-size: 12.5px; color: var(--muted); }
-.src a { color: var(--accent); }
-details summary { cursor: pointer; font-weight: 600; }
-@media (prefers-reduced-motion: no-preference) { .day, .btn, .tab, .opt { transition: background-color .12s, border-color .12s, color .12s; } }
-@media (max-width: 560px) { .brand h1 { font-size: 18px; } .next-when { font-size: 22px; } .pay-big { font-size: 28px; } }
+.src a { color: var(--accent); text-decoration: none; }
+details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
+@media (prefers-reduced-motion: no-preference) { .mday, .btn, .tab, .opt, .round, .mchip { transition: background-color .15s, color .15s, box-shadow .15s; } .sheet { animation: pop .18s ease-out; } @keyframes pop { from { transform: translateY(8px); opacity: .6; } } }
+@media (max-width: 560px) { .next-when { font-size: 25px; } .pay-big { font-size: 34px; } .panel { padding: 16px; } }
 </style>
 
 <header class="topbar">
   <div class="wrap topbar-inner">
     <div class="brand">
-      <h1 id="planTitle">Nathalies turnus</h1>
-      <div class="brand-sub" id="planSub">Laster …</div>
+      <div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.8 4.4 7.2C19.5 16.4 12 21 12 21z"/></svg></div>
+      <div class="brand-text"><h1 id="planTitle">Nathalies turnus</h1><div class="brand-sub" id="planSub">Laster …</div></div>
     </div>
-    <span class="status-pill local" id="saveStatus" role="status"><span class="dot"></span><span id="saveText">Starter</span></span>
-    <nav class="tabs" role="tablist" aria-label="Visninger">
-      <button class="tab" role="tab" data-view="oversikt" aria-selected="true">Oversikt</button>
-      <button class="tab" role="tab" data-view="kalender">Kalender</button>
-      <button class="tab" role="tab" data-view="uker">Uker</button>
-      <button class="tab" role="tab" data-view="lonn">Lønn</button>
-      <button class="tab" role="tab" data-view="importer">Importer plan</button>
-      <button class="tab" role="tab" data-view="oppsett">Oppsett</button>
-    </nav>
+    <div class="tabs-holder">
+      <nav class="tabs" role="tablist" aria-label="Visninger">
+        <button class="tab" role="tab" data-view="oversikt" aria-selected="true">Oversikt</button>
+        <button class="tab" role="tab" data-view="kalender">Kalender</button>
+        <button class="tab" role="tab" data-view="uker">Uker</button>
+        <button class="tab" role="tab" data-view="lonn">Lønn</button>
+        <button class="tab" role="tab" data-view="importer">Importer</button>
+        <button class="tab" role="tab" data-view="oppsett">Oppsett</button>
+      </nav>
+    </div>
+    <div class="top-right"><span class="status-pill local" id="saveStatus" role="status"><span class="dot"></span><span id="saveText">Starter</span></span></div>
   </div>
 </header>
 
@@ -270,7 +360,7 @@ details summary { cursor: pointer; font-weight: 600; }
   <div id="loading" class="panel empty-state"><h2>Henter turnusen …</h2><p class="hint">Et øyeblikk.</p></div>
   <div id="emptyPlan" class="panel empty-state" hidden>
     <h2>Ingen turnus lagret ennå</h2>
-    <p class="hint">Last opp bilder eller en skjermdump av den endelige turnusplanen, så leser Claude den inn for deg. Du kan også starte med utkastet fra den gamle appen.</p>
+    <p class="hint">Last opp bilder eller en skjermdump av turnusplanen, så leser Claude den inn for deg.</p>
     <div class="btn-row"><button class="btn primary" data-goto="importer">Importer turnusplan</button><button class="btn" id="useDraftBtn">Bruk turnusen for 2026</button></div>
   </div>
 
@@ -281,6 +371,15 @@ details summary { cursor: pointer; font-weight: 600; }
   <section class="view" id="view-importer" hidden></section>
   <section class="view" id="view-oppsett" hidden></section>
 </main>
+
+<nav class="bnav" aria-label="Visninger">
+  <button data-view="oversikt" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Oversikt</button>
+  <button data-view="kalender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Kalender</button>
+  <button data-view="uker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Uker</button>
+  <button data-view="lonn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="3"/><path d="M2.5 10h19M6.5 15h4"/></svg>Lønn</button>
+  <button data-view="importer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Importer</button>
+  <button data-view="oppsett"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Oppsett</button>
+</nav>
 
 <div id="pickerLayer" hidden>
   <div class="sheet-backdrop" id="pickerBackdrop"></div>
@@ -326,9 +425,9 @@ const DEFAULT_RATES = [
 ];
 const DEFAULT_SALARY = { annual: 528300, pct: 100, divisor: 1850, fullWeek: 35.5, taxPct: 28, decHalf: true, lag: true, payDay: 20, langKr: 0, hoytidPct: 133.33, rates: DEFAULT_RATES };
 const KINDS = { dag: 'Dagvakt', kveld: 'Kveldsvakt', lang: 'Lang-/mellomvakt', natt: 'Nattevakt', fri: 'Fridag', ferie: 'Ferie/permisjon', annet: 'Annet' };
-const ACCENTS = { teal: ['#0f7a6a', '#46c2aa'], blue: ['#2563c9', '#7aa8ff'], plum: ['#8a3f9e', '#d39be6'], coral: ['#c2462e', '#ff9a83'], forest: ['#3b6e1f', '#9bd17a'], graphite: ['#36454f', '#b5c3cc'] };
-const ACCENT_NAMES = { teal: 'Havgrønn', blue: 'Blå', plum: 'Plomme', coral: 'Korall', forest: 'Skog', graphite: 'Grafitt' };
-const DEFAULT_PREFS = { theme: 'system', accent: 'teal', density: 'normal', showTimes: true, calView: 'month', codeColors: {} };
+const ACCENTS = { blue: ['#007aff', '#0a84ff'], teal: ['#0a8a99', '#1fa9bd'], plum: ['#a43fd4', '#b552e8'], coral: ['#e8432f', '#ff5a47'], forest: ['#1f8a3d', '#28a745'], graphite: ['#3a3a3c', '#636366'] };
+const ACCENT_NAMES = { blue: 'Blå', teal: 'Havgrønn', plum: 'Plomme', coral: 'Korall', forest: 'Skog', graphite: 'Grafitt' };
+const DEFAULT_PREFS = { theme: 'system', accent: 'blue', density: 'normal', showTimes: true, showLegend: true, showNames: true, weekNumbers: true, codeColors: {} };
 
 function legacyState() {
   const entries = {}, weekTS = {};
@@ -612,12 +711,12 @@ function renderAll() {
     document.getElementById('planTitle').textContent = state.meta.name || 'Turnus';
     const r = planRange();
     const span = r ? `${fmtDM(parseIso(r.first))}.${r.first.slice(0, 4)} – ${fmtDM(parseIso(r.last))}.${r.last.slice(0, 4)}` : 'ingen vakter';
-    document.getElementById('planSub').textContent = [state.meta.unit, state.meta.employer, span, state.meta.status === 'endelig' ? 'Endelig plan' : 'Utkast'].filter(Boolean).join(' · ');
+    document.getElementById('planSub').textContent = [state.meta.unit, span, state.meta.status === 'endelig' ? '' : 'Utkast'].filter(Boolean).join(' · ');
   } else {
     document.getElementById('planTitle').textContent = 'Nathalies turnus';
     document.getElementById('planSub').textContent = 'Ingen plan lagret';
   }
-  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === currentView)));
+  document.querySelectorAll('.tab, .bnav button').forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === currentView)));
   document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== 'view-' + currentView || (empty && !['importer', 'oppsett'].includes(currentView)));
   if (!state && !['importer', 'oppsett'].includes(currentView)) return;
   const fn = { oversikt: renderOverview, kalender: renderCalendar, uker: renderWeeks, lonn: renderPay, importer: renderImport, oppsett: renderSettings }[currentView];
@@ -627,8 +726,11 @@ function renderAll() {
 
 function draftBanner() {
   if (state.meta.status === 'endelig') return '';
-  return `<div class="banner"><div class="grow"><strong>Dette er et utkast.</strong> ${esc(state.meta.note || 'Vaktene er ikke kontrollert mot den endelige planen.')} Last opp den endelige turnusen for å få riktige tall.</div><button class="btn" data-goto="importer">Importer endelig plan</button></div>`;
+  return `<div class="banner"><div class="grow"><strong>Dette er et utkast.</strong> ${esc(state.meta.note || 'Vaktene er ikke kontrollert mot den endelige planen.')}</div><button class="btn" data-goto="importer">Importer plan</button></div>`;
 }
+function dayLabel(iso, withYear) { const d = parseIso(iso); const w = DOW_LONG[dowIdx(d)]; return `${w[0].toUpperCase()}${w.slice(1)} ${d.getDate()}. ${MONTHS[d.getMonth()]}${withYear ? ' ' + d.getFullYear() : ''}`; }
+function evClass(c) { const col = prefs.codeColors?.[c]; return col ? { cls: 'custom', style: `--cc:${esc(col)}` } : { cls: kindClass(c), style: '' }; }
+function colorVar(c) { const col = prefs.codeColors?.[c]; if (col) return esc(col); const k = codeOf(c); return `var(--k-${k ? k.kind || 'annet' : 'annet'})`; }
 
 function renderOverview() {
   const el = document.getElementById('view-oversikt');
@@ -640,17 +742,15 @@ function renderOverview() {
   if (nextIso) {
     const c = state.entries[nextIso], d = parseIso(nextIso), k = codeOf(c);
     const diff = Math.round((d - parseIso(today)) / 864e5);
-    const when = diff === 0 ? 'I dag' : diff === 1 ? 'I morgen' : `${DOW_LONG[dowIdx(d)][0].toUpperCase()}${DOW_LONG[dowIdx(d)].slice(1)} ${d.getDate()}. ${MONTHS[d.getMonth()]}`;
-    const col = prefs.codeColors?.[c];
-    nextHtml = `<div class="next-main"><span class="chip ${col ? 'custom' : kindClass(c)} next-code" ${col ? `style="--cc:${esc(col)}"` : ''}>${esc(c)}</span>
-      <div><div class="eyebrow">Neste vakt</div><div class="next-when">${when}</div><div class="next-time num">${esc(k.name)} · ${timeRange(c) || '–'} · ${hrs(k.hours)}${holidayName(nextIso) ? ` · <strong style="color:var(--warn)">${esc(holidayName(nextIso))}</strong>` : ''}</div></div></div>`;
+    const when = diff === 0 ? 'I dag' : diff === 1 ? 'I morgen' : dayLabel(nextIso);
+    nextHtml = `<div class="next-main"><span class="chip solid next-code" style="--c:${colorVar(c)}">${esc(c)}</span>
+      <div><div class="eyebrow">Neste vakt</div><div class="next-when">${when}</div><div class="next-time num">${esc(k.name)} · ${timeRange(c) || '–'} · ${hrs(k.hours)}${holidayName(nextIso) ? ` · <strong style="color:var(--holiday)">${esc(holidayName(nextIso))}</strong>` : ''}</div></div></div>`;
   } else {
     nextHtml = `<div><div class="eyebrow">Neste vakt</div><div class="next-when">${r && r.last < today ? 'Planen er utløpt' : 'Ingen kommende vakter'}</div><div class="next-time">${r && r.last < today ? `Siste vakt var ${fmtDM(parseIso(r.last))}.${r.last.slice(0, 4)}. Importer neste turnus.` : ''}</div></div>`;
   }
-  // denne uka (eller planens første uke hvis i dag er utenfor planen)
   let mon = mondayOf(parseIso(today));
   if (r && (toIso(addDays(mon, 6)) < r.first || toIso(mon) > r.last)) mon = mondayOf(parseIso(nextIso || r.first));
-  const strip = Array.from({ length: 7 }, (_, i) => { const d = addDays(mon, i), iso = toIso(d), c = state.entries[iso] || ''; return `<div class="d ${iso === today ? 'today' : ''}"><span>${DOW[i]}</span><b class="num">${d.getDate()}</b>${chip(c)}</div>`; }).join('');
+  const strip = Array.from({ length: 7 }, (_, i) => { const d = addDays(mon, i), iso = toIso(d), c = state.entries[iso] || ''; return `<button class="d ${iso === today ? 'today' : ''}" data-open-day="${iso}"><span>${DOW[i]}</span><b class="num">${d.getDate()}</b>${chip(c)}</button>`; }).join('');
 
   const months = planMonths();
   const curM = months.includes(today.slice(0, 7)) ? today.slice(0, 7) : (nextIso ? nextIso.slice(0, 7) : months[0]);
@@ -661,99 +761,159 @@ function renderOverview() {
   const sal = state.salary;
   const totalHours = weeks.reduce((s, w) => s + w.hours, 0);
   const expected = weeks.length * sal.fullWeek * sal.pct / 100;
+  const upcoming = keys.filter(k => k >= today).slice(0, 7);
+  const upHtml = upcoming.length ? upcoming.map(iso => {
+    const d = parseIso(iso), c = state.entries[iso], k = codeOf(c), hn = holidayName(iso);
+    return `<button class="up-row" data-open-day="${iso}"><span class="up-date ${hn || dowIdx(d) >= 5 ? 'hol' : ''}"><small>${DOW[dowIdx(d)]}</small><b>${d.getDate()}</b></span>
+      <span class="up-main"><div class="t">${esc(k.name)}${hn ? ` · <span style="color:var(--holiday)">${esc(hn)}</span>` : ''}</div><div class="s">${MONTHS[d.getMonth()].slice(0, 3)} · ${timeRange(c) || '–'} · ${hrs(k.hours)}</div></span>${chip(c)}</button>`;
+  }).join('') : '<p class="hint">Ingen kommende vakter i planen.</p>';
 
   el.innerHTML = `
     ${draftBanner()}
-    <div class="hero">
-      <div class="panel next">${nextHtml}<div><div class="eyebrow" style="margin-bottom:6px">Uke ${isoWeek(mon)}</div><div class="weekstrip">${strip}</div></div></div>
-      <div class="panel pay">
+    <div class="ov-grid">
+      <div class="panel next ov-next">${nextHtml}<div><div class="eyebrow" style="margin-bottom:8px">Uke ${isoWeek(mon)}</div><div class="weekstrip">${strip}</div></div></div>
+      <div class="panel pay ov-pay">
         ${nextPay ? `<div class="eyebrow">Neste utbetaling · ${nextPay.payDate.getDate()}. ${MONTHS[nextPay.payDate.getMonth()]}</div>
-        <div class="pay-big">${kr(nextPay.netto)}</div><div class="hint">estimert netto utbetalt</div>
-        <div class="kv"><span>Fast månedslønn</span><span>${kr(nextPay.fast)}</span>
+        <div><div class="pay-big">${kr(nextPay.netto)}</div><div class="hint">estimert netto utbetalt</div></div>
+        <div class="kv"><span>Fast lønn for ${MONTHS[nextPay.payDate.getMonth()]}</span><span>${kr(nextPay.fast)}</span>
         <span>Tillegg ${nextPay.earnedIn ? periodText(nextPay.earnedIn) : ''}</span><span>${kr(nextPay.tillegg)}</span>
         <span>Skattetrekk ${nf1.format(nextPay.taxPct * 100)} %</span><span>− ${kr(nextPay.skatt)}</span></div>
-        <button class="btn ghost" data-goto="lonn" style="justify-self:start;padding-left:0">Se hele lønnsoversikten →</button>` : '<div class="hint">Ingen lønnsdata.</div>'}
+        <button class="btn" data-goto="lonn" style="justify-self:start">Hele lønnsoversikten</button>` : '<div class="hint">Ingen lønnsdata.</div>'}
       </div>
-    </div>
-    <div>
-      <div class="panel-head"><h2>${ymLabel(curM)}</h2><span class="hint">tall for måneden</span></div>
-      <div class="stats">
-        <div class="stat accent"><span class="eyebrow">Timer</span><span class="v">${nf1.format(a.hours)}</span><span class="s">${a.shifts} vakter</span></div>
-        <div class="stat"><span class="eyebrow">Helgevakter</span><span class="v">${a.weekend}</span><span class="s">${hrs(a.helg)} med helgetillegg</span></div>
-        <div class="stat"><span class="eyebrow">Kveld og natt</span><span class="v">${nf1.format(a.kveld + a.natt)}</span><span class="s">timer etter kl. 17</span></div>
-        <div class="stat ${a.holidayShifts.length ? 'warn' : 'good'}"><span class="eyebrow">Helligdager</span><span class="v">${a.holidayShifts.length}</span><span class="s">${a.holidayShifts.length ? a.holidayShifts.map(h => esc(h.name)).join(', ') : 'ingen vakter'}</span></div>
-        <div class="stat"><span class="eyebrow">Tillegg opptjent</span><span class="v" style="font-size:22px">${kr(a.tillegg)}</span><span class="s">utbetales ${sal.lag ? 'måneden etter' : 'samme måned'}</span></div>
+      <div style="display:grid;gap:14px">
+        <div class="panel-head" style="margin:0"><h2 class="section-title">${ymLabel(curM)}</h2></div>
+        <div class="stats">
+          <div class="stat accent"><span class="eyebrow">Timer</span><span class="v">${nf1.format(a.hours)}</span><span class="s">${a.shifts} vakter</span></div>
+          <div class="stat"><span class="eyebrow">Helgevakter</span><span class="v">${a.weekend}</span><span class="s">${hrs(a.helg)} med helgetillegg</span></div>
+          <div class="stat"><span class="eyebrow">Kveld og natt</span><span class="v">${nf1.format(a.kveld + a.natt)}</span><span class="s">timer etter kl. 17</span></div>
+          <div class="stat ${a.holidayShifts.length ? 'warn' : ''}"><span class="eyebrow">Helligdager</span><span class="v">${a.holidayShifts.length}</span><span class="s">${a.holidayShifts.length ? a.holidayShifts.map(h => esc(h.name)).join(', ') : 'ingen vakter'}</span></div>
+          <div class="stat"><span class="eyebrow">Tillegg opptjent</span><span class="v">${kr(a.tillegg)}</span><span class="s">utbetales ${sal.lag ? '20. neste måned' : 'samme måned'}</span></div>
+        </div>
       </div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><div><h2>Timer per uke</h2><span class="hint">Totalt ${hrs(totalHours)} i planen. Forventet ved ${nf1.format(sal.pct)} % stilling er ${hrs(expected)} (${nf1.format(sal.fullWeek * sal.pct / 100)} t/uke).</span></div>
-      <div class="key"><span><i style="background:var(--accent)"></i>over snittet</span><span><i style="background:color-mix(in srgb, var(--accent) 70%, var(--surface))"></i>under</span><span><i style="background:var(--warn);height:2px;vertical-align:3px"></i>${nf1.format(sal.fullWeek * sal.pct / 100)} t</span></div></div>
-      ${weekChart(weeks)}
+      <div class="panel ov-chart">
+        <div class="panel-head"><div><h2>Timer per uke</h2><span class="hint">${hrs(totalHours)} i planen. Forventet ved ${nf1.format(sal.pct)} % stilling: ${hrs(expected)}.</span></div>
+        <div class="key"><span><i style="background:var(--accent)"></i>over ${nf1.format(sal.fullWeek * sal.pct / 100)} t</span><span><i style="background:color-mix(in srgb, var(--accent) 40%, var(--surface))"></i>under</span></div></div>
+        ${weekChart(weeks)}
+      </div>
+      <div class="panel ov-up"><div class="panel-head" style="margin-bottom:4px"><h2>Kommende vakter</h2><button class="btn ghost" data-goto="kalender">Kalender</button></div><div class="upcoming">${upHtml}</div></div>
     </div>`;
 }
 
 function weekChart(weeks) {
   if (!weeks.length) return '';
-  const W = 1000, H = 220, padL = 34, padB = 26, padT = 12, innerW = W - padL - 6, innerH = H - padB - padT;
+  const W = 1000, H = 250, padL = 34, padB = 26, padT = 12, innerW = W - padL - 6, innerH = H - padB - padT;
   const target = state.salary.fullWeek * state.salary.pct / 100;
   const max = Math.max(60, ...weeks.map(w => w.hours));
-  const step = innerW / weeks.length, bw = Math.max(4, step * 0.68);
+  const step = innerW / weeks.length, bw = Math.max(4, step * 0.62);
   const y = v => padT + innerH - (v / max) * innerH;
   let g = '';
   for (let v = 0; v <= max; v += 10) g += `<line class="grid" x1="${padL}" x2="${W - 6}" y1="${y(v)}" y2="${y(v)}"/><text x="${padL - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
   const bars = weeks.map((w, i) => {
     const x = padL + i * step + (step - bw) / 2, h = Math.max(0, innerH - (y(w.hours) - padT));
     const lbl = (i % Math.ceil(weeks.length / 16) === 0) ? `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${isoWeek(parseIso(w.mon))}</text>` : '';
-    return `<rect class="bar ${w.hours > target ? 'over' : ''}" x="${x}" y="${y(w.hours)}" width="${bw}" height="${h}" rx="2"><title>Uke ${isoWeek(parseIso(w.mon))}: ${nf1.format(w.hours)} t</title></rect>${lbl}`;
+    return `<rect class="bar ${w.hours > target ? 'over' : ''}" x="${x}" y="${y(w.hours)}" width="${bw}" height="${h}" rx="4"><title>Uke ${isoWeek(parseIso(w.mon))}: ${nf1.format(w.hours)} t</title></rect>${lbl}`;
   }).join('');
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Timer per uke">${g}${bars}<line class="ref" x1="${padL}" x2="${W - 6}" y1="${y(target)}" y2="${y(target)}"/></svg>`;
 }
 
+/* ---------- Kalender ---------- */
+let selectedIso = null;
+const wideCal = () => window.matchMedia('(min-width: 1100px)').matches;
 function renderCalendar() {
   const el = document.getElementById('view-kalender');
   const months = planMonths();
   if (!calMonth || !months.includes(calMonth)) { const t = todayIso().slice(0, 7); calMonth = months.includes(t) ? t : months[0]; }
   const [y, m] = calMonth.split('-').map(Number);
-  const first = new Date(y, m - 1, 1), start = mondayOf(first), today = todayIso();
-  const lastDay = new Date(y, m, 0);
-  const end = addDays(mondayOf(lastDay), 6);
-  let cells = DOW.map(d => `<div class="dow">${d}</div>`).join('');
-  cells = '<div></div>' + cells;
+  const today = todayIso();
+  if (!selectedIso || selectedIso.slice(0, 7) !== calMonth) selectedIso = today.slice(0, 7) === calMonth ? today : `${calMonth}-01`;
+  const start = mondayOf(new Date(y, m - 1, 1)), end = addDays(mondayOf(new Date(y, m, 0)), 6);
+  const wn = prefs.weekNumbers !== false;
+  let cells = (wn ? '<div class="dow wkc" aria-hidden="true"></div>' : '') + DOW.map((d, i) => `<div class="dow ${i >= 5 ? 'we' : ''}">${d}</div>`).join('');
   for (let d = new Date(start); d <= end; d = addDays(d, 1)) {
-    if (dowIdx(d) === 0) cells += `<div class="wk">Uke ${isoWeek(d)}</div>`;
+    if (wn && dowIdx(d) === 0) cells += `<div class="wkn">${isoWeek(d)}</div>`;
     const iso = toIso(d), c = state.entries[iso] || '', hn = holidayName(iso), other = d.getMonth() !== m - 1;
-    const edited = state.original && (state.original[iso] || '') !== c && Object.keys(state.original).length;
-    const cls = ['day', other ? 'other' : '', dowIdx(d) >= 5 ? 'weekend' : '', hn ? 'holiday' : '', iso === today ? 'today' : ''].join(' ');
-    cells += `<button class="${cls}" data-edit="${iso}" aria-label="${d.getDate()}. ${MONTHS[d.getMonth()]}: ${c || 'ingen vakt'}${hn ? ', ' + hn : ''}">
-      <span class="dn"><span>${d.getDate()}</span></span>${hn ? `<span class="hn">${esc(hn)}</span>` : ''}
-      ${c || !other ? chip(c) : ''}${c && timeRange(c) ? `<span class="tm">${timeRange(c)}</span>` : ''}${edited ? '<span class="edited" title="Endret av deg"></span>' : ''}</button>`;
+    const edited = Object.keys(state.original || {}).length && (state.original[iso] || '') !== c;
+    const cls = ['mday', other ? 'other' : '', dowIdx(d) >= 5 ? 'we' : '', hn ? 'hol' : '', iso === today ? 'today' : '', iso === selectedIso ? 'sel' : ''].join(' ');
+    let ev = '';
+    if (c) { const e = evClass(c), k = codeOf(c); ev = `<span class="ev ${e.cls}" style="${e.style}"><b>${esc(c)}${k && k.kind !== 'fri' && prefs.showNames !== false ? ` <span class="nm">${esc(k.name)}</span>` : ''}</b>${timeRange(c) ? `<small>${timeRange(c)}</small>` : ''}</span>`; }
+    cells += `<button class="${cls}" data-day="${iso}" aria-label="${dayLabel(iso)}: ${c ? esc(c) : 'ingen vakt'}${hn ? ', ' + esc(hn) : ''}">
+      <span class="top">${hn ? `<span class="hn">${esc(hn)}</span>` : ''}<span class="n">${d.getDate()}</span></span>${ev}${edited ? '<span class="edited" title="Endret fra opprinnelig plan"></span>' : ''}</button>`;
   }
-  const a = monthAgg(calMonth);
   const idx = months.indexOf(calMonth);
+  const multiYear = months.length && months[0].slice(0, 4) !== months[months.length - 1].slice(0, 4);
   el.innerHTML = `
     ${draftBanner()}
-    <div class="panel">
-      <div class="cal-head">
-        <div class="btn-row"><button class="btn" id="calPrev" ${idx <= 0 ? 'disabled' : ''} aria-label="Forrige måned">←</button>
-        <span class="cal-title">${ymLabel(calMonth)}</span>
-        <button class="btn" id="calNext" ${idx >= months.length - 1 ? 'disabled' : ''} aria-label="Neste måned">→</button></div>
-        <div class="btn-row"><button class="btn" id="calToday">I dag</button><button class="btn" id="undoBtn" ${undoStack.length ? '' : 'disabled'}>Angre</button></div>
+    <div class="cal-layout">
+      <div class="cal-card">
+        <div class="cal-top">
+          <div class="cal-title">${ymLabel(calMonth).replace(/ (\d{4})$/, ' <span>$1</span>')}</div>
+          <div class="cal-nav">
+            <button class="btn" id="undoBtn" ${undoStack.length ? '' : 'disabled'}>Angre</button>
+            <button class="btn" id="calToday">I dag</button>
+            <button class="round" id="calPrev" ${idx <= 0 ? 'disabled' : ''} aria-label="Forrige måned">‹</button>
+            <button class="round" id="calNext" ${idx >= months.length - 1 ? 'disabled' : ''} aria-label="Neste måned">›</button>
+          </div>
+        </div>
+        <div class="mchips">${months.map(k => `<button class="mchip" data-month="${k}" aria-pressed="${k === calMonth}">${ymLabel(k, true)}${multiYear ? ' ' + k.slice(2, 4) : ''}</button>`).join('')}</div>
+        <div class="mgrid ${wn ? 'wn' : ''}">${cells}</div>
       </div>
-      <div class="month-sum" style="margin:12px 0"><span>Timer <b>${nf1.format(a.hours)}</b></span><span>Vakter <b>${a.shifts}</b></span><span>Helgevakter <b>${a.weekend}</b></span><span>Timer etter kl. 17 <b>${nf1.format(a.kveld + a.natt)}</b></span><span>Tillegg <b>${kr(a.tillegg)}</b></span></div>
-      <div class="cal-scroll"><div class="cal">${cells}</div></div>
-      <p class="hint" style="margin:12px 0 0">Trykk på en dag for å endre vakten, for eksempel ved bytte. Endringer lagres med en gang. Prikken øverst til høyre viser dager som er endret fra opprinnelig plan.</p>
-    </div>
-    <div class="legend">${legendHtml()}</div>`;
-  el.querySelector('#calPrev').onclick = () => { calMonth = months[idx - 1]; renderCalendar(); };
-  el.querySelector('#calNext').onclick = () => { calMonth = months[idx + 1]; renderCalendar(); };
-  el.querySelector('#calToday').onclick = () => { const t = todayIso().slice(0, 7); if (months.includes(t)) { calMonth = t; renderCalendar(); } else toast('I dag er utenfor planen.'); };
+      <aside class="side" id="calSide">${calSideHtml()}</aside>
+    </div>`;
+  el.querySelector('#calPrev').onclick = () => { calMonth = months[idx - 1]; selectedIso = null; renderCalendar(); };
+  el.querySelector('#calNext').onclick = () => { calMonth = months[idx + 1]; selectedIso = null; renderCalendar(); };
+  el.querySelector('#calToday').onclick = () => { const t = todayIso(); if (months.includes(t.slice(0, 7))) { calMonth = t.slice(0, 7); selectedIso = t; renderCalendar(); } else toast('I dag er utenfor planen.'); };
   el.querySelector('#undoBtn').onclick = undo;
+  el.querySelectorAll('[data-month]').forEach(b => b.onclick = () => { calMonth = b.dataset.month; selectedIso = null; renderCalendar(); });
+  el.querySelectorAll('[data-day]').forEach(b => b.onclick = () => {
+    selectedIso = b.dataset.day;
+    if (selectedIso.slice(0, 7) !== calMonth) { calMonth = selectedIso.slice(0, 7); }
+    if (wideCal()) renderCalendar(); else { renderCalendar(); openPicker(b, { iso: selectedIso }); }
+  });
+  bindSide(el);
 }
-function legendHtml() {
+function calSideHtml() {
+  const iso = selectedIso, c = state.entries[iso] || '', k = codeOf(c), hn = holidayName(iso);
+  const p = c ? shiftPay(iso, c) : null;
+  const orig = (state.original || {})[iso] || '';
+  const a = monthAgg(calMonth);
+  const lines = p ? [['Kveld 17–21', p.kveld, p.amt.kveld], ['Natt 21–06', p.natt, p.amt.natt], ['Lørdag/søndag', p.helg, p.amt.helg], ['Helligdag', p.hoytid, p.amt.hoytid], ['Langvakt (lokalt)', p.lang, p.amt.lang]].filter(x => x[2] > 0.5) : [];
+  const tillegg = lines.reduce((s, x) => s + x[2], 0);
+  const codes = Object.entries(state.codes);
+  return `
+    <div class="panel day-card">
+      <div class="day-head"><h2>${dayLabel(iso)}</h2><span class="hint">Uke ${isoWeek(parseIso(iso))}</span></div>
+      ${hn ? `<div style="color:var(--holiday);font-weight:600;margin-top:-8px">${esc(hn)}${isFullHoliday(iso) ? '' : ' (høytid fra kl. 12)'}</div>` : ''}
+      <div class="day-ev" style="--c:${c ? colorVar(c) : 'var(--k-fri)'}"><i></i><div>
+        ${c ? `<b>${esc(c)} · ${esc(k ? k.name : 'Ukjent kode')}</b><div class="hint num">${timeRange(c) || 'Ingen klokkeslett'} · ${hrs(k ? k.hours : 0)}</div>` : '<b>Ingen vakt</b><div class="hint">Fri eller ikke registrert</div>'}
+        ${orig !== c && Object.keys(state.original || {}).length ? `<div class="hint" style="margin-top:4px">Opprinnelig: ${orig ? esc(orig) : 'ingen vakt'}</div>` : ''}
+      </div></div>
+      ${lines.length ? `<div class="kv">${lines.map(x => `<span>${x[0]} · ${hrs(x[1])}</span><span>${kr(x[2])}</span>`).join('')}<span class="tot">Tillegg denne vakta</span><span class="tot">${kr(tillegg)}</span></div>` : ''}
+      <div><div class="eyebrow" style="margin-bottom:8px">Endre vakt</div>
+        <div class="codes-grid">${codes.map(([code, kk]) => `<button data-set="${esc(code)}" aria-pressed="${c === code}" title="${esc(kk.name)}">${chip(code)}<span>${hrs(kk.hours)}</span></button>`).join('')}
+        <button data-set="" aria-pressed="${!c}">${chip('')}<span>Ingen</span></button>
+        <button data-set="__other">${chip('…')}<span>Annen</span></button></div></div>
+    </div>
+    <div class="panel"><div class="panel-head" style="margin-bottom:10px"><h2>${ymLabel(calMonth)}</h2></div>
+      <div class="month-sum"><span>Timer</span><span>${nf1.format(a.hours)}</span><span>Vakter</span><span>${a.shifts}</span><span>Helgevakter</span><span>${a.weekend}</span><span>Timer etter kl. 17</span><span>${nf1.format(a.kveld + a.natt)}</span><span>Tillegg opptjent</span><span>${kr(a.tillegg)}</span></div></div>
+    <div class="panel">
+      <label class="switch"><span><b>Vaktbeskrivelser</b></span><input type="checkbox" id="legendToggle" ${prefs.showLegend !== false ? 'checked' : ''}></label>
+      ${prefs.showLegend !== false ? `<div class="legend" style="margin-top:14px">${legendRows()}</div>` : ''}
+      <label class="switch" style="margin-top:14px"><span>Klokkeslett i kalenderen</span><input type="checkbox" id="timesToggle" ${prefs.showTimes ? 'checked' : ''}></label>
+    </div>`;
+}
+function bindSide(root) {
+  root.querySelectorAll('[data-set]').forEach(b => b.onclick = () => {
+    if (b.dataset.set === '__other') { openPicker(b, { iso: selectedIso }); return; }
+    pickerTarget = { iso: selectedIso }; pick(b.dataset.set);
+  });
+  const lt = root.querySelector('#legendToggle'); if (lt) lt.onchange = () => { prefs.showLegend = lt.checked; persistPrefs(); renderAll(); };
+  const tt = root.querySelector('#timesToggle'); if (tt) tt.onchange = () => { prefs.showTimes = tt.checked; applyPrefs(); persistPrefs(); };
+}
+function legendRows() {
   const used = new Set(Object.values(state.entries));
-  return Object.entries(state.codes).filter(([c]) => used.has(c)).map(([c, k]) => `<span>${chip(c)} ${esc(k.name)}${k.start ? ` ${k.start}–${k.end}` : ''} · ${hrs(k.hours)}</span>`).join('') +
-    `<span><span class="chip" style="--c:var(--warn);--cb:var(--warn-soft)">H</span> Helligdag</span>`;
+  return Object.entries(state.codes).filter(([c]) => used.has(c)).map(([c, k]) => `<div class="row">${chip(c)}<span>${esc(k.name)}</span><span>${k.start ? `${k.start}–${k.end} · ` : ''}${hrs(k.hours)}</span></div>`).join('');
 }
+function legendHtml() { return prefs.showLegend !== false ? `<div class="panel"><div class="legend inline">${legendRows()}</div></div>` : ''; }
 
 function renderWeeks() {
   const el = document.getElementById('view-uker');
@@ -761,26 +921,29 @@ function renderWeeks() {
   const all = weeksInPlan().map(weekData);
   const list = weekFilter === 'all' ? all : all.filter(w => w.days.some(d => d.iso.startsWith(weekFilter)));
   const anyTS = all.some(w => w.ts != null);
+  const today = todayIso();
   const rows = list.map(w => {
     const hol = w.days.some(d => holidayName(d.iso) && isWork(d.c));
-    return `<tr class="${hol ? 'hl' : ''}"><td class="wk-cell">Uke ${isoWeek(parseIso(w.mon))}</td><td class="num">${fmtDM(parseIso(w.mon))}–${fmtDM(addDays(parseIso(w.mon), 6))}</td>
-      ${w.days.map(d => `<td class="c"><button class="cellbtn editable" data-edit="${d.iso}" title="${esc(holidayName(d.iso))}">${chip(d.c)}</button>${holidayName(d.iso) ? ' <span class="mismatch" title="' + esc(holidayName(d.iso)) + '">H</span>' : ''}</td>`).join('')}
+    const cur = w.days.some(d => d.iso === today);
+    return `<tr class="${hol ? 'hl' : ''}" ${cur ? 'style="font-weight:600"' : ''}><td class="wk-cell">Uke ${isoWeek(parseIso(w.mon))}${cur ? ' <span class="chip solid" style="--c:var(--accent);font-size:10.5px;padding:1px 6px">Nå</span>' : ''}</td><td class="num">${fmtDM(parseIso(w.mon))}–${fmtDM(addDays(parseIso(w.mon), 6))}</td>
+      ${w.days.map(d => `<td class="c"><button class="cellbtn editable" data-edit="${d.iso}" title="${esc(holidayName(d.iso) || dayLabel(d.iso))}">${chip(d.c)}</button>${holidayName(d.iso) ? ' <span class="mismatch" title="' + esc(holidayName(d.iso)) + '">H</span>' : ''}</td>`).join('')}
       <td class="r">${nf1.format(w.hours)}</td>${anyTS ? `<td class="r">${w.ts == null ? '–' : `<span class="${w.mismatch ? 'hint' : 'ok'}" title="${w.mismatch ? `Endret: ${nf1.format(w.hours - w.ts)} t mot opprinnelig plan` : 'Som opprinnelig plan'}">${nf1.format(w.ts)}${w.mismatch ? ` (${w.hours - w.ts > 0 ? '+' : ''}${nf1.format(w.hours - w.ts)})` : ' ✓'}</span>`}</td>` : ''}</tr>`;
   }).join('');
   const mism = all.filter(w => w.mismatch).length;
   el.innerHTML = `
     ${draftBanner()}
-    <div class="panel-head"><div class="month-filter">
+    <div class="panel-head" style="margin:0"><div class="month-filter">
       <button class="pillbtn" data-wf="all" aria-pressed="${weekFilter === 'all'}">Alle</button>
       ${months.map(m => `<button class="pillbtn" data-wf="${m}" aria-pressed="${weekFilter === m}">${ymLabel(m, true)}${months[0].slice(0, 4) !== months[months.length - 1].slice(0, 4) ? ' ' + m.slice(2, 4) : ''}</button>`).join('')}
-    </div><button class="btn" id="undoBtn2" ${undoStack.length ? '' : 'disabled'}>Angre</button></div>
-    ${anyTS ? `<p class="hint" style="margin:0">«Timer» er regnet ut fra vaktene slik de står nå. «Opprinnelig» er timesummen fra turnusplanen. ${mism ? `${mism} uker avviker, for eksempel fordi vakter er byttet eller endret.` : 'Alle uker stemmer med opprinnelig plan.'}</p>` : ''}
+    </div><div class="btn-row"><label class="switch" style="font-size:14px;gap:10px"><span>Vaktbeskrivelser</span><input type="checkbox" id="legendToggleW" ${prefs.showLegend !== false ? 'checked' : ''}></label><button class="btn" id="undoBtn2" ${undoStack.length ? '' : 'disabled'}>Angre</button></div></div>
+    ${anyTS ? `<p class="hint" style="margin:0">«Timer» er regnet ut fra vaktene slik de står nå. «Opprinnelig» er timesummen fra turnusplanen. ${mism ? `${mism} uker avviker, for eksempel fordi vakter er byttet eller endret.` : 'Alle uker stemmer med opprinnelig plan.'} Trykk på en vakt for å endre den.</p>` : ''}
     <div class="table-wrap"><table>
       <thead><tr><th>Uke</th><th>Periode</th>${DOW.map(d => `<th class="c">${d}</th>`).join('')}<th class="r">Timer</th>${anyTS ? '<th class="r">Opprinnelig</th>' : ''}</tr></thead>
       <tbody>${rows || '<tr><td colspan="11">Ingen uker.</td></tr>'}</tbody></table></div>
-    <div class="legend">${legendHtml()}</div>`;
+    ${legendHtml()}`;
   el.querySelectorAll('[data-wf]').forEach(b => b.onclick = () => { weekFilter = b.dataset.wf; renderWeeks(); });
   el.querySelector('#undoBtn2').onclick = undo;
+  el.querySelector('#legendToggleW').onchange = e => { prefs.showLegend = e.target.checked; persistPrefs(); renderWeeks(); };
 }
 
 function renderPay() {
@@ -814,6 +977,7 @@ function renderPay() {
     <td>${s.rates.length > 1 ? `<button class="btn ghost danger" data-delrate="${i}" aria-label="Fjern rad">✕</button>` : ''}</td></tr>`).join('');
   el.innerHTML = `
     ${draftBanner()}
+    <div class="pay-layout"><div class="pay-side">
     <div class="panel">
       <div class="panel-head"><div><h2>Dine lønnsopplysninger</h2><span class="hint">Hent tallene fra lønnsslippen eller arbeidsavtalen. Alt regnes ut på nytt med en gang.</span></div></div>
       <div class="fields">
@@ -824,12 +988,12 @@ function renderPay() {
         <div class="field"><label for="s-div">Timer i årsverk (deler for timelønn)</label><select class="input" id="s-div" data-sal="divisor"><option value="1850" ${+s.divisor === 1850 ? 'selected' : ''}>1850 t (35,5 t/uke, turnus)</option><option value="1950" ${+s.divisor === 1950 ? 'selected' : ''}>1950 t (37,5 t/uke, dagtid)</option></select></div>
         <div class="field"><label for="s-week">Full stilling per uke (t)</label><input class="input num" id="s-week" type="number" step="0.5" data-sal="fullWeek" value="${s.fullWeek}"></div>
       </div>
-      <div class="btn-row" style="margin-top:12px; gap:18px">
-        <label class="check"><input type="checkbox" data-salc="lag" ${s.lag ? 'checked' : ''}> Tillegg for hele forrige måned (1. til siste dag) utbetales sammen med lønnen</label>
-        <label class="check"><input type="checkbox" data-salc="decHalf" ${s.decHalf ? 'checked' : ''}> Halv skatt i desember</label>
+      <div class="list inset" style="margin-top:14px">
+        <label class="switch"><span>Tillegg for forrige måned (1. til siste dag) følger lønnen</span><input type="checkbox" data-salc="lag" ${s.lag ? 'checked' : ''}></label>
+        <label class="switch"><span>Halv skatt i desember</span><input type="checkbox" data-salc="decHalf" ${s.decHalf ? 'checked' : ''}></label>
       </div>
       <p class="hint" style="margin:12px 0 0">Timelønn: ${kr(s.annual)} ÷ ${s.divisor} = <b class="num">${nf1.format(tl)} kr/t</b>. Fast månedslønn: <b class="num">${kr(s.annual * s.pct / 100 / 12)}</b>.</p>
-    </div>
+    </div></div><div class="pay-main">
     <div class="stats">
       <div class="stat"><span class="eyebrow">Brutto i perioden</span><span class="v">${kr(tot.brutto)}</span><span class="s">${pr.length} utbetalinger</span></div>
       <div class="stat accent"><span class="eyebrow">Tillegg totalt</span><span class="v">${kr(tot.till)}</span><span class="s">kveld, natt, helg og helligdag</span></div>
@@ -857,7 +1021,7 @@ function renderPay() {
         <p class="src">Kilder: <a href="https://www.ks.no/fagomrader/lonn-og-tariff/hovedtariffavtalen/endringer-i-tilleggene-i-hta-kapittel-1--5-fra-forste-oktober/" target="_blank" rel="noopener">KS: endringer i tilleggene fra 1. oktober 2026</a> · <a href="https://www.ks.no/globalassets/fagomrader/lonn-og-tariff/tariff-2024/hovedtariffavtalen-2026-2028---interaktiv-til-nettsiden.pdf" target="_blank" rel="noopener">Hovedtariffavtalen 2026–2028</a></p>
       </details>
     </div>
-    <div class="banner info"><div class="grow"><strong>Hva er med og ikke med?</strong> Med: fast månedslønn, kvelds-, natt-, helge- og helligdagstillegg ut fra klokkeslettene til vaktkodene. Ikke med: overtid, ekstravakter, feriepenger (juni) og trekk for pensjon og fagforening. Skatten er et flatt prosenttrekk. Sjekk vaktkodenes klokkeslett under Oppsett, for de styrer tilleggene.</div></div>`;
+    <div class="banner info"><div class="grow"><strong>Hva er med og ikke med?</strong> Med: fast månedslønn, kvelds-, natt-, helge- og helligdagstillegg ut fra klokkeslettene til vaktkodene. Ikke med: overtid, ekstravakter, feriepenger (juni) og trekk for pensjon og fagforening. Skatten er et flatt prosenttrekk. Sjekk vaktkodenes klokkeslett under Oppsett, for de styrer tilleggene.</div></div></div></div>`;
   el.querySelectorAll('[data-sal]').forEach(inp => inp.onchange = () => { pushUndo(); const v = parseFloat(String(inp.value).replace(',', '.')); if (!isNaN(v)) state.salary[inp.dataset.sal] = v; persist(); renderPay(); });
   el.querySelectorAll('[data-salc]').forEach(inp => inp.onchange = () => { state.salary[inp.dataset.salc] = inp.checked; persist(); renderPay(); });
   el.querySelectorAll('[data-rate]').forEach(inp => inp.onchange = () => { const r = state.salary.rates[+inp.dataset.rate]; r[inp.dataset.f] = inp.dataset.f === 'from' ? inp.value : parseFloat(inp.value) || 0; persist(); renderPay(); });
@@ -909,7 +1073,12 @@ function renderSettings() {
           <div class="field"><span class="lbl">Tema</span><div class="seg" role="group" aria-label="Tema">${[['system', 'Følg systemet'], ['light', 'Lyst'], ['dark', 'Mørkt']].map(([v, l]) => `<button data-pref="theme" data-v="${v}" aria-pressed="${prefs.theme === v}">${l}</button>`).join('')}</div></div>
           <div class="field"><span class="lbl">Aksentfarge</span><div class="swatches">${Object.entries(ACCENTS).map(([k, [l, d]]) => `<button class="swatch" data-pref="accent" data-v="${k}" aria-pressed="${prefs.accent === k}" title="${ACCENT_NAMES[k]}" aria-label="${ACCENT_NAMES[k]}" style="background:linear-gradient(135deg, ${l} 50%, ${d} 50%)"></button>`).join('')}</div></div>
           <div class="field"><span class="lbl">Tetthet i kalenderen</span><div class="seg" role="group">${[['normal', 'Luftig'], ['compact', 'Kompakt']].map(([v, l]) => `<button data-pref="density" data-v="${v}" aria-pressed="${prefs.density === v}">${l}</button>`).join('')}</div></div>
-          <label class="check"><input type="checkbox" id="prefTimes" ${prefs.showTimes ? 'checked' : ''}> Vis klokkeslett i kalenderen</label>
+          <div class="list inset">
+            <label class="switch"><span>Vaktbeskrivelser</span><input type="checkbox" data-sw="showLegend" ${prefs.showLegend !== false ? 'checked' : ''}></label>
+            <label class="switch"><span>Klokkeslett i kalenderen</span><input type="checkbox" data-sw="showTimes" ${prefs.showTimes ? 'checked' : ''}></label>
+            <label class="switch"><span>Navn på vakten i kalenderen</span><input type="checkbox" data-sw="showNames" ${prefs.showNames !== false ? 'checked' : ''}></label>
+            <label class="switch"><span>Ukenummer i kalenderen</span><input type="checkbox" data-sw="weekNumbers" ${prefs.weekNumbers !== false ? 'checked' : ''}></label>
+          </div>
         </div>
       </div>
       <div class="panel">
@@ -935,7 +1104,7 @@ function renderSettings() {
       <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med den opprinnelige 2026-turnusen. Endringer Nathalie har gjort, forsvinner.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
     </div>`;
   el.querySelectorAll('[data-pref]').forEach(b => b.onclick = () => { prefs[b.dataset.pref] = b.dataset.v; applyPrefs(); persistPrefs(); renderSettings(); });
-  el.querySelector('#prefTimes').onchange = e => { prefs.showTimes = e.target.checked; applyPrefs(); persistPrefs(); };
+  el.querySelectorAll('[data-sw]').forEach(inp => inp.onchange = () => { prefs[inp.dataset.sw] = inp.checked; applyPrefs(); persistPrefs(); });
   el.querySelectorAll('[data-meta]').forEach(inp => inp.onchange = () => { state.meta[inp.dataset.meta] = inp.value.trim(); persist(); renderAll(); });
   el.querySelectorAll('[data-status]').forEach(b => b.onclick = () => { state.meta.status = b.dataset.status; persist(); renderAll(); });
   el.querySelectorAll('[data-code]').forEach(inp => inp.onchange = () => { const k = state.codes[inp.dataset.code]; const f = inp.dataset.f; k[f] = f === 'hours' ? (parseFloat(inp.value) || 0) : inp.value; persist(); renderSettings(); });
@@ -1170,10 +1339,10 @@ function openPicker(anchor, target) {
   const hn = target.iso ? holidayName(target.iso) : '';
   const codes = state?.codes || DEFAULT_CODES;
   const opts = Object.entries(codes).map(([c, k]) => `<button class="opt" data-pick="${esc(c)}" aria-pressed="${cur === c}">${chip(c)}<small>${k.start ? `${k.start}–${k.end}` : esc(k.name)}</small><small>${hrs(k.hours)}</small></button>`).join('');
-  sheet.innerHTML = `<div class="panel-head" style="margin:0"><h3 id="pickerTitle">${esc(title)}</h3>${hn ? `<span class="hint" style="color:var(--warn)">${esc(hn)}</span>` : ''}</div>
+  sheet.innerHTML = `<div class="grabber"></div><div class="panel-head" style="margin:0"><h3 id="pickerTitle">${esc(title)}</h3>${hn ? `<span class="hint" style="color:var(--warn)">${esc(hn)}</span>` : ''}</div>
     <div class="opts">${opts}<button class="opt" data-pick="" aria-pressed="${!cur}"><span class="chip empty">–</span><small>Ingen vakt</small><small>0 t</small></button></div>
     <div class="field"><label for="customCode">Annen kode</label><div class="btn-row"><input class="input" id="customCode" style="flex:1;min-width:0" maxlength="6" placeholder="f.eks. FE"><button class="btn" id="customOk">Bruk</button></div></div>
-    <button class="btn" id="pickerClose">Lukk</button>`;
+    <button class="btn" id="pickerClose">Ferdig</button>`;
   layer.hidden = false;
   if (window.innerWidth > 640) {
     const r = anchor.getBoundingClientRect(), sw = 320, sh = Math.min(sheet.offsetHeight, window.innerHeight * 0.78);
@@ -1224,9 +1393,10 @@ function go(view) {
   renderAll(); window.scrollTo({ top: 0 });
 }
 function bindChrome() {
-  document.querySelectorAll('.tab').forEach(t => t.onclick = () => go(t.dataset.view));
+  document.querySelectorAll('.tab, .bnav button').forEach(t => t.onclick = () => go(t.dataset.view));
   document.addEventListener('click', e => {
     const g = e.target.closest('[data-goto]'); if (g) { go(g.dataset.goto); return; }
+    const od = e.target.closest('[data-open-day]'); if (od && state) { selectedIso = od.dataset.openDay; calMonth = selectedIso.slice(0, 7); go('kalender'); return; }
     const ed = e.target.closest('[data-edit]'); if (ed && state) { openPicker(ed, { iso: ed.dataset.edit }); }
   });
   document.getElementById('pickerBackdrop').onclick = closePicker;
