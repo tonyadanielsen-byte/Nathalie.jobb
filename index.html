@@ -271,7 +271,7 @@ details summary { cursor: pointer; font-weight: 600; }
   <div id="emptyPlan" class="panel empty-state" hidden>
     <h2>Ingen turnus lagret ennå</h2>
     <p class="hint">Last opp bilder eller en skjermdump av den endelige turnusplanen, så leser Claude den inn for deg. Du kan også starte med utkastet fra den gamle appen.</p>
-    <div class="btn-row"><button class="btn primary" data-goto="importer">Importer turnusplan</button><button class="btn" id="useDraftBtn">Bruk utkastet (jul–des 2026)</button></div>
+    <div class="btn-row"><button class="btn primary" data-goto="importer">Importer turnusplan</button><button class="btn" id="useDraftBtn">Bruk turnusen for 2026</button></div>
   </div>
 
   <section class="view" id="view-oversikt" hidden></section>
@@ -338,7 +338,7 @@ function legacyState() {
   });
   return {
     v: 2,
-    meta: { name: 'Årsturnus 2026 – Sandåker, Nathalie', unit: 'Hjemmesykepleien · Sone Klokkeråsen', employer: 'Tønsberg kommune', status: 'utkast', note: 'Utkast fra gammel app – vaktene er tolket av ChatGPT og ikke kontrollert.', weekTS },
+    meta: { name: 'Årsturnus 2026 – Sandåker, Nathalie', unit: 'Hjemmesykepleien · Sone Klokkeråsen', employer: 'Tønsberg kommune', status: 'endelig', note: '', weekTS },
     entries, original: { ...entries }, codes: JSON.parse(JSON.stringify(DEFAULT_CODES)),
     salary: JSON.parse(JSON.stringify(DEFAULT_SALARY)),
   };
@@ -655,7 +655,6 @@ function renderOverview() {
   const curM = months.includes(today.slice(0, 7)) ? today.slice(0, 7) : (nextIso ? nextIso.slice(0, 7) : months[0]);
   const a = monthAgg(curM);
   const weeks = weeksInPlan().map(weekData);
-  const mism = weeks.filter(w => w.mismatch);
   const pr = payroll();
   const nextPay = pr.find(p => toIso(p.payDate) >= today) || pr[pr.length - 1];
   const sal = state.salary;
@@ -664,7 +663,6 @@ function renderOverview() {
 
   el.innerHTML = `
     ${draftBanner()}
-    ${mism.length ? `<div class="banner bad"><div class="grow"><strong>${mism.length} uker stemmer ikke med timesummen i planen.</strong> Vaktene gir andre timer enn TS-kolonnen, f.eks. uke ${isoWeek(parseIso(mism[0].mon))}: ${hrs(mism[0].hours)} mot ${hrs(mism[0].ts)}. Det tyder på at vakter mangler eller er lest feil.</div><button class="btn" data-goto="uker">Se ukene</button></div>` : ''}
     <div class="hero">
       <div class="panel next">${nextHtml}<div><div class="eyebrow" style="margin-bottom:6px">Uke ${isoWeek(mon)}</div><div class="weekstrip">${strip}</div></div></div>
       <div class="panel pay">
@@ -742,7 +740,7 @@ function renderCalendar() {
       </div>
       <div class="month-sum" style="margin:12px 0"><span>Timer <b>${nf1.format(a.hours)}</b></span><span>Vakter <b>${a.shifts}</b></span><span>Helgevakter <b>${a.weekend}</b></span><span>Timer etter kl. 17 <b>${nf1.format(a.kveld + a.natt)}</b></span><span>Tillegg <b>${kr(a.tillegg)}</b></span></div>
       <div class="cal-scroll"><div class="cal">${cells}</div></div>
-      <p class="hint" style="margin:12px 0 0">Trykk på en dag for å endre vakten. Endringer lagres med en gang. Prikken øverst til høyre viser dager du har endret.</p>
+      <p class="hint" style="margin:12px 0 0">Trykk på en dag for å endre vakten, for eksempel ved bytte. Endringer lagres med en gang. Prikken øverst til høyre viser dager som er endret fra opprinnelig plan.</p>
     </div>
     <div class="legend">${legendHtml()}</div>`;
   el.querySelector('#calPrev').onclick = () => { calMonth = months[idx - 1]; renderCalendar(); };
@@ -766,7 +764,7 @@ function renderWeeks() {
     const hol = w.days.some(d => holidayName(d.iso) && isWork(d.c));
     return `<tr class="${hol ? 'hl' : ''}"><td class="wk-cell">Uke ${isoWeek(parseIso(w.mon))}</td><td class="num">${fmtDM(parseIso(w.mon))}–${fmtDM(addDays(parseIso(w.mon), 6))}</td>
       ${w.days.map(d => `<td class="c"><button class="cellbtn editable" data-edit="${d.iso}" title="${esc(holidayName(d.iso))}">${chip(d.c)}</button>${holidayName(d.iso) ? ' <span class="mismatch" title="' + esc(holidayName(d.iso)) + '">H</span>' : ''}</td>`).join('')}
-      <td class="r">${nf1.format(w.hours)}</td>${anyTS ? `<td class="r">${w.ts == null ? '–' : `<span class="${w.mismatch ? 'mismatch' : 'ok'}" title="${w.mismatch ? 'Stemmer ikke med vaktene' : 'Stemmer'}">${nf1.format(w.ts)}${w.mismatch ? ' ⚠' : ' ✓'}</span>`}</td>` : ''}</tr>`;
+      <td class="r">${nf1.format(w.hours)}</td>${anyTS ? `<td class="r">${w.ts == null ? '–' : `<span class="${w.mismatch ? 'hint' : 'ok'}" title="${w.mismatch ? `Endret: ${nf1.format(w.hours - w.ts)} t mot opprinnelig plan` : 'Som opprinnelig plan'}">${nf1.format(w.ts)}${w.mismatch ? ` (${w.hours - w.ts > 0 ? '+' : ''}${nf1.format(w.hours - w.ts)})` : ' ✓'}</span>`}</td>` : ''}</tr>`;
   }).join('');
   const mism = all.filter(w => w.mismatch).length;
   el.innerHTML = `
@@ -775,9 +773,9 @@ function renderWeeks() {
       <button class="pillbtn" data-wf="all" aria-pressed="${weekFilter === 'all'}">Alle</button>
       ${months.map(m => `<button class="pillbtn" data-wf="${m}" aria-pressed="${weekFilter === m}">${ymLabel(m, true)}${months[0].slice(0, 4) !== months[months.length - 1].slice(0, 4) ? ' ' + m.slice(2, 4) : ''}</button>`).join('')}
     </div><button class="btn" id="undoBtn2" ${undoStack.length ? '' : 'disabled'}>Angre</button></div>
-    ${anyTS ? `<p class="hint" style="margin:0">«Timer» er regnet ut fra vaktkodene. «TS» er timesummen som står i planen. ${mism ? `<strong class="mismatch">${mism} uker avviker.</strong> Da mangler det sannsynligvis vakter, eller koder er lest feil.` : '<span class="ok">Alle uker stemmer.</span>'}</p>` : ''}
+    ${anyTS ? `<p class="hint" style="margin:0">«Timer» er regnet ut fra vaktene slik de står nå. «Opprinnelig» er timesummen fra turnusplanen. ${mism ? `${mism} uker avviker, for eksempel fordi vakter er byttet eller endret.` : 'Alle uker stemmer med opprinnelig plan.'}</p>` : ''}
     <div class="table-wrap"><table>
-      <thead><tr><th>Uke</th><th>Periode</th>${DOW.map(d => `<th class="c">${d}</th>`).join('')}<th class="r">Timer</th>${anyTS ? '<th class="r">TS i plan</th>' : ''}</tr></thead>
+      <thead><tr><th>Uke</th><th>Periode</th>${DOW.map(d => `<th class="c">${d}</th>`).join('')}<th class="r">Timer</th>${anyTS ? '<th class="r">Opprinnelig</th>' : ''}</tr></thead>
       <tbody>${rows || '<tr><td colspan="11">Ingen uker.</td></tr>'}</tbody></table></div>
     <div class="legend">${legendHtml()}</div>`;
   el.querySelectorAll('[data-wf]').forEach(b => b.onclick = () => { weekFilter = b.dataset.wf; renderWeeks(); });
@@ -932,8 +930,8 @@ function renderSettings() {
       <h2>Sikkerhetskopi</h2>
       <p class="hint" style="margin-top:0">${store.mode === 'db' ? 'Planen lagres automatisk og er den samme for alle som har tilgang til siden.' : 'Planen lagres bare i denne nettleseren. Ta gjerne en sikkerhetskopi.'}</p>
       <div class="btn-row"><button class="btn" id="exportBtn">Last ned sikkerhetskopi (.json)</button><label class="btn" for="importJson">Gjenopprett fra fil</label><input type="file" id="importJson" accept="application/json,.json" hidden>
-      <button class="btn danger" id="resetDraft">Tilbakestill til utkastet</button></div>
-      <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med utkastet fra den gamle appen.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
+      <button class="btn danger" id="resetDraft">Tilbakestill til opprinnelig 2026-turnus</button></div>
+      <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med den opprinnelige 2026-turnusen. Endringer Nathalie har gjort, forsvinner.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
     </div>`;
   el.querySelectorAll('[data-pref]').forEach(b => b.onclick = () => { prefs[b.dataset.pref] = b.dataset.v; applyPrefs(); persistPrefs(); renderSettings(); });
   el.querySelector('#prefTimes').onchange = e => { prefs.showTimes = e.target.checked; applyPrefs(); persistPrefs(); };
@@ -957,7 +955,7 @@ function renderSettings() {
   el.querySelector('#importJson').onchange = e => importJson(e.target.files[0]);
   el.querySelector('#resetDraft').onclick = () => { el.querySelector('#resetConfirm').hidden = false; };
   el.querySelector('#resetNo').onclick = () => { el.querySelector('#resetConfirm').hidden = true; };
-  el.querySelector('#resetYes').onclick = () => { pushUndo(); state = legacyState(); persist(); renderAll(); toast('Tilbakestilt til utkastet.', true); };
+  el.querySelector('#resetYes').onclick = () => { pushUndo(); state = legacyState(); persist(); renderAll(); toast('Tilbakestilt til opprinnelig turnus.', true); };
 }
 function unknownCodes() { return [...new Set(Object.values(state.entries).filter(c => c && !state.codes[c]))]; }
 function toHex(c) { if (/^#[0-9a-f]{6}$/i.test(c)) return c; const d = document.createElement('div'); d.style.color = c; document.body.appendChild(d); const rgb = getComputedStyle(d).color.match(/\d+/g) || [128, 128, 128]; d.remove(); return '#' + rgb.slice(0, 3).map(x => (+x).toString(16).padStart(2, '0')).join(''); }
