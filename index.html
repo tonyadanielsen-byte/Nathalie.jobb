@@ -1,0 +1,1241 @@
+<title>Nathalies turnus</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: sticky top bar with tabs, one centered working column (max 1180px); views swap below. */
+:root {
+  --accent-l: #0f7a6a; --accent-d: #46c2aa;
+  --bg: #f2f5f4; --surface: #ffffff; --surface-2: #eaefed; --surface-3: #dde5e2;
+  --ink: #15201c; --ink-2: #3a4843; --muted: #64736e; --line: #d5dedb; --line-strong: #b9c6c1;
+  --accent: var(--accent-l); --accent-ink: #ffffff; --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --good: #1b7f4b; --warn: #a96500; --bad: #c0392b; --warn-soft: #fff3dc; --bad-soft: #fde8e6; --good-soft: #e3f4ea;
+  --k-dag: #2f6fd0; --k-dag-bg: #e3edfc;
+  --k-kveld: #7a4fc9; --k-kveld-bg: #efe7fc;
+  --k-lang: #0f7a6a; --k-lang-bg: #dcf2ec;
+  --k-natt: #34408f; --k-natt-bg: #e2e5f7;
+  --k-fri: #6b7672; --k-fri-bg: #eceeed;
+  --k-ferie: #a35f00; --k-ferie-bg: #fdf0d9;
+  --k-annet: #b23a6b; --k-annet-bg: #fbe5ee;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+  --radius: 10px; --cell-h: 92px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1312; --surface: #161c1a; --surface-2: #1d2522; --surface-3: #26302d;
+  --ink: #e7eeeb; --ink-2: #c3cfca; --muted: #8e9d98; --line: #29332f; --line-strong: #3a4743;
+  --accent: var(--accent-d); --accent-ink: #08130f;
+  --good: #4cc88a; --warn: #f0b04a; --bad: #f17a6d; --warn-soft: #3a2a0c; --bad-soft: #3d1a17; --good-soft: #12301f;
+  --k-dag: #8db7ff; --k-dag-bg: #1b2a44; --k-kveld: #c3a4ff; --k-kveld-bg: #2c2143;
+  --k-lang: #5fd3b8; --k-lang-bg: #123430; --k-natt: #a9b1f5; --k-natt-bg: #20244a;
+  --k-fri: #a4adaa; --k-fri-bg: #252d2a; --k-ferie: #f3bd62; --k-ferie-bg: #3a2b10;
+  --k-annet: #f19bbf; --k-annet-bg: #3d1c2b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e1312; --surface: #161c1a; --surface-2: #1d2522; --surface-3: #26302d;
+  --ink: #e7eeeb; --ink-2: #c3cfca; --muted: #8e9d98; --line: #29332f; --line-strong: #3a4743;
+  --accent: var(--accent-d); --accent-ink: #08130f;
+  --good: #4cc88a; --warn: #f0b04a; --bad: #f17a6d; --warn-soft: #3a2a0c; --bad-soft: #3d1a17; --good-soft: #12301f;
+  --k-dag: #8db7ff; --k-dag-bg: #1b2a44; --k-kveld: #c3a4ff; --k-kveld-bg: #2c2143;
+  --k-lang: #5fd3b8; --k-lang-bg: #123430; --k-natt: #a9b1f5; --k-natt-bg: #20244a;
+  --k-fri: #a4adaa; --k-fri-bg: #252d2a; --k-ferie: #f3bd62; --k-ferie-bg: #3a2b10;
+  --k-annet: #f19bbf; --k-annet-bg: #3d1c2b; color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+body.compact { --cell-h: 64px; font-size: 14px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Top bar */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; gap: 16px; padding-block: 12px 0; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; min-width: 0; flex: 1 1 260px; }
+.brand h1 { font-size: 21px; line-height: 1.15; }
+.brand-sub { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; }
+.status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+.status-pill.saving .dot { background: var(--warn); }
+.status-pill.error .dot, .status-pill.local .dot { background: var(--bad); }
+.status-pill.local .dot { background: var(--muted); }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; width: 100%; margin-top: 4px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { background: none; border: 0; padding: 10px 14px 11px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; font-size: 14px; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+main { padding-block: 22px 64px; }
+.view { display: grid; gap: 18px; }
+.view[hidden] { display: none !important; }
+
+/* Generic blocks */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-width: 0; }
+.panel h2 { font-size: 17px; margin-bottom: 4px; }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.hint { color: var(--muted); font-size: 13px; }
+.eyebrow { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); padding: 8px 14px; border-radius: 8px; font-weight: 500; font-size: 14px; min-height: 38px; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.ghost { border-color: transparent; background: none; }
+.btn.danger { color: var(--bad); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 7px 12px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.field { display: grid; gap: 5px; min-width: 0; }
+.field label, .field .lbl { font-size: 12.5px; color: var(--muted); font-weight: 500; }
+.input, select.input { width: 100%; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 8px 10px; min-height: 38px; }
+.input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.banner { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: var(--radius); background: var(--warn-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); flex-wrap: wrap; }
+.banner strong { color: var(--warn); }
+.banner .grow { flex: 1 1 260px; min-width: 0; }
+.banner.info { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.banner.info strong { color: var(--accent); }
+.banner.bad { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 35%, transparent); }
+.banner.bad strong { color: var(--bad); }
+
+/* Shift chips */
+.chip { --c: var(--k-annet); --cb: var(--k-annet-bg); display: inline-flex; align-items: center; justify-content: center; min-width: 36px; padding: 3px 7px; border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 12.5px; color: var(--c); background: var(--cb); border: 1px solid color-mix(in srgb, var(--c) 28%, transparent); line-height: 1.2; white-space: nowrap; }
+.chip.k-dag { --c: var(--k-dag); --cb: var(--k-dag-bg); }
+.chip.k-kveld { --c: var(--k-kveld); --cb: var(--k-kveld-bg); }
+.chip.k-lang { --c: var(--k-lang); --cb: var(--k-lang-bg); }
+.chip.k-natt { --c: var(--k-natt); --cb: var(--k-natt-bg); }
+.chip.k-fri { --c: var(--k-fri); --cb: var(--k-fri-bg); }
+.chip.k-ferie { --c: var(--k-ferie); --cb: var(--k-ferie-bg); }
+.chip.custom { --c: var(--cc); --cb: color-mix(in srgb, var(--cc) 16%, var(--surface)); }
+.chip.empty { --c: var(--muted); --cb: transparent; border-style: dashed; font-weight: 500; }
+.chip.unknown { --c: var(--bad); --cb: var(--bad-soft); }
+
+/* Overview */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 820px) { .hero { grid-template-columns: 1fr; } }
+.next { display: grid; gap: 14px; }
+.next-main { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.next-code { font-family: var(--font-mono); font-weight: 700; font-size: 34px; padding: 10px 16px; border-radius: 12px; min-width: 84px; text-align: center; }
+.next-when { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; }
+.next-time { color: var(--ink-2); font-size: 15px; }
+.weekstrip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.weekstrip .d { display: grid; gap: 4px; justify-items: center; padding: 8px 2px; border-radius: 8px; background: var(--surface-2); font-size: 12px; color: var(--muted); }
+.weekstrip .d.today { outline: 2px solid var(--accent); background: var(--accent-soft); color: var(--ink); }
+.weekstrip .d b { color: var(--ink); font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 2px; min-width: 0; }
+.stat .v { font-family: var(--font-display); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.stat .s { font-size: 12.5px; color: var(--muted); }
+.stat.warn .v { color: var(--warn); } .stat.good .v { color: var(--good); } .stat.accent .v { color: var(--accent); }
+.pay { display: grid; gap: 10px; }
+.pay-big { font-family: var(--font-display); font-size: 34px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; font-size: 14px; }
+.kv span:nth-child(even) { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+.kv .tot { border-top: 1px solid var(--line); padding-top: 6px; font-weight: 600; }
+
+/* Calendar */
+.cal-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+.cal-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; min-width: 190px; }
+.cal-scroll { overflow-x: auto; }
+.cal { display: grid; grid-template-columns: 34px repeat(7, minmax(84px, 1fr)); gap: 4px; min-width: 640px; }
+.cal .dow { font-size: 12px; color: var(--muted); text-align: center; padding: 4px 0; font-weight: 600; }
+.cal .wk { font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; writing-mode: vertical-rl; transform: rotate(180deg); }
+.day { position: relative; min-height: var(--cell-h); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 7px; display: flex; flex-direction: column; gap: 4px; text-align: left; min-width: 0; }
+.day:hover { border-color: var(--line-strong); }
+.day.other { background: transparent; border-style: dashed; opacity: .55; }
+.day.weekend { background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); }
+.day.holiday { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.day.today { outline: 2px solid var(--accent); outline-offset: -1px; }
+.day .dn { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; display: flex; justify-content: space-between; gap: 4px; }
+.day .hn { font-size: 10.5px; color: var(--warn); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day .tm { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day .edited { position: absolute; top: 5px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+body.compact .day .tm, body.hide-times .day .tm { display: none; }
+.month-sum { display: flex; gap: 8px 22px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-2); }
+.month-sum b { font-variant-numeric: tabular-nums; color: var(--ink); }
+.legend { display: flex; gap: 8px 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); align-items: center; }
+.legend .chip { min-width: 0; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; background: var(--surface-2); position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+td.c, th.c { text-align: center; }
+tr.hl td { background: var(--warn-soft); }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: var(--surface-2); }
+tr.open td { background: var(--accent-soft); }
+.wk-cell { font-weight: 600; }
+.cellbtn { background: none; border: 0; padding: 0; }
+.cellbtn.editable .chip { cursor: pointer; }
+.mismatch { color: var(--warn); font-weight: 600; }
+.ok { color: var(--good); }
+.month-filter { display: flex; gap: 6px; flex-wrap: wrap; }
+.pillbtn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.pillbtn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.breakdown td { background: var(--surface-2); white-space: normal; }
+.breakdown .kv { max-width: 560px; font-size: 13.5px; }
+
+/* Chart */
+.chart { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--muted); font-size: 11px; font-family: var(--font-body); }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .b-fast { fill: color-mix(in srgb, var(--accent) 55%, var(--surface)); }
+.chart .b-till { fill: var(--accent); }
+.chart .b-net { fill: none; stroke: var(--ink); stroke-width: 2; }
+.chart .lbl { fill: var(--ink-2); font-weight: 600; }
+.chart .ref { stroke: var(--warn); stroke-dasharray: 4 3; stroke-width: 1.5; }
+.chart .bar { fill: color-mix(in srgb, var(--accent) 70%, var(--surface)); }
+.chart .bar.over { fill: var(--accent); }
+.key { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; }
+
+/* Picker */
+.sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.28); z-index: 40; }
+.sheet { position: fixed; z-index: 41; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.22); width: 320px; max-width: calc(100vw - 24px); padding: 12px; display: grid; gap: 10px; max-height: min(78vh, 560px); overflow-y: auto; }
+.sheet h3 { font-size: 16px; }
+.sheet .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 6px; }
+.opt { display: grid; gap: 3px; justify-items: start; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: left; }
+.opt:hover { border-color: var(--accent); }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.opt small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .sheet { left: 0 !important; right: 0; bottom: 0; top: auto !important; width: 100%; max-width: none; border-radius: 16px 16px 0 0; padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+}
+
+/* Import */
+.drop { border: 2px dashed var(--line-strong); border-radius: var(--radius); padding: 26px 18px; text-align: center; display: grid; gap: 8px; justify-items: center; background: var(--surface-2); }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.thumbs figure { margin: 0; position: relative; }
+.thumbs img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }
+.thumbs button { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface); font-size: 12px; line-height: 1; padding: 0; }
+.progress { font-size: 13.5px; color: var(--muted); white-space: pre-wrap; max-height: 140px; overflow: auto; font-family: var(--font-mono); background: var(--surface-2); border-radius: 8px; padding: 10px; }
+.diffcell.changed .chip { box-shadow: 0 0 0 2px var(--accent); }
+.diffcell .was { display: block; font-size: 10.5px; color: var(--muted); text-decoration: line-through; font-family: var(--font-mono); }
+textarea.input { min-height: 110px; resize: vertical; font-family: var(--font-mono); font-size: 13px; }
+
+/* Settings */
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line-strong); padding: 0; }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); }
+.codes-table input.input { min-height: 32px; padding: 5px 8px; }
+.codes-table td { padding: 6px 8px; }
+.codes-table input[type="color"] { width: 40px; height: 32px; padding: 2px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface); }
+.w-code { width: 70px; } .w-name { width: 190px; } .w-time { width: 98px; } .w-h { width: 74px; }
+.empty-state { text-align: center; padding: 48px 18px; display: grid; gap: 12px; justify-items: center; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 60; display: flex; gap: 12px; align-items: center; max-width: calc(100vw - 32px); }
+.toast button { background: none; border: 0; color: var(--bg); font-weight: 700; text-decoration: underline; }
+.src { font-size: 12.5px; color: var(--muted); }
+.src a { color: var(--accent); }
+details summary { cursor: pointer; font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) { .day, .btn, .tab, .opt { transition: background-color .12s, border-color .12s, color .12s; } }
+@media (max-width: 560px) { .brand h1 { font-size: 18px; } .next-when { font-size: 22px; } .pay-big { font-size: 28px; } }
+</style>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <h1 id="planTitle">Nathalies turnus</h1>
+      <div class="brand-sub" id="planSub">Laster …</div>
+    </div>
+    <span class="status-pill local" id="saveStatus" role="status"><span class="dot"></span><span id="saveText">Starter</span></span>
+    <nav class="tabs" role="tablist" aria-label="Visninger">
+      <button class="tab" role="tab" data-view="oversikt" aria-selected="true">Oversikt</button>
+      <button class="tab" role="tab" data-view="kalender">Kalender</button>
+      <button class="tab" role="tab" data-view="uker">Uker</button>
+      <button class="tab" role="tab" data-view="lonn">Lønn</button>
+      <button class="tab" role="tab" data-view="importer">Importer plan</button>
+      <button class="tab" role="tab" data-view="oppsett">Oppsett</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="loading" class="panel empty-state"><h2>Henter turnusen …</h2><p class="hint">Et øyeblikk.</p></div>
+  <div id="emptyPlan" class="panel empty-state" hidden>
+    <h2>Ingen turnus lagret ennå</h2>
+    <p class="hint">Last opp bilder eller en skjermdump av den endelige turnusplanen, så leser Claude den inn for deg. Du kan også starte med utkastet fra den gamle appen.</p>
+    <div class="btn-row"><button class="btn primary" data-goto="importer">Importer turnusplan</button><button class="btn" id="useDraftBtn">Bruk utkastet (jul–des 2026)</button></div>
+  </div>
+
+  <section class="view" id="view-oversikt" hidden></section>
+  <section class="view" id="view-kalender" hidden></section>
+  <section class="view" id="view-uker" hidden></section>
+  <section class="view" id="view-lonn" hidden></section>
+  <section class="view" id="view-importer" hidden></section>
+  <section class="view" id="view-oppsett" hidden></section>
+</main>
+
+<div id="pickerLayer" hidden>
+  <div class="sheet-backdrop" id="pickerBackdrop"></div>
+  <div class="sheet" id="picker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle"></div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+'use strict';
+/* ============================================================
+   DATA: utkastet fra den gamle appen (ikke endelig plan)
+   ============================================================ */
+const LEGACY_WEEKS = [
+  ['2026-07-20',35,['D','','D','D','D','','']],['2026-07-27',28,['D','D','D','D','','F1','']],
+  ['2026-08-03',44,['A','','','F1','','LA','LA']],['2026-08-10',28.5,['','D','D4','D','D','','F1']],
+  ['2026-08-17',36,['A','D','D4','D','','','F1']],['2026-08-24',35.5,['D','D','D4','D','D','','F1']],
+  ['2026-08-31',49.5,['','F1','','D','AK','LY','LY']],['2026-09-07',21.5,['','D4','','D','D','','F1']],
+  ['2026-09-14',36.5,['A','A','D4','D','D','','F1']],['2026-09-21',35.5,['D','D','D4','D','D','','F1']],
+  ['2026-09-28',50,['A','D2','A','F1','','LA','LA']],['2026-10-05',35.5,['','','','','','','F1']],
+  ['2026-10-12',29,['','A','D4','D','D','','F1']],['2026-10-19',35.5,['D','D','D4','D','D','','F1']],
+  ['2026-10-26',44,['A','A','F1','','','LL','LL']],['2026-11-02',21.5,['','D4','D','','D','','F1']],
+  ['2026-11-09',36.5,['D','D','A','A','A','','F1']],['2026-11-16',35.5,['D','D','D4','D','D','','F1']],
+  ['2026-11-23',50,['D2','F1','D4','','D','LA','LA']],['2026-11-30',21.5,['','D4','D','D','','','F1']],
+  ['2026-12-07',36.5,['A','A','D4','D','D','','F1']],['2026-12-14',35.5,['D','D','D4','D','D','','F1']],
+  ['2026-12-21',50,['D','D','D','F1','','LL','LL']],['2026-12-28',21,['D','D','D','F1','D','','']],
+];
+const DEFAULT_CODES = {
+  D:  { name: 'Dagvakt', start: '07:30', end: '15:00', hours: 7, kind: 'dag' },
+  D1: { name: 'Dagvakt', start: '07:30', end: '15:15', hours: 7.25, kind: 'dag' },
+  D2: { name: 'Dagvakt', start: '07:30', end: '14:30', hours: 6.5, kind: 'dag' },
+  D4: { name: 'Dagvakt', start: '07:30', end: '15:00', hours: 7.5, kind: 'dag' },
+  A:  { name: 'Aftenvakt', start: '15:00', end: '22:30', hours: 7.5, kind: 'kveld' },
+  AK: { name: 'Kort aftenvakt før langvakt', start: '15:00', end: '21:00', hours: 6, kind: 'kveld' },
+  LA: { name: 'Mellomvakt', start: '07:45', end: '22:15', hours: 14.5, kind: 'lang' },
+  LL: { name: 'Langvakt', start: '07:30', end: '22:00', hours: 14.5, kind: 'lang' },
+  LY: { name: 'Langvakt etter AK', start: '08:00', end: '22:30', hours: 14.5, kind: 'lang' },
+  F1: { name: 'Ukefridag', start: '', end: '', hours: 0, kind: 'fri' },
+};
+/* KS HTA kap. 1 § 5 (minstesatser). Satsene endret 1.10.2026. */
+const DEFAULT_RATES = [
+  { from: '2024-05-01', kveldPct: 20, kveldMin: 56, nattPct: 25, nattMin: 70, helgPct: 22, helgMin: 70 },
+  { from: '2026-10-01', kveldPct: 20, kveldMin: 60, nattPct: 25, nattMin: 70, helgPct: 23, helgMin: 73 },
+];
+const DEFAULT_SALARY = { annual: 528300, pct: 100, divisor: 1850, fullWeek: 35.5, taxPct: 28, decHalf: true, lag: true, payDay: 20, langKr: 0, hoytidPct: 133.33, rates: DEFAULT_RATES };
+const KINDS = { dag: 'Dagvakt', kveld: 'Kveldsvakt', lang: 'Lang-/mellomvakt', natt: 'Nattevakt', fri: 'Fridag', ferie: 'Ferie/permisjon', annet: 'Annet' };
+const ACCENTS = { teal: ['#0f7a6a', '#46c2aa'], blue: ['#2563c9', '#7aa8ff'], plum: ['#8a3f9e', '#d39be6'], coral: ['#c2462e', '#ff9a83'], forest: ['#3b6e1f', '#9bd17a'], graphite: ['#36454f', '#b5c3cc'] };
+const ACCENT_NAMES = { teal: 'Havgrønn', blue: 'Blå', plum: 'Plomme', coral: 'Korall', forest: 'Skog', graphite: 'Grafitt' };
+const DEFAULT_PREFS = { theme: 'system', accent: 'teal', density: 'normal', showTimes: true, calView: 'month', codeColors: {} };
+
+function legacyState() {
+  const entries = {}, weekTS = {};
+  LEGACY_WEEKS.forEach(([start, ts, shifts]) => {
+    weekTS[start] = ts;
+    shifts.forEach((c, i) => { if (c) entries[toIso(addDays(parseIso(start), i))] = c; });
+  });
+  return {
+    v: 2,
+    meta: { name: 'Årsturnus 2026 – Sandåker, Nathalie', unit: 'Hjemmesykepleien · Sone Klokkeråsen', employer: 'Tønsberg kommune', status: 'utkast', note: 'Utkast fra gammel app – vaktene er tolket av ChatGPT og ikke kontrollert.', weekTS },
+    entries, original: { ...entries }, codes: JSON.parse(JSON.stringify(DEFAULT_CODES)),
+    salary: JSON.parse(JSON.stringify(DEFAULT_SALARY)),
+  };
+}
+
+/* ============================================================
+   DATO-HJELPERE OG HELLIGDAGER
+   ============================================================ */
+const MONTHS = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+const DOW = ['Man','Tir','Ons','Tor','Fre','Lør','Søn'];
+const DOW_LONG = ['mandag','tirsdag','onsdag','torsdag','fredag','lørdag','søndag'];
+function parseIso(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); }
+function toIso(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+function dowIdx(d) { return (d.getDay() + 6) % 7; }
+function mondayOf(d) { return addDays(d, -dowIdx(d)); }
+function isoWeek(d) { const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return Math.ceil(((t - y0) / 864e5 + 1) / 7); }
+function ym(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; }
+function ymAdd(k, n) { const [y, m] = k.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return ym(d); }
+function ymLabel(k, short) { const [y, m] = k.split('-').map(Number); const n = MONTHS[m - 1]; return short ? n.slice(0, 3) : `${n[0].toUpperCase()}${n.slice(1)} ${y}`; }
+function fmtDM(d) { return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}`; }
+function todayIso() { return toIso(new Date()); }
+const holidayCache = {};
+function easter(y) {
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3),
+    h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451),
+    mo = Math.floor((h + l - 7 * m + 114) / 31), da = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, mo - 1, da);
+}
+/* Helligdager hele døgnet, og aftener med høytidstillegg fra kl. 12 */
+function holidays(y) {
+  if (holidayCache[y]) return holidayCache[y];
+  const e = easter(y), full = {}, eve = {};
+  const add = (d, n) => full[toIso(d)] = n;
+  add(new Date(y, 0, 1), 'Nyttårsdag'); add(addDays(e, -3), 'Skjærtorsdag'); add(addDays(e, -2), 'Langfredag');
+  add(e, '1. påskedag'); add(addDays(e, 1), '2. påskedag'); add(new Date(y, 4, 1), 'Arbeidernes dag');
+  add(new Date(y, 4, 17), 'Grunnlovsdag'); add(addDays(e, 39), 'Kristi himmelfartsdag');
+  add(addDays(e, 49), '1. pinsedag'); add(addDays(e, 50), '2. pinsedag');
+  add(new Date(y, 11, 25), '1. juledag'); add(new Date(y, 11, 26), '2. juledag');
+  eve[toIso(addDays(e, -1))] = 'Påskeaften'; eve[toIso(addDays(e, 48))] = 'Pinseaften';
+  eve[toIso(new Date(y, 11, 24))] = 'Julaften'; eve[toIso(new Date(y, 11, 31))] = 'Nyttårsaften';
+  return holidayCache[y] = { full, eve };
+}
+function holidayName(iso) { const h = holidays(+iso.slice(0, 4)); return h.full[iso] || h.eve[iso] || ''; }
+function isFullHoliday(iso) { return !!holidays(+iso.slice(0, 4)).full[iso]; }
+
+/* ============================================================
+   FORMATERING
+   ============================================================ */
+const nf0 = new Intl.NumberFormat('nb-NO', { maximumFractionDigits: 0 });
+const nf1 = new Intl.NumberFormat('nb-NO', { maximumFractionDigits: 2 });
+const kr = n => `${nf0.format(Math.round(n))} kr`;
+const hrs = n => `${nf1.format(Math.round(n * 100) / 100)} t`;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* ============================================================
+   TILSTAND
+   ============================================================ */
+let state = null;           // delt turnus (plan, koder, lønn)
+let prefs = { ...DEFAULT_PREFS };
+let currentView = 'oversikt';
+let calMonth = null;        // 'YYYY-MM'
+let weekFilter = 'all';
+let openPayRow = null;
+const undoStack = [];
+const LS_STATE = 'nathalie-turnus.state.v2', LS_PREFS = 'nathalie-turnus.prefs.v2';
+function lsGet(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+function normalize(s) {
+  if (!s || typeof s !== 'object') return null;
+  const out = clone(s);
+  out.meta = Object.assign({ name: 'Turnus', unit: '', employer: '', status: 'utkast', note: '', weekTS: {} }, out.meta || {});
+  out.meta.weekTS = out.meta.weekTS || {};
+  out.entries = out.entries || {};
+  out.original = out.original || {};
+  out.codes = out.codes && Object.keys(out.codes).length ? out.codes : clone(DEFAULT_CODES);
+  out.salary = Object.assign(clone(DEFAULT_SALARY), out.salary || {});
+  if (!Array.isArray(out.salary.rates) || !out.salary.rates.length) out.salary.rates = clone(DEFAULT_RATES);
+  return out;
+}
+
+/* ============================================================
+   LAGRING: delt database i Claude, ellers nettleseren
+   ============================================================ */
+const store = { mode: 'local', ref: null, prefsRef: null, writing: false, again: false, timer: null, prefsTimer: null, downloads: null, sample: null, canWrite: true };
+function setStatus(kind, text) {
+  const el = document.getElementById('saveStatus');
+  el.className = 'status-pill ' + kind;
+  document.getElementById('saveText').textContent = text;
+}
+function persist() {
+  lsSet(LS_STATE, state);
+  if (store.mode !== 'db') { setStatus('local', 'Lagret i denne nettleseren'); return; }
+  setStatus('saving', 'Lagrer …');
+  clearTimeout(store.timer);
+  store.timer = setTimeout(flush, 700);
+}
+async function flush() {
+  store.timer = null;
+  if (store.writing) { store.again = true; return; }
+  store.writing = true;
+  try { await store.ref.set(clone(state)); setStatus('saved', 'Lagret'); }
+  catch (e) { setStatus('error', e?.code === 'permission_denied' || e?.code === 'not_granted' ? 'Du har bare lesetilgang' : 'Kunne ikke lagre'); }
+  store.writing = false;
+  if (store.again) { store.again = false; flush(); }
+}
+function persistPrefs() {
+  lsSet(LS_PREFS, prefs);
+  if (!store.prefsRef) return;
+  clearTimeout(store.prefsTimer);
+  store.prefsTimer = setTimeout(() => store.prefsRef.set(clone(prefs)).catch(() => {}), 800);
+}
+
+async function boot() {
+  prefs = Object.assign({}, DEFAULT_PREFS, lsGet(LS_PREFS) || {});
+  applyPrefs();
+  bindChrome();
+  const hasClaude = !!(window.claude && typeof window.claude.use === 'function');
+  if (!hasClaude) { startLocal(); return; }
+  // Funksjoner som ikke trengs for første visning lastes i bakgrunnen.
+  window.claude.use('downloads').then(d => { store.downloads = d; }).catch(() => {});
+  window.claude.use('sample').then(s => { store.sample = s; if (currentView === 'importer') renderImport(); }).catch(() => {});
+  let db = null;
+  try { db = await window.claude.use('db'); } catch {}
+  if (!db) { startLocal(); return; }
+  store.mode = 'db';
+  store.ref = db.doc('turnus/main');
+  try {
+    const user = await window.claude.use('user');
+    const id = user ? await user.id() : null;
+    if (id) {
+      store.prefsRef = db.doc(`data/users/${id}/prefs`);
+      store.prefsRef.get().then(snap => { if (snap.exists) { prefs = Object.assign({}, DEFAULT_PREFS, snap.data()); lsSet(LS_PREFS, prefs); applyPrefs(); renderAll(); } }).catch(() => {});
+    }
+  } catch {}
+  let settled = false;
+  const slow = setTimeout(() => { if (!settled) { setStatus('error', 'Får ikke kontakt – viser lokal kopi'); const cached = normalize(lsGet(LS_STATE)); if (cached && !state) { state = cached; renderAll(); } } }, 10000);
+  store.ref.onSnapshot(snap => {
+    if (store.writing || store.timer) return; // egne endringer på vei
+    if (!snap.metadata.fromCache) { settled = true; clearTimeout(slow); }
+    if (snap.exists) { state = normalize(snap.data()); lsSet(LS_STATE, state); setStatus('saved', 'Lagret'); }
+    else if (!snap.metadata.fromCache) { state = null; setStatus('saved', 'Klar'); }
+    renderAll();
+  }, err => { settled = true; clearTimeout(slow); setStatus('error', 'Ikke tilkoblet – viser lokal kopi'); store.mode = 'local'; state = normalize(lsGet(LS_STATE)) || legacyState(); renderAll(); });
+}
+function startLocal() {
+  store.mode = 'local';
+  state = normalize(lsGet(LS_STATE)) || legacyState();
+  setStatus('local', 'Lagret i denne nettleseren');
+  renderAll();
+}
+
+/* ============================================================
+   BEREGNINGER
+   ============================================================ */
+function codeOf(c) { return state.codes[c]; }
+function isWork(c) { const k = codeOf(c); return !!k && k.hours > 0; }
+function kindClass(c) {
+  if (!c) return 'empty';
+  const k = codeOf(c);
+  if (!k) return 'unknown';
+  return 'k-' + (k.kind || 'annet');
+}
+function chip(c, extra = '') {
+  if (!c) return `<span class="chip empty ${extra}">–</span>`;
+  const col = prefs.codeColors?.[c];
+  if (col) return `<span class="chip custom ${extra}" style="--cc:${esc(col)}">${esc(c)}</span>`;
+  return `<span class="chip ${kindClass(c)} ${extra}">${esc(c)}</span>`;
+}
+function timeRange(c) { const k = codeOf(c); return k && k.start && k.end ? `${k.start}–${k.end}` : ''; }
+function toMin(t) { if (!t || !/^\d{1,2}:\d{2}$/.test(t)) return null; const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+function rateFor(iso) { const rs = [...state.salary.rates].sort((a, b) => a.from.localeCompare(b.from)); let r = rs[0]; for (const x of rs) if (x.from <= iso) r = x; return r; }
+function hourly() { return state.salary.annual / (state.salary.divisor || 1850); }
+
+/* Tillegg for én vakt, minutt-for-minutt (5-min oppløsning). Ulønnet pause trekkes fra forholdsmessig. */
+function shiftPay(iso, c) {
+  const k = codeOf(c);
+  const res = { hours: 0, kveld: 0, natt: 0, helg: 0, hoytid: 0, lang: 0, amt: { kveld: 0, natt: 0, helg: 0, hoytid: 0, lang: 0 } };
+  if (!k || !(k.hours > 0)) return res;
+  res.hours = +k.hours;
+  const s = toMin(k.start), e0 = toMin(k.end);
+  const tl = hourly(), sal = state.salary;
+  if (k.kind === 'lang') { res.lang = res.hours; res.amt.lang = res.hours * (+sal.langKr || 0); }
+  if (s == null || e0 == null) return res;
+  const e = e0 <= s ? e0 + 1440 : e0;
+  const ratio = res.hours / ((e - s) / 60);
+  const base = parseIso(iso);
+  for (let m = s; m < e; m += 5) {
+    const mid = m + 2.5, dayOff = Math.floor(mid / 1440), minOfDay = mid - dayOff * 1440;
+    const d = addDays(base, dayOff), dIso = toIso(d), h = minOfDay / 60, part = (5 / 60) * ratio;
+    const r = rateFor(dIso);
+    if (h >= 17 && h < 21) { res.kveld += part; res.amt.kveld += part * Math.max(tl * r.kveldPct / 100, r.kveldMin); }
+    if (h >= 21 || h < 6) { res.natt += part; res.amt.natt += part * Math.max(tl * r.nattPct / 100, r.nattMin); }
+    const wd = d.getDay();
+    if (wd === 6 || wd === 0) { res.helg += part; res.amt.helg += part * Math.max(tl * r.helgPct / 100, r.helgMin); }
+    const hd = holidays(d.getFullYear());
+    if (hd.full[dIso] || (hd.eve[dIso] && h >= 12)) { res.hoytid += part; res.amt.hoytid += part * tl * (+sal.hoytidPct || 0) / 100; }
+  }
+  return res;
+}
+function planRange() {
+  const keys = Object.keys(state.entries).filter(k => state.entries[k]).sort();
+  if (!keys.length) return null;
+  return { first: keys[0], last: keys[keys.length - 1] };
+}
+function planMonths() {
+  const r = planRange(); if (!r) return [];
+  const out = []; let k = r.first.slice(0, 7); const end = r.last.slice(0, 7);
+  while (k <= end) { out.push(k); k = ymAdd(k, 1); }
+  return out;
+}
+function monthAgg(k) {
+  const agg = { hours: 0, shifts: 0, weekend: 0, holidayShifts: [], kveld: 0, natt: 0, helg: 0, hoytid: 0, lang: 0, amt: { kveld: 0, natt: 0, helg: 0, hoytid: 0, lang: 0 }, unknown: new Set() };
+  for (const [iso, c] of Object.entries(state.entries)) {
+    if (!c || iso.slice(0, 7) !== k) continue;
+    if (!codeOf(c)) { agg.unknown.add(c); continue; }
+    const p = shiftPay(iso, c);
+    if (p.hours > 0) {
+      agg.shifts++; agg.hours += p.hours;
+      const wd = parseIso(iso).getDay(); if (wd === 0 || wd === 6) agg.weekend++;
+      if (holidayName(iso)) agg.holidayShifts.push({ iso, c, name: holidayName(iso) });
+    }
+    for (const f of ['kveld', 'natt', 'helg', 'hoytid', 'lang']) { agg[f] += p[f]; agg.amt[f] += p.amt[f]; }
+  }
+  agg.tillegg = Object.values(agg.amt).reduce((a, b) => a + b, 0);
+  return agg;
+}
+function payroll() {
+  const months = planMonths(); if (!months.length) return [];
+  const sal = state.salary, fast = sal.annual * (sal.pct / 100) / 12;
+  const list = sal.lag ? [...months, ymAdd(months[months.length - 1], 1)] : months;
+  const aggs = Object.fromEntries(months.map(m => [m, monthAgg(m)]));
+  return list.map(m => {
+    const earnedIn = sal.lag ? ymAdd(m, -1) : m;
+    const a = aggs[earnedIn];
+    const tillegg = a ? a.tillegg : 0;
+    const inPlan = !!aggs[m];
+    const fastPart = inPlan ? fast : 0; // måneden etter planen: kun etterbetalte tillegg vises
+    const brutto = fastPart + tillegg;
+    const taxPct = sal.taxPct / 100 * (sal.decHalf && m.endsWith('-12') ? 0.5 : 1);
+    const skatt = brutto * taxPct;
+    const [y, mm] = m.split('-').map(Number);
+    const payDate = new Date(y, mm - 1, Math.min(+sal.payDay || 20, 28));
+    return { m, earnedIn: a ? earnedIn : null, agg: aggs[m] || null, tilleggAgg: a || null, fast: fastPart, tillegg, brutto, skatt, netto: brutto - skatt, taxPct, payDate, onlyTillegg: !inPlan };
+  });
+}
+function weeksInPlan() {
+  const r = planRange(); if (!r) return [];
+  const out = []; let d = mondayOf(parseIso(r.first)); const end = parseIso(r.last);
+  while (d <= end) { out.push(toIso(d)); d = addDays(d, 7); }
+  return out;
+}
+function weekData(mon) {
+  const d0 = parseIso(mon); let hours = 0; const days = [];
+  for (let i = 0; i < 7; i++) { const iso = toIso(addDays(d0, i)); const c = state.entries[iso] || ''; days.push({ iso, c }); if (codeOf(c)) hours += +codeOf(c).hours || 0; }
+  const ts = state.meta.weekTS?.[mon];
+  return { mon, days, hours, ts: ts == null || ts === '' ? null : +ts, mismatch: ts != null && ts !== '' && Math.abs(+ts - hours) > 0.01 };
+}
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+function renderAll() {
+  document.getElementById('loading').hidden = true;
+  const empty = !state || !Object.keys(state.entries || {}).length;
+  document.getElementById('emptyPlan').hidden = !(empty && currentView !== 'importer' && currentView !== 'oppsett');
+  if (state) {
+    document.getElementById('planTitle').textContent = state.meta.name || 'Turnus';
+    const r = planRange();
+    const span = r ? `${fmtDM(parseIso(r.first))}.${r.first.slice(0, 4)} – ${fmtDM(parseIso(r.last))}.${r.last.slice(0, 4)}` : 'ingen vakter';
+    document.getElementById('planSub').textContent = [state.meta.unit, state.meta.employer, span, state.meta.status === 'endelig' ? 'Endelig plan' : 'Utkast'].filter(Boolean).join(' · ');
+  } else {
+    document.getElementById('planTitle').textContent = 'Nathalies turnus';
+    document.getElementById('planSub').textContent = 'Ingen plan lagret';
+  }
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === currentView)));
+  document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== 'view-' + currentView || (empty && !['importer', 'oppsett'].includes(currentView)));
+  if (!state && !['importer', 'oppsett'].includes(currentView)) return;
+  const fn = { oversikt: renderOverview, kalender: renderCalendar, uker: renderWeeks, lonn: renderPay, importer: renderImport, oppsett: renderSettings }[currentView];
+  if (state || currentView === 'importer') fn();
+  else if (currentView === 'oppsett') document.getElementById('view-oppsett').innerHTML = '<div class="panel">Importer eller start en plan først.</div>';
+}
+
+function draftBanner() {
+  if (state.meta.status === 'endelig') return '';
+  return `<div class="banner"><div class="grow"><strong>Dette er et utkast.</strong> ${esc(state.meta.note || 'Vaktene er ikke kontrollert mot den endelige planen.')} Last opp den endelige turnusen for å få riktige tall.</div><button class="btn" data-goto="importer">Importer endelig plan</button></div>`;
+}
+
+function renderOverview() {
+  const el = document.getElementById('view-oversikt');
+  const today = todayIso();
+  const keys = Object.keys(state.entries).filter(k => state.entries[k] && isWork(state.entries[k])).sort();
+  const nextIso = keys.find(k => k >= today);
+  const r = planRange();
+  let nextHtml;
+  if (nextIso) {
+    const c = state.entries[nextIso], d = parseIso(nextIso), k = codeOf(c);
+    const diff = Math.round((d - parseIso(today)) / 864e5);
+    const when = diff === 0 ? 'I dag' : diff === 1 ? 'I morgen' : `${DOW_LONG[dowIdx(d)][0].toUpperCase()}${DOW_LONG[dowIdx(d)].slice(1)} ${d.getDate()}. ${MONTHS[d.getMonth()]}`;
+    const col = prefs.codeColors?.[c];
+    nextHtml = `<div class="next-main"><span class="chip ${col ? 'custom' : kindClass(c)} next-code" ${col ? `style="--cc:${esc(col)}"` : ''}>${esc(c)}</span>
+      <div><div class="eyebrow">Neste vakt</div><div class="next-when">${when}</div><div class="next-time num">${esc(k.name)} · ${timeRange(c) || '–'} · ${hrs(k.hours)}${holidayName(nextIso) ? ` · <strong style="color:var(--warn)">${esc(holidayName(nextIso))}</strong>` : ''}</div></div></div>`;
+  } else {
+    nextHtml = `<div><div class="eyebrow">Neste vakt</div><div class="next-when">${r && r.last < today ? 'Planen er utløpt' : 'Ingen kommende vakter'}</div><div class="next-time">${r && r.last < today ? `Siste vakt var ${fmtDM(parseIso(r.last))}.${r.last.slice(0, 4)}. Importer neste turnus.` : ''}</div></div>`;
+  }
+  // denne uka (eller planens første uke hvis i dag er utenfor planen)
+  let mon = mondayOf(parseIso(today));
+  if (r && (toIso(addDays(mon, 6)) < r.first || toIso(mon) > r.last)) mon = mondayOf(parseIso(nextIso || r.first));
+  const strip = Array.from({ length: 7 }, (_, i) => { const d = addDays(mon, i), iso = toIso(d), c = state.entries[iso] || ''; return `<div class="d ${iso === today ? 'today' : ''}"><span>${DOW[i]}</span><b class="num">${d.getDate()}</b>${chip(c)}</div>`; }).join('');
+
+  const months = planMonths();
+  const curM = months.includes(today.slice(0, 7)) ? today.slice(0, 7) : (nextIso ? nextIso.slice(0, 7) : months[0]);
+  const a = monthAgg(curM);
+  const weeks = weeksInPlan().map(weekData);
+  const mism = weeks.filter(w => w.mismatch);
+  const pr = payroll();
+  const nextPay = pr.find(p => toIso(p.payDate) >= today) || pr[pr.length - 1];
+  const sal = state.salary;
+  const totalHours = weeks.reduce((s, w) => s + w.hours, 0);
+  const expected = weeks.length * sal.fullWeek * sal.pct / 100;
+
+  el.innerHTML = `
+    ${draftBanner()}
+    ${mism.length ? `<div class="banner bad"><div class="grow"><strong>${mism.length} uker stemmer ikke med timesummen i planen.</strong> Vaktene gir andre timer enn TS-kolonnen, f.eks. uke ${isoWeek(parseIso(mism[0].mon))}: ${hrs(mism[0].hours)} mot ${hrs(mism[0].ts)}. Det tyder på at vakter mangler eller er lest feil.</div><button class="btn" data-goto="uker">Se ukene</button></div>` : ''}
+    <div class="hero">
+      <div class="panel next">${nextHtml}<div><div class="eyebrow" style="margin-bottom:6px">Uke ${isoWeek(mon)}</div><div class="weekstrip">${strip}</div></div></div>
+      <div class="panel pay">
+        ${nextPay ? `<div class="eyebrow">Neste utbetaling · ${nextPay.payDate.getDate()}. ${MONTHS[nextPay.payDate.getMonth()]}</div>
+        <div class="pay-big">${kr(nextPay.netto)}</div><div class="hint">estimert netto utbetalt</div>
+        <div class="kv"><span>Fast månedslønn</span><span>${kr(nextPay.fast)}</span>
+        <span>Tillegg ${nextPay.earnedIn ? 'for ' + MONTHS[+nextPay.earnedIn.slice(5) - 1] : ''}</span><span>${kr(nextPay.tillegg)}</span>
+        <span>Skattetrekk ${nf1.format(nextPay.taxPct * 100)} %</span><span>− ${kr(nextPay.skatt)}</span></div>
+        <button class="btn ghost" data-goto="lonn" style="justify-self:start;padding-left:0">Se hele lønnsoversikten →</button>` : '<div class="hint">Ingen lønnsdata.</div>'}
+      </div>
+    </div>
+    <div>
+      <div class="panel-head"><h2>${ymLabel(curM)}</h2><span class="hint">tall for måneden</span></div>
+      <div class="stats">
+        <div class="stat accent"><span class="eyebrow">Timer</span><span class="v">${nf1.format(a.hours)}</span><span class="s">${a.shifts} vakter</span></div>
+        <div class="stat"><span class="eyebrow">Helgevakter</span><span class="v">${a.weekend}</span><span class="s">${hrs(a.helg)} med helgetillegg</span></div>
+        <div class="stat"><span class="eyebrow">Kveld og natt</span><span class="v">${nf1.format(a.kveld + a.natt)}</span><span class="s">timer etter kl. 17</span></div>
+        <div class="stat ${a.holidayShifts.length ? 'warn' : 'good'}"><span class="eyebrow">Helligdager</span><span class="v">${a.holidayShifts.length}</span><span class="s">${a.holidayShifts.length ? a.holidayShifts.map(h => esc(h.name)).join(', ') : 'ingen vakter'}</span></div>
+        <div class="stat"><span class="eyebrow">Tillegg opptjent</span><span class="v" style="font-size:22px">${kr(a.tillegg)}</span><span class="s">utbetales ${sal.lag ? 'måneden etter' : 'samme måned'}</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Timer per uke</h2><span class="hint">Totalt ${hrs(totalHours)} i planen. Forventet ved ${nf1.format(sal.pct)} % stilling er ${hrs(expected)} (${nf1.format(sal.fullWeek * sal.pct / 100)} t/uke).</span></div>
+      <div class="key"><span><i style="background:var(--accent)"></i>over snittet</span><span><i style="background:color-mix(in srgb, var(--accent) 70%, var(--surface))"></i>under</span><span><i style="background:var(--warn);height:2px;vertical-align:3px"></i>${nf1.format(sal.fullWeek * sal.pct / 100)} t</span></div></div>
+      ${weekChart(weeks)}
+    </div>`;
+}
+
+function weekChart(weeks) {
+  if (!weeks.length) return '';
+  const W = 1000, H = 220, padL = 34, padB = 26, padT = 12, innerW = W - padL - 6, innerH = H - padB - padT;
+  const target = state.salary.fullWeek * state.salary.pct / 100;
+  const max = Math.max(60, ...weeks.map(w => w.hours));
+  const step = innerW / weeks.length, bw = Math.max(4, step * 0.68);
+  const y = v => padT + innerH - (v / max) * innerH;
+  let g = '';
+  for (let v = 0; v <= max; v += 10) g += `<line class="grid" x1="${padL}" x2="${W - 6}" y1="${y(v)}" y2="${y(v)}"/><text x="${padL - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  const bars = weeks.map((w, i) => {
+    const x = padL + i * step + (step - bw) / 2, h = Math.max(0, innerH - (y(w.hours) - padT));
+    const lbl = (i % Math.ceil(weeks.length / 16) === 0) ? `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${isoWeek(parseIso(w.mon))}</text>` : '';
+    return `<rect class="bar ${w.hours > target ? 'over' : ''}" x="${x}" y="${y(w.hours)}" width="${bw}" height="${h}" rx="2"><title>Uke ${isoWeek(parseIso(w.mon))}: ${nf1.format(w.hours)} t</title></rect>${lbl}`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Timer per uke">${g}${bars}<line class="ref" x1="${padL}" x2="${W - 6}" y1="${y(target)}" y2="${y(target)}"/></svg>`;
+}
+
+function renderCalendar() {
+  const el = document.getElementById('view-kalender');
+  const months = planMonths();
+  if (!calMonth || !months.includes(calMonth)) { const t = todayIso().slice(0, 7); calMonth = months.includes(t) ? t : months[0]; }
+  const [y, m] = calMonth.split('-').map(Number);
+  const first = new Date(y, m - 1, 1), start = mondayOf(first), today = todayIso();
+  const lastDay = new Date(y, m, 0);
+  const end = addDays(mondayOf(lastDay), 6);
+  let cells = DOW.map(d => `<div class="dow">${d}</div>`).join('');
+  cells = '<div></div>' + cells;
+  for (let d = new Date(start); d <= end; d = addDays(d, 1)) {
+    if (dowIdx(d) === 0) cells += `<div class="wk">Uke ${isoWeek(d)}</div>`;
+    const iso = toIso(d), c = state.entries[iso] || '', hn = holidayName(iso), other = d.getMonth() !== m - 1;
+    const edited = state.original && (state.original[iso] || '') !== c && Object.keys(state.original).length;
+    const cls = ['day', other ? 'other' : '', dowIdx(d) >= 5 ? 'weekend' : '', hn ? 'holiday' : '', iso === today ? 'today' : ''].join(' ');
+    cells += `<button class="${cls}" data-edit="${iso}" aria-label="${d.getDate()}. ${MONTHS[d.getMonth()]}: ${c || 'ingen vakt'}${hn ? ', ' + hn : ''}">
+      <span class="dn"><span>${d.getDate()}</span></span>${hn ? `<span class="hn">${esc(hn)}</span>` : ''}
+      ${c || !other ? chip(c) : ''}${c && timeRange(c) ? `<span class="tm">${timeRange(c)}</span>` : ''}${edited ? '<span class="edited" title="Endret av deg"></span>' : ''}</button>`;
+  }
+  const a = monthAgg(calMonth);
+  const idx = months.indexOf(calMonth);
+  el.innerHTML = `
+    ${draftBanner()}
+    <div class="panel">
+      <div class="cal-head">
+        <div class="btn-row"><button class="btn" id="calPrev" ${idx <= 0 ? 'disabled' : ''} aria-label="Forrige måned">←</button>
+        <span class="cal-title">${ymLabel(calMonth)}</span>
+        <button class="btn" id="calNext" ${idx >= months.length - 1 ? 'disabled' : ''} aria-label="Neste måned">→</button></div>
+        <div class="btn-row"><button class="btn" id="calToday">I dag</button><button class="btn" id="undoBtn" ${undoStack.length ? '' : 'disabled'}>Angre</button></div>
+      </div>
+      <div class="month-sum" style="margin:12px 0"><span>Timer <b>${nf1.format(a.hours)}</b></span><span>Vakter <b>${a.shifts}</b></span><span>Helgevakter <b>${a.weekend}</b></span><span>Timer etter kl. 17 <b>${nf1.format(a.kveld + a.natt)}</b></span><span>Tillegg <b>${kr(a.tillegg)}</b></span></div>
+      <div class="cal-scroll"><div class="cal">${cells}</div></div>
+      <p class="hint" style="margin:12px 0 0">Trykk på en dag for å endre vakten. Endringer lagres med en gang. Prikken øverst til høyre viser dager du har endret.</p>
+    </div>
+    <div class="legend">${legendHtml()}</div>`;
+  el.querySelector('#calPrev').onclick = () => { calMonth = months[idx - 1]; renderCalendar(); };
+  el.querySelector('#calNext').onclick = () => { calMonth = months[idx + 1]; renderCalendar(); };
+  el.querySelector('#calToday').onclick = () => { const t = todayIso().slice(0, 7); if (months.includes(t)) { calMonth = t; renderCalendar(); } else toast('I dag er utenfor planen.'); };
+  el.querySelector('#undoBtn').onclick = undo;
+}
+function legendHtml() {
+  const used = new Set(Object.values(state.entries));
+  return Object.entries(state.codes).filter(([c]) => used.has(c)).map(([c, k]) => `<span>${chip(c)} ${esc(k.name)}${k.start ? ` ${k.start}–${k.end}` : ''} · ${hrs(k.hours)}</span>`).join('') +
+    `<span><span class="chip" style="--c:var(--warn);--cb:var(--warn-soft)">H</span> Helligdag</span>`;
+}
+
+function renderWeeks() {
+  const el = document.getElementById('view-uker');
+  const months = planMonths();
+  const all = weeksInPlan().map(weekData);
+  const list = weekFilter === 'all' ? all : all.filter(w => w.days.some(d => d.iso.startsWith(weekFilter)));
+  const anyTS = all.some(w => w.ts != null);
+  const rows = list.map(w => {
+    const hol = w.days.some(d => holidayName(d.iso) && isWork(d.c));
+    return `<tr class="${hol ? 'hl' : ''}"><td class="wk-cell">Uke ${isoWeek(parseIso(w.mon))}</td><td class="num">${fmtDM(parseIso(w.mon))}–${fmtDM(addDays(parseIso(w.mon), 6))}</td>
+      ${w.days.map(d => `<td class="c"><button class="cellbtn editable" data-edit="${d.iso}" title="${esc(holidayName(d.iso))}">${chip(d.c)}</button>${holidayName(d.iso) ? ' <span class="mismatch" title="' + esc(holidayName(d.iso)) + '">H</span>' : ''}</td>`).join('')}
+      <td class="r">${nf1.format(w.hours)}</td>${anyTS ? `<td class="r">${w.ts == null ? '–' : `<span class="${w.mismatch ? 'mismatch' : 'ok'}" title="${w.mismatch ? 'Stemmer ikke med vaktene' : 'Stemmer'}">${nf1.format(w.ts)}${w.mismatch ? ' ⚠' : ' ✓'}</span>`}</td>` : ''}</tr>`;
+  }).join('');
+  const mism = all.filter(w => w.mismatch).length;
+  el.innerHTML = `
+    ${draftBanner()}
+    <div class="panel-head"><div class="month-filter">
+      <button class="pillbtn" data-wf="all" aria-pressed="${weekFilter === 'all'}">Alle</button>
+      ${months.map(m => `<button class="pillbtn" data-wf="${m}" aria-pressed="${weekFilter === m}">${ymLabel(m, true)}${months[0].slice(0, 4) !== months[months.length - 1].slice(0, 4) ? ' ' + m.slice(2, 4) : ''}</button>`).join('')}
+    </div><button class="btn" id="undoBtn2" ${undoStack.length ? '' : 'disabled'}>Angre</button></div>
+    ${anyTS ? `<p class="hint" style="margin:0">«Timer» er regnet ut fra vaktkodene. «TS» er timesummen som står i planen. ${mism ? `<strong class="mismatch">${mism} uker avviker.</strong> Da mangler det sannsynligvis vakter, eller koder er lest feil.` : '<span class="ok">Alle uker stemmer.</span>'}</p>` : ''}
+    <div class="table-wrap"><table>
+      <thead><tr><th>Uke</th><th>Periode</th>${DOW.map(d => `<th class="c">${d}</th>`).join('')}<th class="r">Timer</th>${anyTS ? '<th class="r">TS i plan</th>' : ''}</tr></thead>
+      <tbody>${rows || '<tr><td colspan="11">Ingen uker.</td></tr>'}</tbody></table></div>
+    <div class="legend">${legendHtml()}</div>`;
+  el.querySelectorAll('[data-wf]').forEach(b => b.onclick = () => { weekFilter = b.dataset.wf; renderWeeks(); });
+  el.querySelector('#undoBtn2').onclick = undo;
+}
+
+function renderPay() {
+  const el = document.getElementById('view-lonn');
+  const s = state.salary, pr = payroll();
+  const tl = hourly();
+  const tot = pr.reduce((a, p) => ({ fast: a.fast + p.fast, till: a.till + p.tillegg, brutto: a.brutto + p.brutto, skatt: a.skatt + p.skatt, netto: a.netto + p.netto }), { fast: 0, till: 0, brutto: 0, skatt: 0, netto: 0 });
+  const rows = pr.map(p => {
+    const open = openPayRow === p.m;
+    const a = p.tilleggAgg;
+    const br = open ? `<tr class="breakdown"><td colspan="7"><div class="grid-2">
+      <div><div class="eyebrow" style="margin-bottom:6px">Tillegg opptjent i ${p.earnedIn ? ymLabel(p.earnedIn) : '–'}</div>${a ? `<div class="kv">
+        <span>Kveld 17–21 · ${hrs(a.kveld)}</span><span>${kr(a.amt.kveld)}</span>
+        <span>Natt 21–06 · ${hrs(a.natt)}</span><span>${kr(a.amt.natt)}</span>
+        <span>Lørdag/søndag · ${hrs(a.helg)}</span><span>${kr(a.amt.helg)}</span>
+        <span>Helligdag/høytid · ${hrs(a.hoytid)}</span><span>${kr(a.amt.hoytid)}</span>
+        ${s.langKr > 0 ? `<span>Lokalt langvakttillegg · ${hrs(a.lang)}</span><span>${kr(a.amt.lang)}</span>` : ''}
+        <span class="tot">Sum tillegg</span><span class="tot">${kr(a.tillegg)}</span></div>` : '<span class="hint">Ingen tillegg.</span>'}</div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Utbetaling ${p.payDate.getDate()}. ${MONTHS[p.payDate.getMonth()]}</div><div class="kv">
+        <span>Fast lønn ${nf1.format(s.pct)} % (årslønn ÷ 12)</span><span>${kr(p.fast)}</span>
+        <span>Tillegg</span><span>${kr(p.tillegg)}</span>
+        <span class="tot">Brutto</span><span class="tot">${kr(p.brutto)}</span>
+        <span>Skattetrekk ${nf1.format(p.taxPct * 100)} %${p.taxPct * 100 < s.taxPct ? ' (halv skatt)' : ''}</span><span>− ${kr(p.skatt)}</span>
+        <span class="tot">Netto</span><span class="tot">${kr(p.netto)}</span></div></div></div></td></tr>` : '';
+    return `<tr class="clickable ${open ? 'open' : ''}" data-payrow="${p.m}"><td><b>${ymLabel(p.m)}</b>${p.onlyTillegg ? ' <span class="hint">(etterbetalte tillegg)</span>' : ''}</td>
+      <td class="r">${p.agg ? nf1.format(p.agg.hours) : '–'}</td><td class="r">${kr(p.fast)}</td><td class="r">${kr(p.tillegg)}</td><td class="r">${kr(p.brutto)}</td><td class="r">− ${kr(p.skatt)}</td><td class="r"><b>${kr(p.netto)}</b></td></tr>${br}`;
+  }).join('');
+  const ratesRows = s.rates.map((r, i) => `<tr>
+    <td><input class="input" type="date" data-rate="${i}" data-f="from" value="${esc(r.from)}"></td>
+    ${['kveldPct', 'kveldMin', 'nattPct', 'nattMin', 'helgPct', 'helgMin'].map(f => `<td><input class="input num" style="width:76px" type="number" step="0.01" data-rate="${i}" data-f="${f}" value="${r[f]}"></td>`).join('')}
+    <td>${s.rates.length > 1 ? `<button class="btn ghost danger" data-delrate="${i}" aria-label="Fjern rad">✕</button>` : ''}</td></tr>`).join('');
+  el.innerHTML = `
+    ${draftBanner()}
+    <div class="panel">
+      <div class="panel-head"><div><h2>Dine lønnsopplysninger</h2><span class="hint">Hent tallene fra lønnsslippen eller arbeidsavtalen. Alt regnes ut på nytt med en gang.</span></div></div>
+      <div class="fields">
+        <div class="field"><label for="s-annual">Årslønn ved 100 % (kr)</label><input class="input num" id="s-annual" type="number" step="100" data-sal="annual" value="${s.annual}"></div>
+        <div class="field"><label for="s-pct">Stillingsprosent</label><input class="input num" id="s-pct" type="number" step="0.1" data-sal="pct" value="${s.pct}"></div>
+        <div class="field"><label for="s-tax">Skattetrekk % (fra skattekortet)</label><input class="input num" id="s-tax" type="number" step="0.1" data-sal="taxPct" value="${s.taxPct}"></div>
+        <div class="field"><label for="s-payday">Lønningsdag</label><input class="input num" id="s-payday" type="number" min="1" max="28" data-sal="payDay" value="${s.payDay}"></div>
+        <div class="field"><label for="s-div">Timer i årsverk (deler for timelønn)</label><select class="input" id="s-div" data-sal="divisor"><option value="1850" ${+s.divisor === 1850 ? 'selected' : ''}>1850 t (35,5 t/uke, turnus)</option><option value="1950" ${+s.divisor === 1950 ? 'selected' : ''}>1950 t (37,5 t/uke, dagtid)</option></select></div>
+        <div class="field"><label for="s-week">Full stilling per uke (t)</label><input class="input num" id="s-week" type="number" step="0.5" data-sal="fullWeek" value="${s.fullWeek}"></div>
+      </div>
+      <div class="btn-row" style="margin-top:12px; gap:18px">
+        <label class="check"><input type="checkbox" data-salc="lag" ${s.lag ? 'checked' : ''}> Tillegg utbetales måneden etter</label>
+        <label class="check"><input type="checkbox" data-salc="decHalf" ${s.decHalf ? 'checked' : ''}> Halv skatt i desember</label>
+      </div>
+      <p class="hint" style="margin:12px 0 0">Timelønn: ${kr(s.annual)} ÷ ${s.divisor} = <b class="num">${nf1.format(tl)} kr/t</b>. Fast månedslønn: <b class="num">${kr(s.annual * s.pct / 100 / 12)}</b>.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="eyebrow">Brutto i perioden</span><span class="v">${kr(tot.brutto)}</span><span class="s">${pr.length} utbetalinger</span></div>
+      <div class="stat accent"><span class="eyebrow">Tillegg totalt</span><span class="v">${kr(tot.till)}</span><span class="s">kveld, natt, helg og helligdag</span></div>
+      <div class="stat"><span class="eyebrow">Skattetrekk</span><span class="v">${kr(tot.skatt)}</span><span class="s">estimert</span></div>
+      <div class="stat good"><span class="eyebrow">Netto i perioden</span><span class="v">${kr(tot.netto)}</span><span class="s">snitt ${kr(tot.netto / Math.max(1, pr.filter(p => !p.onlyTillegg).length))} per måned</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Utbetaling per måned</h2><div class="key"><span><i style="background:color-mix(in srgb, var(--accent) 55%, var(--surface))"></i>Fast lønn</span><span><i style="background:var(--accent)"></i>Tillegg</span><span><i style="border:2px solid var(--ink);background:none;width:12px;height:2px;border-width:2px 0 0;vertical-align:4px;border-radius:0"></i>Netto</span></div></div>
+      ${payChart(pr)}
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Utbetaling</th><th class="r">Timer jobbet</th><th class="r">Fast lønn</th><th class="r">Tillegg</th><th class="r">Brutto</th><th class="r">Skatt</th><th class="r">Netto</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    <p class="hint" style="margin:0">Trykk på en måned for å se hvordan tilleggene er regnet ut.</p>
+    <div class="panel">
+      <details>
+        <summary>Satser for tillegg (KS hovedtariffavtale kap. 1 § 5–6)</summary>
+        <p class="hint">Tilleggene er minstesatser: prosent av timelønn, men aldri lavere enn kronebeløpet. Kveldstillegget gjelder kl. 17–21 for turnusarbeid, nattillegget kl. 21–06, helgetillegget hele lørdag og søndag. Høytidstillegget gjelder hele helligdagen, og fra kl. 12 på påske-, pinse-, jule- og nyttårsaften. Tilleggene legges sammen når de overlapper. Har dere lokale avtaler, kan du endre satsene her.</p>
+        <div class="table-wrap"><table class="codes-table"><thead><tr><th>Gjelder fra</th><th>Kveld %</th><th>Kveld min kr</th><th>Natt %</th><th>Natt min kr</th><th>Helg %</th><th>Helg min kr</th><th></th></tr></thead><tbody>${ratesRows}</tbody></table></div>
+        <div class="fields" style="margin-top:12px">
+          <div class="field"><label for="s-hoy">Helligdagstillegg (% av timelønn)</label><input class="input num" id="s-hoy" type="number" step="0.01" data-sal="hoytidPct" value="${s.hoytidPct}"></div>
+          <div class="field"><label for="s-lang">Lokalt langvakttillegg (kr/t, 0 = ingen)</label><input class="input num" id="s-lang" type="number" step="1" data-sal="langKr" value="${s.langKr}"></div>
+        </div>
+        <div class="btn-row" style="margin-top:12px"><button class="btn" id="addRate">Legg til satsperiode</button><button class="btn ghost" id="resetRates">Tilbakestill til KS-satser</button></div>
+        <p class="src">Kilder: <a href="https://www.ks.no/fagomrader/lonn-og-tariff/hovedtariffavtalen/endringer-i-tilleggene-i-hta-kapittel-1--5-fra-forste-oktober/" target="_blank" rel="noopener">KS: endringer i tilleggene fra 1. oktober 2026</a> · <a href="https://www.ks.no/globalassets/fagomrader/lonn-og-tariff/tariff-2024/hovedtariffavtalen-2026-2028---interaktiv-til-nettsiden.pdf" target="_blank" rel="noopener">Hovedtariffavtalen 2026–2028</a></p>
+      </details>
+    </div>
+    <div class="banner info"><div class="grow"><strong>Hva er med og ikke med?</strong> Med: fast månedslønn, kvelds-, natt-, helge- og helligdagstillegg ut fra klokkeslettene til vaktkodene. Ikke med: overtid, ekstravakter, feriepenger (juni) og trekk for pensjon og fagforening. Skatten er et flatt prosenttrekk. Sjekk vaktkodenes klokkeslett under Oppsett, for de styrer tilleggene.</div></div>`;
+  el.querySelectorAll('[data-sal]').forEach(inp => inp.onchange = () => { pushUndo(); const v = parseFloat(String(inp.value).replace(',', '.')); if (!isNaN(v)) state.salary[inp.dataset.sal] = v; persist(); renderPay(); });
+  el.querySelectorAll('[data-salc]').forEach(inp => inp.onchange = () => { state.salary[inp.dataset.salc] = inp.checked; persist(); renderPay(); });
+  el.querySelectorAll('[data-rate]').forEach(inp => inp.onchange = () => { const r = state.salary.rates[+inp.dataset.rate]; r[inp.dataset.f] = inp.dataset.f === 'from' ? inp.value : parseFloat(inp.value) || 0; persist(); renderPay(); });
+  el.querySelectorAll('[data-delrate]').forEach(b => b.onclick = () => { state.salary.rates.splice(+b.dataset.delrate, 1); persist(); renderPay(); });
+  el.querySelector('#addRate').onclick = () => { const last = state.salary.rates[state.salary.rates.length - 1]; state.salary.rates.push({ ...last, from: todayIso() }); persist(); renderPay(); };
+  el.querySelector('#resetRates').onclick = () => { state.salary.rates = clone(DEFAULT_RATES); state.salary.hoytidPct = 133.33; persist(); renderPay(); toast('Satsene er satt tilbake til KS-satsene.'); };
+  el.querySelectorAll('[data-payrow]').forEach(tr => tr.onclick = () => { openPayRow = openPayRow === tr.dataset.payrow ? null : tr.dataset.payrow; renderPay(); });
+}
+function payChart(pr) {
+  if (!pr.length) return '';
+  const W = 1000, H = 240, padL = 56, padB = 28, padT = 22, innerW = W - padL - 8, innerH = H - padB - padT;
+  const max = Math.ceil(Math.max(...pr.map(p => p.brutto), 1) / 10000) * 10000;
+  const step = innerW / pr.length, bw = Math.min(70, step * 0.6), y = v => padT + innerH - (v / max) * innerH;
+  let g = '';
+  for (let v = 0; v <= max; v += max / 4) g += `<line class="grid" x1="${padL}" x2="${W - 8}" y1="${y(v)}" y2="${y(v)}"/><text x="${padL - 8}" y="${y(v) + 4}" text-anchor="end">${nf0.format(v / 1000)}k</text>`;
+  const bars = pr.map((p, i) => {
+    const x = padL + i * step + (step - bw) / 2;
+    return `<g><title>${ymLabel(p.m)}: brutto ${kr(p.brutto)}, netto ${kr(p.netto)}</title>
+      <rect class="b-fast" x="${x}" y="${y(p.fast)}" width="${bw}" height="${innerH + padT - y(p.fast)}"/>
+      <rect class="b-till" x="${x}" y="${y(p.fast + p.tillegg)}" width="${bw}" height="${y(p.fast) - y(p.fast + p.tillegg)}"/>
+      <line class="b-net" x1="${x - 4}" x2="${x + bw + 4}" y1="${y(p.netto)}" y2="${y(p.netto)}"/>
+      <text class="lbl" x="${x + bw / 2}" y="${y(p.brutto) - 6}" text-anchor="middle">${nf0.format(p.brutto / 1000)}k</text>
+      <text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${ymLabel(p.m, true)}</text></g>`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Brutto og netto per måned">${g}${bars}</svg>`;
+}
+
+/* ---------- Oppsett ---------- */
+function renderSettings() {
+  const el = document.getElementById('view-oppsett');
+  const m = state.meta;
+  const codeRows = Object.entries(state.codes).map(([c, k]) => {
+    const def = getComputedStyle(document.documentElement).getPropertyValue('--k-' + (k.kind || 'annet')).trim() || '#888888';
+    return `<tr>
+    <td>${chip(c)}</td>
+    <td><input class="input w-name" data-code="${esc(c)}" data-f="name" value="${esc(k.name)}" aria-label="Navn for ${esc(c)}"></td>
+    <td><input class="input w-time num" type="time" data-code="${esc(c)}" data-f="start" value="${esc(k.start)}" aria-label="Start ${esc(c)}"></td>
+    <td><input class="input w-time num" type="time" data-code="${esc(c)}" data-f="end" value="${esc(k.end)}" aria-label="Slutt ${esc(c)}"></td>
+    <td><input class="input w-h num" type="number" step="0.25" data-code="${esc(c)}" data-f="hours" value="${k.hours}" aria-label="Betalte timer ${esc(c)}"></td>
+    <td><select class="input" data-code="${esc(c)}" data-f="kind" aria-label="Type ${esc(c)}">${Object.entries(KINDS).map(([v, l]) => `<option value="${v}" ${k.kind === v ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
+    <td><input type="color" data-color="${esc(c)}" value="${esc(prefs.codeColors?.[c] || toHex(def))}" aria-label="Din farge for ${esc(c)}">${prefs.codeColors?.[c] ? ` <button class="btn ghost" data-uncolor="${esc(c)}" title="Bruk standardfarge">↺</button>` : ''}</td>
+    <td><button class="btn ghost danger" data-delcode="${esc(c)}" aria-label="Slett ${esc(c)}">✕</button></td></tr>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="grid-2">
+      <div class="panel">
+        <h2>Utseende</h2><p class="hint" style="margin-top:0">Gjelder bare deg, på alle enhetene dine.</p>
+        <div style="display:grid;gap:16px">
+          <div class="field"><span class="lbl">Tema</span><div class="seg" role="group" aria-label="Tema">${[['system', 'Følg systemet'], ['light', 'Lyst'], ['dark', 'Mørkt']].map(([v, l]) => `<button data-pref="theme" data-v="${v}" aria-pressed="${prefs.theme === v}">${l}</button>`).join('')}</div></div>
+          <div class="field"><span class="lbl">Aksentfarge</span><div class="swatches">${Object.entries(ACCENTS).map(([k, [l, d]]) => `<button class="swatch" data-pref="accent" data-v="${k}" aria-pressed="${prefs.accent === k}" title="${ACCENT_NAMES[k]}" aria-label="${ACCENT_NAMES[k]}" style="background:linear-gradient(135deg, ${l} 50%, ${d} 50%)"></button>`).join('')}</div></div>
+          <div class="field"><span class="lbl">Tetthet i kalenderen</span><div class="seg" role="group">${[['normal', 'Luftig'], ['compact', 'Kompakt']].map(([v, l]) => `<button data-pref="density" data-v="${v}" aria-pressed="${prefs.density === v}">${l}</button>`).join('')}</div></div>
+          <label class="check"><input type="checkbox" id="prefTimes" ${prefs.showTimes ? 'checked' : ''}> Vis klokkeslett i kalenderen</label>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Om planen</h2><p class="hint" style="margin-top:0">Vises øverst på siden.</p>
+        <div style="display:grid;gap:12px">
+          <div class="field"><label for="m-name">Navn</label><input class="input" id="m-name" data-meta="name" value="${esc(m.name)}"></div>
+          <div class="field"><label for="m-unit">Enhet</label><input class="input" id="m-unit" data-meta="unit" value="${esc(m.unit)}"></div>
+          <div class="field"><label for="m-emp">Arbeidsgiver</label><input class="input" id="m-emp" data-meta="employer" value="${esc(m.employer)}"></div>
+          <div class="field"><span class="lbl">Status</span><div class="seg" role="group">${[['utkast', 'Utkast'], ['endelig', 'Endelig plan']].map(([v, l]) => `<button data-status="${v}" aria-pressed="${m.status === v}">${l}</button>`).join('')}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Vaktkoder</h2><span class="hint">Klokkeslettene styrer kvelds-, natt- og helligdagstillegg. Betalte timer er det som står i planen, uten ulønnet pause. Fargen er ditt personlige valg.</span></div><button class="btn" id="addCode">Ny vaktkode</button></div>
+      <div class="table-wrap"><table class="codes-table"><thead><tr><th>Kode</th><th>Navn</th><th>Start</th><th>Slutt</th><th>Betalte t</th><th>Type</th><th>Farge</th><th></th></tr></thead><tbody>${codeRows}</tbody></table></div>
+      ${unknownCodes().length ? `<p class="mismatch" style="margin-bottom:0">Disse kodene står i planen, men mangler beskrivelse: ${unknownCodes().map(c => esc(c)).join(', ')}. De gir 0 timer til du legger dem til.</p>` : ''}
+    </div>
+    <div class="panel">
+      <h2>Sikkerhetskopi</h2>
+      <p class="hint" style="margin-top:0">${store.mode === 'db' ? 'Planen lagres automatisk og er den samme for alle som har tilgang til siden.' : 'Planen lagres bare i denne nettleseren. Ta gjerne en sikkerhetskopi.'}</p>
+      <div class="btn-row"><button class="btn" id="exportBtn">Last ned sikkerhetskopi (.json)</button><label class="btn" for="importJson">Gjenopprett fra fil</label><input type="file" id="importJson" accept="application/json,.json" hidden>
+      <button class="btn danger" id="resetDraft">Tilbakestill til utkastet</button></div>
+      <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med utkastet fra den gamle appen.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
+    </div>`;
+  el.querySelectorAll('[data-pref]').forEach(b => b.onclick = () => { prefs[b.dataset.pref] = b.dataset.v; applyPrefs(); persistPrefs(); renderSettings(); });
+  el.querySelector('#prefTimes').onchange = e => { prefs.showTimes = e.target.checked; applyPrefs(); persistPrefs(); };
+  el.querySelectorAll('[data-meta]').forEach(inp => inp.onchange = () => { state.meta[inp.dataset.meta] = inp.value.trim(); persist(); renderAll(); });
+  el.querySelectorAll('[data-status]').forEach(b => b.onclick = () => { state.meta.status = b.dataset.status; persist(); renderAll(); });
+  el.querySelectorAll('[data-code]').forEach(inp => inp.onchange = () => { const k = state.codes[inp.dataset.code]; const f = inp.dataset.f; k[f] = f === 'hours' ? (parseFloat(inp.value) || 0) : inp.value; persist(); renderSettings(); });
+  el.querySelectorAll('[data-color]').forEach(inp => inp.onchange = () => { prefs.codeColors = { ...(prefs.codeColors || {}), [inp.dataset.color]: inp.value }; persistPrefs(); renderSettings(); });
+  el.querySelectorAll('[data-uncolor]').forEach(b => b.onclick = () => { const cc = { ...(prefs.codeColors || {}) }; delete cc[b.dataset.uncolor]; prefs.codeColors = cc; persistPrefs(); renderSettings(); });
+  el.querySelectorAll('[data-delcode]').forEach(b => b.onclick = () => {
+    const c = b.dataset.delcode, used = Object.values(state.entries).filter(x => x === c).length;
+    if (used) { toast(`${c} brukes på ${used} dager. Bytt de vaktene først.`); return; }
+    delete state.codes[c]; persist(); renderSettings();
+  });
+  el.querySelector('#addCode').onclick = () => {
+    let n = 'NY', i = 1; while (state.codes[n]) n = 'NY' + (++i);
+    const missing = unknownCodes()[0]; if (missing) n = missing;
+    state.codes[n] = { name: 'Ny vakt', start: '08:00', end: '15:30', hours: 7, kind: 'dag' };
+    persist(); renderSettings(); toast(`La til ${n}. Endre koden ved å slette og legge til på nytt, eller gi den navn og tider.`);
+  };
+  el.querySelector('#exportBtn').onclick = exportJson;
+  el.querySelector('#importJson').onchange = e => importJson(e.target.files[0]);
+  el.querySelector('#resetDraft').onclick = () => { el.querySelector('#resetConfirm').hidden = false; };
+  el.querySelector('#resetNo').onclick = () => { el.querySelector('#resetConfirm').hidden = true; };
+  el.querySelector('#resetYes').onclick = () => { pushUndo(); state = legacyState(); persist(); renderAll(); toast('Tilbakestilt til utkastet.', true); };
+}
+function unknownCodes() { return [...new Set(Object.values(state.entries).filter(c => c && !state.codes[c]))]; }
+function toHex(c) { if (/^#[0-9a-f]{6}$/i.test(c)) return c; const d = document.createElement('div'); d.style.color = c; document.body.appendChild(d); const rgb = getComputedStyle(d).color.match(/\d+/g) || [128, 128, 128]; d.remove(); return '#' + rgb.slice(0, 3).map(x => (+x).toString(16).padStart(2, '0')).join(''); }
+
+async function exportJson() {
+  const data = JSON.stringify(state, null, 2), filename = `turnus-${todayIso()}.json`;
+  if (store.downloads) {
+    try { await store.downloads.save({ filename, data: new Blob([data], { type: 'application/json' }) }); toast('Sikkerhetskopien er lastet ned.'); return; }
+    catch (e) { if (e?.code === 'declined' || e?.code === 'dismissed') return; }
+  }
+  try { await navigator.clipboard.writeText(data); toast('Kunne ikke laste ned. Sikkerhetskopien er kopiert til utklippstavlen.'); }
+  catch { toast('Nedlasting er ikke tilgjengelig her.'); }
+}
+function importJson(file) {
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => { try { const s = normalize(JSON.parse(r.result)); if (!s || !s.entries) throw 0; pushUndo(); state = s; persist(); renderAll(); toast('Planen er gjenopprettet.', true); } catch { toast('Filen kunne ikke leses. Velg en sikkerhetskopi laget av denne appen.'); } };
+  r.readAsText(file);
+}
+
+/* ---------- Importer fra bilde/tekst med Claude ---------- */
+const imp = { files: [], text: '', year: null, busy: false, result: null, error: '', progress: '', mode: 'replace', ctl: null };
+async function renderImport() {
+  const el = document.getElementById('view-importer');
+  const caps = store.sample ? await store.sample.limits().catch(() => null) : null;
+  const canImages = !!caps?.images;
+  const maxImgs = caps?.images?.maxCount || 5;
+  if (!imp.year) imp.year = new Date().getMonth() >= 8 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+  el.innerHTML = `
+    <div class="panel">
+      <h2>Importer den endelige turnusplanen</h2>
+      <p class="hint" style="margin-top:0">Ta bilde av eller skjermdump fra turnusen (for eksempel fra GAT eller Visma), og last opp. Claude leser vaktkodene uke for uke. Du ser alt før noe blir lagret.</p>
+      ${!store.sample ? `<div class="banner bad"><div class="grow"><strong>Bildeimport er ikke tilgjengelig her.</strong> Den virker når siden er åpnet på claude.ai. Du kan likevel gjenopprette fra en sikkerhetskopi under Oppsett, eller endre vakter direkte i kalenderen.</div></div>` : ''}
+      <div style="display:grid;gap:14px;margin-top:6px">
+        ${canImages ? `<label class="drop" id="drop" for="imgInput"><strong>Slipp bilder her eller trykk for å velge</strong><span class="hint">Opptil ${maxImgs} bilder (JPG, PNG, WebP). Ta med hele tabellen, også ukenummer og datoer.</span></label>
+        <input type="file" id="imgInput" accept="${esc((caps.images.mediaTypes || ['image/jpeg', 'image/png', 'image/webp']).join(','))}" multiple hidden>
+        <div class="thumbs" id="thumbs"></div>` : store.sample ? '<p class="hint">Denne visningen kan ikke sende bilder. Lim inn teksten fra planen i stedet.</p>' : ''}
+        <div class="field"><label for="impText">${canImages ? 'Eller lim inn tekst' : 'Lim inn tekst'} fra turnusen (valgfritt, f.eks. kopiert fra PDF eller Excel)</label><textarea class="input" id="impText" placeholder="Uke 2  05.01–11.01  D  D  A  F1  –  LL  LL  ts 44">${esc(imp.text)}</textarea></div>
+        <div class="fields">
+          <div class="field"><label for="impYear">Året planen starter</label><input class="input num" id="impYear" type="number" value="${imp.year}"></div>
+          <div class="field"><span class="lbl">Når planen er lest</span><div class="seg" role="group">
+            <button data-impmode="replace" aria-pressed="${imp.mode === 'replace'}">Erstatt hele planen</button>
+            <button data-impmode="merge" aria-pressed="${imp.mode === 'merge'}">Oppdater bare disse ukene</button></div></div>
+        </div>
+        <div class="btn-row"><button class="btn primary" id="readBtn" ${!store.sample || imp.busy ? 'disabled' : ''}>${imp.busy ? 'Leser planen …' : 'Les planen med Claude'}</button>${imp.busy ? '<button class="btn" id="stopBtn">Avbryt</button>' : ''}</div>
+        ${imp.progress ? `<div class="progress" id="impProgress">${esc(imp.progress)}</div>` : ''}
+        ${imp.error ? `<div class="banner bad"><div class="grow"><strong>Det gikk ikke.</strong> ${esc(imp.error)}</div></div>` : ''}
+      </div>
+    </div>
+    <div id="impResult">${imp.result ? importPreviewHtml() : ''}</div>`;
+  if (canImages) {
+    const drop = el.querySelector('#drop'), input = el.querySelector('#imgInput');
+    input.onchange = () => addFiles(input.files, maxImgs);
+    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+    drop.addEventListener('drop', e => addFiles(e.dataTransfer.files, maxImgs));
+    drawThumbs();
+  }
+  el.querySelector('#impText').oninput = e => { imp.text = e.target.value; };
+  el.querySelector('#impYear').onchange = e => { imp.year = +e.target.value; };
+  el.querySelectorAll('[data-impmode]').forEach(b => b.onclick = () => { imp.mode = b.dataset.impmode; renderImport(); });
+  el.querySelector('#readBtn').onclick = readPlan;
+  const stop = el.querySelector('#stopBtn'); if (stop) stop.onclick = () => imp.ctl?.abort();
+  bindPreview();
+}
+function addFiles(list, max) {
+  for (const f of list) if (f.type.startsWith('image/') && imp.files.length < max) imp.files.push(f);
+  drawThumbs();
+}
+function drawThumbs() {
+  const t = document.getElementById('thumbs'); if (!t) return;
+  t.innerHTML = imp.files.map((f, i) => `<figure><img alt="Bilde ${i + 1}" src="${URL.createObjectURL(f)}"><button data-rmimg="${i}" aria-label="Fjern bilde">✕</button></figure>`).join('');
+  t.querySelectorAll('[data-rmimg]').forEach(b => b.onclick = () => { imp.files.splice(+b.dataset.rmimg, 1); drawThumbs(); });
+}
+async function readPlan() {
+  if (!imp.files.length && !imp.text.trim()) { imp.error = 'Legg til minst ett bilde eller lim inn tekst fra planen.'; renderImport(); return; }
+  imp.busy = true; imp.error = ''; imp.result = null; imp.progress = 'Sender til Claude …'; renderImport();
+  const known = Object.entries(state?.codes || DEFAULT_CODES).map(([c, k]) => `${c}=${k.name} ${k.start}-${k.end} ${k.hours}t`).join('; ');
+  const prompt = `Du leser en norsk turnusplan (arbeidsplan for én ansatt i hjemmesykepleien). ${imp.files.length ? `Vedlagt er ${imp.files.length} bilde(r) av planen.` : ''}
+Planen starter i år ${imp.year}. Hvis ukenummer går fra 52/53 til 1, fortsetter den i neste år.
+Oppgave: skriv av HVER uke nøyaktig slik den står. Én rad per uke, med vaktkoden for mandag til søndag i rekkefølge. Bruk koden nøyaktig som den er skrevet (f.eks. D, D4, A, AK, LA, LL, LY, F1, F2, FE, K). Tom celle eller strek = "". Ikke gjett og ikke fyll inn mønstre. Er en celle uleselig, bruk "?".
+Hvis planen har en kolonne med timesum per uke (ofte kalt TS, Timer eller Sum), ta den med som tall i "ts", ellers null.
+Hvis planen har en forklaring av vaktkodene (tider og timer), ta den med i "legend".
+Kjente koder fra før (bare til hjelp): ${known}.
+${imp.text.trim() ? `Tekst limt inn fra planen:\n"""\n${imp.text.trim().slice(0, 20000)}\n"""\n` : ''}
+Svar med KUN JSON i dette formatet:
+{"title":"navn på planen eller null","person":"navn eller null","weeks":[{"week":2,"monday":"YYYY-MM-DD","shifts":["D","","A","F1","","LL","LL"],"ts":44}],"legend":[{"code":"D","name":"Dagvakt","start":"07:30","end":"15:00","hours":7}],"notes":"kort merknad på norsk om noe var usikkert, ellers tom"}
+"monday" er datoen for mandagen i uka (ISO-uke).`;
+  imp.ctl = new AbortController();
+  try {
+    const res = await store.sample.json(prompt, { images: imp.files.length ? imp.files : undefined, modelTier: 'complex', signal: imp.ctl.signal, onText: ({ text }) => { imp.progress = 'Claude leser …\n' + text.slice(-600); const p = document.getElementById('impProgress'); if (p) { p.textContent = imp.progress; p.scrollTop = p.scrollHeight; } } });
+    imp.result = validateImport(res);
+    imp.progress = '';
+    if (!imp.result.weeks.length) { imp.error = 'Claude fant ingen uker i planen. Prøv et skarpere bilde der hele tabellen er med.'; imp.result = null; }
+  } catch (e) {
+    imp.progress = '';
+    imp.error = e?.code === 'cancelled' ? 'Avbrutt.' : e?.code === 'not_granted' ? 'Du må gi siden lov til å spørre Claude.' : e?.code === 'rate_limited' ? 'For mange forespørsler akkurat nå. Vent litt og prøv igjen.' : e?.code === 'image_rejected' ? 'Et av bildene kunne ikke leses. Bruk JPG eller PNG.' : e?.code === 'invalid_json' ? 'Svaret kunne ikke tolkes. Prøv igjen, gjerne med færre bilder om gangen.' : (e?.message || 'Ukjent feil.');
+  }
+  imp.busy = false; imp.ctl = null;
+  renderImport();
+}
+function validateImport(res) {
+  const out = { title: res?.title || null, notes: String(res?.notes || ''), legend: [], weeks: [] };
+  for (const w of Array.isArray(res?.weeks) ? res.weeks : []) {
+    if (!w || !/^\d{4}-\d{2}-\d{2}$/.test(w.monday || '') || !Array.isArray(w.shifts)) continue;
+    let mon = parseIso(w.monday); if (dowIdx(mon) !== 0) mon = mondayOf(mon);
+    const shifts = Array.from({ length: 7 }, (_, i) => String(w.shifts[i] ?? '').trim().toUpperCase().replace(/^[-–—]$/, ''));
+    out.weeks.push({ monday: toIso(mon), shifts, ts: w.ts == null || w.ts === '' || isNaN(+w.ts) ? null : +w.ts });
+  }
+  out.weeks.sort((a, b) => a.monday.localeCompare(b.monday));
+  for (const l of Array.isArray(res?.legend) ? res.legend : []) {
+    if (!l?.code) continue;
+    out.legend.push({ code: String(l.code).trim().toUpperCase(), name: String(l.name || ''), start: /^\d{1,2}:\d{2}$/.test(l.start || '') ? l.start.padStart(5, '0') : '', end: /^\d{1,2}:\d{2}$/.test(l.end || '') ? l.end.padStart(5, '0') : '', hours: +l.hours || 0 });
+  }
+  return out;
+}
+function importPreviewHtml() {
+  const r = imp.result, codes = { ...(state?.codes || DEFAULT_CODES) };
+  r.legend.forEach(l => { if (!codes[l.code]) codes[l.code] = { name: l.name, start: l.start, end: l.end, hours: l.hours, kind: 'annet' }; });
+  const hoursOf = c => codes[c] ? +codes[c].hours || 0 : 0;
+  const unknown = new Set(), qs = [];
+  let mism = 0, changed = 0;
+  const rows = r.weeks.map((w, wi) => {
+    let h = 0;
+    const cells = w.shifts.map((c, i) => {
+      const iso = toIso(addDays(parseIso(w.monday), i));
+      if (c === '?') qs.push(iso); else if (c && !codes[c]) unknown.add(c);
+      h += hoursOf(c);
+      const was = state?.entries?.[iso] || '';
+      const ch = state && was !== c; if (ch) changed++;
+      return `<td class="c diffcell ${ch ? 'changed' : ''}"><button class="cellbtn editable" data-impcell="${wi}:${i}">${c === '?' ? '<span class="chip unknown">?</span>' : chipWith(c, codes)}</button>${ch && was ? `<span class="was">${esc(was)}</span>` : ''}</td>`;
+    }).join('');
+    const bad = w.ts != null && Math.abs(w.ts - h) > 0.01; if (bad) mism++;
+    return `<tr><td class="wk-cell">Uke ${isoWeek(parseIso(w.monday))}</td><td class="num">${fmtDM(parseIso(w.monday))}.${w.monday.slice(2, 4)}</td>${cells}<td class="r">${nf1.format(h)}</td><td class="r">${w.ts == null ? '–' : `<span class="${bad ? 'mismatch' : 'ok'}">${nf1.format(w.ts)} ${bad ? '⚠' : '✓'}</span>`}</td></tr>`;
+  }).join('');
+  const newLegend = r.legend.filter(l => !(state?.codes || {})[l.code]);
+  return `<div class="panel">
+    <div class="panel-head"><div><h2>Sjekk det Claude leste</h2><span class="hint">${r.weeks.length} uker, ${fmtDM(parseIso(r.weeks[0].monday))}.${r.weeks[0].monday.slice(0, 4)} – ${fmtDM(addDays(parseIso(r.weeks[r.weeks.length - 1].monday), 6))}.${r.weeks[r.weeks.length - 1].monday.slice(0, 4)}. Trykk på en vakt for å rette den. ${state ? 'Endringer mot nåværende plan er markert.' : ''}</span></div></div>
+    <div style="display:grid;gap:10px;margin-bottom:12px">
+      ${r.notes ? `<div class="banner info"><div class="grow"><strong>Merknad fra Claude:</strong> ${esc(r.notes)}</div></div>` : ''}
+      ${mism ? `<div class="banner bad"><div class="grow"><strong>${mism} uker stemmer ikke med timesummen.</strong> Sammenlign med bildet og rett vaktene, eller sjekk timene for vaktkodene.</div></div>` : r.weeks.some(w => w.ts != null) ? '<div class="banner info"><div class="grow"><strong>Alle ukene stemmer med timesummen i planen.</strong></div></div>' : ''}
+      ${qs.length ? `<div class="banner bad"><div class="grow"><strong>${qs.length} celler var uleselige (?).</strong> Rett dem før du lagrer.</div></div>` : ''}
+      ${unknown.size ? `<div class="banner"><div class="grow"><strong>Ukjente koder: ${[...unknown].map(esc).join(', ')}.</strong> De legges til som nye vaktkoder med 0 timer. Fyll inn tider og timer under Oppsett etterpå.</div></div>` : ''}
+      ${newLegend.length ? `<div class="banner info"><div class="grow"><strong>Nye vaktkoder fra forklaringen:</strong> ${newLegend.map(l => `${esc(l.code)} (${esc(l.start)}–${esc(l.end)}, ${nf1.format(l.hours)} t)`).join(', ')}. De legges til.</div></div>` : ''}
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>Uke</th><th>Mandag</th>${DOW.map(d => `<th class="c">${d}</th>`).join('')}<th class="r">Timer</th><th class="r">TS</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn primary" id="applyImport">${imp.mode === 'replace' ? 'Lagre som ny plan' : 'Oppdater disse ukene'}</button>
+      <label class="check"><input type="checkbox" id="impFinal" checked> Merk som endelig plan</label>
+      ${r.legend.length ? `<label class="check"><input type="checkbox" id="impLegend" checked> Bruk tidene fra planens kodeforklaring</label>` : ''}
+      <button class="btn ghost" id="discardImport">Forkast</button>
+    </div>
+  </div>`;
+}
+function chipWith(c, codes) { const saved = state; if (!state) state = { codes }; else state = { ...state, codes }; const h = chip(c); state = saved; return h; }
+function bindPreview() {
+  const box = document.getElementById('impResult'); if (!box || !imp.result) return;
+  box.querySelectorAll('[data-impcell]').forEach(b => b.onclick = e => { const [wi, di] = b.dataset.impcell.split(':').map(Number); openPicker(b, { importCell: [wi, di] }); });
+  box.querySelector('#applyImport').onclick = applyImport;
+  box.querySelector('#discardImport').onclick = () => { imp.result = null; renderImport(); };
+}
+function applyImport() {
+  const r = imp.result;
+  if (r.weeks.some(w => w.shifts.includes('?'))) { toast('Rett cellene med ? først.'); return; }
+  const useLegend = document.getElementById('impLegend')?.checked;
+  const final = document.getElementById('impFinal')?.checked;
+  pushUndo();
+  const base = state ? clone(state) : normalize({ meta: {}, entries: {} });
+  if (imp.mode === 'replace') { base.entries = {}; base.meta.weekTS = {}; }
+  r.legend.forEach(l => {
+    const exists = base.codes[l.code];
+    if (!exists) base.codes[l.code] = { name: l.name || l.code, start: l.start, end: l.end, hours: l.hours, kind: guessKind(l) };
+    else if (useLegend) Object.assign(exists, { name: l.name || exists.name, start: l.start || exists.start, end: l.end || exists.end, hours: l.hours || exists.hours });
+  });
+  r.weeks.forEach(w => {
+    const mon = parseIso(w.monday);
+    w.shifts.forEach((c, i) => {
+      const iso = toIso(addDays(mon, i));
+      if (c) base.entries[iso] = c; else delete base.entries[iso];
+      if (c && !base.codes[c]) base.codes[c] = { name: c, start: '', end: '', hours: 0, kind: 'annet' };
+    });
+    if (w.ts != null) base.meta.weekTS[w.monday] = w.ts; else delete base.meta.weekTS[w.monday];
+  });
+  base.original = { ...base.entries };
+  if (r.title && imp.mode === 'replace') base.meta.name = r.title;
+  base.meta.status = final ? 'endelig' : 'utkast';
+  base.meta.note = final ? '' : 'Importert, men ikke merket som endelig.';
+  state = base; imp.result = null; imp.files = []; imp.text = '';
+  persist();
+  calMonth = r.weeks[0].monday.slice(0, 7);
+  currentView = 'kalender'; renderAll();
+  toast('Planen er lagret.', true);
+}
+function guessKind(l) {
+  const s = toMin(l.start), e = toMin(l.end);
+  if (!l.hours) return /fe|ferie/i.test(l.name) ? 'ferie' : 'fri';
+  if (l.hours >= 11) return 'lang';
+  if (s != null && e != null && (e <= s || s >= 20 * 60)) return 'natt';
+  if (s != null && s >= 12 * 60) return 'kveld';
+  return 'dag';
+}
+
+/* ---------- Vaktvelger ---------- */
+let pickerTarget = null;
+function openPicker(anchor, target) {
+  pickerTarget = target;
+  const layer = document.getElementById('pickerLayer'), sheet = document.getElementById('picker');
+  let cur, title;
+  if (target.iso) { cur = state.entries[target.iso] || ''; const d = parseIso(target.iso); title = `${DOW_LONG[dowIdx(d)][0].toUpperCase()}${DOW_LONG[dowIdx(d)].slice(1)} ${d.getDate()}. ${MONTHS[d.getMonth()]}`; }
+  else { const [wi, di] = target.importCell; cur = imp.result.weeks[wi].shifts[di]; const d = addDays(parseIso(imp.result.weeks[wi].monday), di); title = `Rett ${DOW_LONG[di]} ${d.getDate()}. ${MONTHS[d.getMonth()]}`; }
+  const hn = target.iso ? holidayName(target.iso) : '';
+  const codes = state?.codes || DEFAULT_CODES;
+  const opts = Object.entries(codes).map(([c, k]) => `<button class="opt" data-pick="${esc(c)}" aria-pressed="${cur === c}">${chip(c)}<small>${k.start ? `${k.start}–${k.end}` : esc(k.name)}</small><small>${hrs(k.hours)}</small></button>`).join('');
+  sheet.innerHTML = `<div class="panel-head" style="margin:0"><h3 id="pickerTitle">${esc(title)}</h3>${hn ? `<span class="hint" style="color:var(--warn)">${esc(hn)}</span>` : ''}</div>
+    <div class="opts">${opts}<button class="opt" data-pick="" aria-pressed="${!cur}"><span class="chip empty">–</span><small>Ingen vakt</small><small>0 t</small></button></div>
+    <div class="field"><label for="customCode">Annen kode</label><div class="btn-row"><input class="input" id="customCode" style="flex:1;min-width:0" maxlength="6" placeholder="f.eks. FE"><button class="btn" id="customOk">Bruk</button></div></div>
+    <button class="btn" id="pickerClose">Lukk</button>`;
+  layer.hidden = false;
+  if (window.innerWidth > 640) {
+    const r = anchor.getBoundingClientRect(), sw = 320, sh = Math.min(sheet.offsetHeight, window.innerHeight * 0.78);
+    let left = Math.min(Math.max(12, r.left), window.innerWidth - sw - 12);
+    let top = r.bottom + 6; if (top + sh > window.innerHeight - 12) top = Math.max(12, r.top - sh - 6);
+    sheet.style.left = left + 'px'; sheet.style.top = top + 'px';
+  }
+  sheet.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => pick(b.dataset.pick));
+  sheet.querySelector('#customOk').onclick = () => { const v = sheet.querySelector('#customCode').value.trim().toUpperCase(); if (v) pick(v); };
+  sheet.querySelector('#customCode').onkeydown = e => { if (e.key === 'Enter') sheet.querySelector('#customOk').click(); };
+  sheet.querySelector('#pickerClose').onclick = closePicker;
+  (sheet.querySelector('[aria-pressed="true"]') || sheet.querySelector('.opt')).focus();
+}
+function closePicker() { document.getElementById('pickerLayer').hidden = true; pickerTarget = null; }
+function pick(code) {
+  const t = pickerTarget; closePicker(); if (!t) return;
+  if (t.importCell) { const [wi, di] = t.importCell; imp.result.weeks[wi].shifts[di] = code; renderImport(); return; }
+  pushUndo();
+  if (code) state.entries[t.iso] = code; else delete state.entries[t.iso];
+  if (code && !state.codes[code]) { state.codes[code] = { name: code, start: '', end: '', hours: 0, kind: 'annet' }; toast(`Ny kode ${code} er lagt til. Fyll inn tider under Oppsett.`); }
+  persist(); renderAll();
+}
+function pushUndo() { if (!state) return; undoStack.push(JSON.stringify(state)); if (undoStack.length > 30) undoStack.shift(); }
+function undo() { const s = undoStack.pop(); if (!s) return; state = JSON.parse(s); persist(); renderAll(); toast('Angret.'); }
+
+/* ---------- Diverse ---------- */
+let toastTimer;
+function toast(msg, withUndo) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `<span>${esc(msg)}</span>${withUndo && undoStack.length ? '<button id="toastUndo">Angre</button>' : ''}`;
+  t.hidden = false;
+  const u = t.querySelector('#toastUndo'); if (u) u.onclick = () => { undo(); t.hidden = true; };
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 4500);
+}
+const hostTheme = document.documentElement.getAttribute('data-theme');
+function applyPrefs() {
+  const root = document.documentElement;
+  if (prefs.theme === 'light' || prefs.theme === 'dark') root.setAttribute('data-theme', prefs.theme);
+  else if (hostTheme) root.setAttribute('data-theme', hostTheme); else root.removeAttribute('data-theme');
+  const [l, d] = ACCENTS[prefs.accent] || ACCENTS.teal;
+  root.style.setProperty('--accent-l', l); root.style.setProperty('--accent-d', d);
+  document.body.classList.toggle('compact', prefs.density === 'compact');
+  document.body.classList.toggle('hide-times', !prefs.showTimes);
+}
+function go(view) {
+  currentView = view;
+  try { history.replaceState(null, '', '#' + view); } catch { location.hash = view; }
+  renderAll(); window.scrollTo({ top: 0 });
+}
+function bindChrome() {
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => go(t.dataset.view));
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-goto]'); if (g) { go(g.dataset.goto); return; }
+    const ed = e.target.closest('[data-edit]'); if (ed && state) { openPicker(ed, { iso: ed.dataset.edit }); }
+  });
+  document.getElementById('pickerBackdrop').onclick = closePicker;
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePicker(); if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.target.closest('input,textarea')) { e.preventDefault(); undo(); } });
+  document.getElementById('useDraftBtn').onclick = () => { state = legacyState(); persist(); renderAll(); };
+  const h = location.hash.slice(1);
+  if (['oversikt', 'kalender', 'uker', 'lonn', 'importer', 'oppsett'].includes(h)) currentView = h;
+  window.addEventListener('hashchange', () => { const v = location.hash.slice(1); if (v && v !== currentView && document.getElementById('view-' + v)) { currentView = v; renderAll(); } });
+}
+boot();
+</script>
