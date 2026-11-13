@@ -1,5 +1,18 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Turnus">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Nathalies turnus</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -75,7 +88,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing:
 .bnav { display: none; }
 @media (max-width: 720px) {
   .tabs-holder { display: none; }
-  .bnav { display: grid; grid-template-columns: repeat(6, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--elev); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--line);
+  .bnav { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--elev); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--line);
     padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px)); }
   .bnav button { background: none; border: 0; display: grid; justify-items: center; gap: 2px; padding: 4px 0; font-size: 10.5px; font-weight: 500; color: var(--muted); }
   .bnav button svg { width: 24px; height: 24px; }
@@ -335,7 +348,8 @@ details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
 @media (prefers-reduced-motion: no-preference) { .mday, .btn, .tab, .opt, .round, .mchip { transition: background-color .15s, color .15s, box-shadow .15s; } .sheet { animation: pop .18s ease-out; } @keyframes pop { from { transform: translateY(8px); opacity: .6; } } }
 @media (max-width: 560px) { .next-when { font-size: 25px; } .pay-big { font-size: 34px; } .panel { padding: 16px; } }
 </style>
-
+</head>
+<body>
 <header class="topbar">
   <div class="wrap topbar-inner">
     <div class="brand">
@@ -348,7 +362,6 @@ details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
         <button class="tab" role="tab" data-view="kalender">Kalender</button>
         <button class="tab" role="tab" data-view="uker">Uker</button>
         <button class="tab" role="tab" data-view="lonn">Lønn</button>
-        <button class="tab" role="tab" data-view="importer">Importer</button>
         <button class="tab" role="tab" data-view="oppsett">Oppsett</button>
       </nav>
     </div>
@@ -360,8 +373,8 @@ details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
   <div id="loading" class="panel empty-state"><h2>Henter turnusen …</h2><p class="hint">Et øyeblikk.</p></div>
   <div id="emptyPlan" class="panel empty-state" hidden>
     <h2>Ingen turnus lagret ennå</h2>
-    <p class="hint">Last opp bilder eller en skjermdump av turnusplanen, så leser Claude den inn for deg.</p>
-    <div class="btn-row"><button class="btn primary" data-goto="importer">Importer turnusplan</button><button class="btn" id="useDraftBtn">Bruk turnusen for 2026</button></div>
+    <p class="hint">Start med turnusen som er lagt inn.</p>
+    <div class="btn-row"><button class="btn" id="useDraftBtn">Bruk turnusen for 2026</button></div>
   </div>
 
   <section class="view" id="view-oversikt" hidden></section>
@@ -377,7 +390,6 @@ details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
   <button data-view="kalender"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Kalender</button>
   <button data-view="uker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Uker</button>
   <button data-view="lonn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="3"/><path d="M2.5 10h19M6.5 15h4"/></svg>Lønn</button>
-  <button data-view="importer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Importer</button>
   <button data-view="oppsett"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Oppsett</button>
 </nav>
 
@@ -387,25 +399,12 @@ details summary { cursor: pointer; font-weight: 600; font-size: 16px; }
 </div>
 <div class="toast" id="toast" hidden></div>
 
+<script src="plan.js"></script>
 <script>
 'use strict';
 /* ============================================================
    DATA: utkastet fra den gamle appen (ikke endelig plan)
    ============================================================ */
-const LEGACY_WEEKS = [
-  ['2026-07-20',35,['D','','D','D','D','','']],['2026-07-27',28,['D','D','D','D','','F1','']],
-  ['2026-08-03',44,['A','','','F1','','LA','LA']],['2026-08-10',28.5,['','D','D4','D','D','','F1']],
-  ['2026-08-17',36,['A','D','D4','D','','','F1']],['2026-08-24',35.5,['D','D','D4','D','D','','F1']],
-  ['2026-08-31',49.5,['','F1','','D','AK','LY','LY']],['2026-09-07',21.5,['','D4','','D','D','','F1']],
-  ['2026-09-14',36.5,['A','A','D4','D','D','','F1']],['2026-09-21',35.5,['D','D','D4','D','D','','F1']],
-  ['2026-09-28',50,['A','D2','A','F1','','LA','LA']],['2026-10-05',35.5,['','','','','','','F1']],
-  ['2026-10-12',29,['','A','D4','D','D','','F1']],['2026-10-19',35.5,['D','D','D4','D','D','','F1']],
-  ['2026-10-26',44,['A','A','F1','','','LL','LL']],['2026-11-02',21.5,['','D4','D','','D','','F1']],
-  ['2026-11-09',36.5,['D','D','A','A','A','','F1']],['2026-11-16',35.5,['D','D','D4','D','D','','F1']],
-  ['2026-11-23',50,['D2','F1','D4','','D','LA','LA']],['2026-11-30',21.5,['','D4','D','D','','','F1']],
-  ['2026-12-07',36.5,['A','A','D4','D','D','','F1']],['2026-12-14',35.5,['D','D','D4','D','D','','F1']],
-  ['2026-12-21',50,['D','D','D','F1','','LL','LL']],['2026-12-28',21,['D','D','D','F1','D','','']],
-];
 const DEFAULT_CODES = {
   D:  { name: 'Dagvakt', start: '07:30', end: '15:00', hours: 7, kind: 'dag' },
   D1: { name: 'Dagvakt', start: '07:30', end: '15:15', hours: 7.25, kind: 'dag' },
@@ -429,18 +428,35 @@ const ACCENTS = { blue: ['#007aff', '#0a84ff'], teal: ['#0a8a99', '#1fa9bd'], pl
 const ACCENT_NAMES = { blue: 'Blå', teal: 'Havgrønn', plum: 'Plomme', coral: 'Korall', forest: 'Skog', graphite: 'Grafitt' };
 const DEFAULT_PREFS = { theme: 'system', accent: 'blue', density: 'normal', showTimes: true, showLegend: true, showNames: true, weekNumbers: true, codeColors: {} };
 
+const PLAN = window.TURNUS_PLAN || { version: 'tom', range: null, meta: {}, weekTS: {}, codes: {}, entries: {} };
 function legacyState() {
-  const entries = {}, weekTS = {};
-  LEGACY_WEEKS.forEach(([start, ts, shifts]) => {
-    weekTS[start] = ts;
-    shifts.forEach((c, i) => { if (c) entries[toIso(addDays(parseIso(start), i))] = c; });
-  });
   return {
-    v: 2,
-    meta: { name: 'Årsturnus 2026 – Sandåker, Nathalie', unit: 'Hjemmesykepleien · Sone Klokkeråsen', employer: 'Tønsberg kommune', status: 'endelig', note: '', weekTS },
-    entries, original: { ...entries }, codes: JSON.parse(JSON.stringify(DEFAULT_CODES)),
-    salary: JSON.parse(JSON.stringify(DEFAULT_SALARY)),
+    v: 2, planVersion: PLAN.version,
+    meta: { name: PLAN.meta.name || 'Turnus', unit: PLAN.meta.unit || '', employer: PLAN.meta.employer || '', status: 'endelig', note: '', weekTS: { ...(PLAN.weekTS || {}) } },
+    entries: { ...PLAN.entries }, original: { ...PLAN.entries },
+    codes: Object.keys(PLAN.codes || {}).length ? clone(PLAN.codes) : clone(DEFAULT_CODES),
+    salary: clone(DEFAULT_SALARY),
   };
+}
+/* Ny plan fra plan.js: oppdater datoene i planens periode, men behold vakter som er byttet på telefonen. */
+function mergePlan(local) {
+  if (!PLAN.range || local.planVersion === PLAN.version) return { state: local, changed: 0 };
+  const out = clone(local), orig = out.original || {};
+  let changed = 0;
+  const inRange = d => d >= PLAN.range.from && d <= PLAN.range.to;
+  const dates = new Set([...Object.keys(PLAN.entries), ...Object.keys(orig).filter(inRange), ...Object.keys(out.entries).filter(inRange)]);
+  for (const d of dates) {
+    if (!inRange(d)) continue;
+    const nv = PLAN.entries[d] || '', edited = (orig[d] || '') !== (out.entries[d] || '');
+    if (!edited && (out.entries[d] || '') !== nv) { if (nv) out.entries[d] = nv; else delete out.entries[d]; changed++; }
+    if (nv) orig[d] = nv; else delete orig[d];
+  }
+  out.original = orig;
+  for (const [c, k] of Object.entries(PLAN.codes || {})) if (!out.codes[c]) out.codes[c] = clone(k);
+  out.meta.weekTS = { ...(out.meta.weekTS || {}), ...(PLAN.weekTS || {}) };
+  if (PLAN.meta.name) out.meta.name = PLAN.meta.name;
+  out.planVersion = PLAN.version;
+  return { state: out, changed };
 }
 
 /* ============================================================
@@ -532,7 +548,7 @@ function setStatus(kind, text) {
 }
 function persist() {
   lsSet(LS_STATE, state);
-  if (store.mode !== 'db') { setStatus('local', 'Lagret i denne nettleseren'); return; }
+  if (store.mode !== 'db') { setStatus('saved', 'Lagret på enheten'); return; }
   setStatus('saving', 'Lagrer …');
   clearTimeout(store.timer);
   store.timer = setTimeout(flush, 700);
@@ -557,39 +573,16 @@ async function boot() {
   prefs = Object.assign({}, DEFAULT_PREFS, lsGet(LS_PREFS) || {});
   applyPrefs();
   bindChrome();
-  const hasClaude = !!(window.claude && typeof window.claude.use === 'function');
-  if (!hasClaude) { startLocal(); return; }
-  // Funksjoner som ikke trengs for første visning lastes i bakgrunnen.
-  window.claude.use('downloads').then(d => { store.downloads = d; }).catch(() => {});
-  window.claude.use('sample').then(s => { store.sample = s; if (currentView === 'importer') renderImport(); }).catch(() => {});
-  let db = null;
-  try { db = await window.claude.use('db'); } catch {}
-  if (!db) { startLocal(); return; }
-  store.mode = 'db';
-  store.ref = db.doc('turnus/main');
-  try {
-    const user = await window.claude.use('user');
-    const id = user ? await user.id() : null;
-    if (id) {
-      store.prefsRef = db.doc(`data/users/${id}/prefs`);
-      store.prefsRef.get().then(snap => { if (snap.exists) { prefs = Object.assign({}, DEFAULT_PREFS, snap.data()); lsSet(LS_PREFS, prefs); applyPrefs(); renderAll(); } }).catch(() => {});
-    }
-  } catch {}
-  let settled = false;
-  const slow = setTimeout(() => { if (!settled) { setStatus('error', 'Får ikke kontakt – viser lokal kopi'); const cached = normalize(lsGet(LS_STATE)); if (cached && !state) { state = cached; renderAll(); } } }, 10000);
-  store.ref.onSnapshot(snap => {
-    if (store.writing || store.timer) return; // egne endringer på vei
-    if (!snap.metadata.fromCache) { settled = true; clearTimeout(slow); }
-    if (snap.exists) { state = normalize(snap.data()); lsSet(LS_STATE, state); setStatus('saved', 'Lagret'); }
-    else if (!snap.metadata.fromCache) { state = null; setStatus('saved', 'Klar'); }
-    renderAll();
-  }, err => { settled = true; clearTimeout(slow); setStatus('error', 'Ikke tilkoblet – viser lokal kopi'); store.mode = 'local'; state = normalize(lsGet(LS_STATE)) || legacyState(); renderAll(); });
-}
-function startLocal() {
-  store.mode = 'local';
-  state = normalize(lsGet(LS_STATE)) || legacyState();
-  setStatus('local', 'Lagret i denne nettleseren');
+  const saved = normalize(lsGet(LS_STATE));
+  if (saved) {
+    const m = mergePlan(saved);
+    state = m.state;
+    if (m.state !== saved) { lsSet(LS_STATE, state); if (m.changed) setTimeout(() => toast(`Turnusen er oppdatert (${m.changed} ${m.changed === 1 ? 'dag' : 'dager'}). Dine vaktbytter er beholdt.`), 600); }
+  } else { state = legacyState(); lsSet(LS_STATE, state); }
+  setStatus('saved', 'Lagret på enheten');
   renderAll();
+  try { navigator.storage?.persist?.(); } catch {}
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
 /* ============================================================
@@ -726,7 +719,7 @@ function renderAll() {
 
 function draftBanner() {
   if (state.meta.status === 'endelig') return '';
-  return `<div class="banner"><div class="grow"><strong>Dette er et utkast.</strong> ${esc(state.meta.note || 'Vaktene er ikke kontrollert mot den endelige planen.')}</div><button class="btn" data-goto="importer">Importer plan</button></div>`;
+  return `<div class="banner"><div class="grow"><strong>Dette er et utkast.</strong> ${esc(state.meta.note || 'Vaktene er ikke kontrollert mot den endelige planen.')}</div></div>`;
 }
 function dayLabel(iso, withYear) { const d = parseIso(iso); const w = DOW_LONG[dowIdx(d)]; return `${w[0].toUpperCase()}${w.slice(1)} ${d.getDate()}. ${MONTHS[d.getMonth()]}${withYear ? ' ' + d.getFullYear() : ''}`; }
 function evClass(c) { const col = prefs.codeColors?.[c]; return col ? { cls: 'custom', style: `--cc:${esc(col)}` } : { cls: kindClass(c), style: '' }; }
@@ -1098,10 +1091,10 @@ function renderSettings() {
     </div>
     <div class="panel">
       <h2>Sikkerhetskopi</h2>
-      <p class="hint" style="margin-top:0">${store.mode === 'db' ? 'Planen lagres automatisk og er den samme for alle som har tilgang til siden.' : 'Planen lagres bare i denne nettleseren. Ta gjerne en sikkerhetskopi.'}</p>
+      <p class="hint" style="margin-top:0">Alt lagres på denne enheten. Ta gjerne en sikkerhetskopi av og til, for eksempel før du bytter telefon.</p>
       <div class="btn-row"><button class="btn" id="exportBtn">Last ned sikkerhetskopi (.json)</button><label class="btn" for="importJson">Gjenopprett fra fil</label><input type="file" id="importJson" accept="application/json,.json" hidden>
-      <button class="btn danger" id="resetDraft">Tilbakestill til opprinnelig 2026-turnus</button></div>
-      <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med den opprinnelige 2026-turnusen. Endringer Nathalie har gjort, forsvinner.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
+      <button class="btn danger" id="resetDraft">Tilbakestill til opprinnelig turnus</button></div>
+      <div id="resetConfirm" hidden class="banner bad" style="margin-top:12px"><div class="grow"><strong>Er du sikker?</strong> Alle vakter, vaktkoder og lønnsopplysninger erstattes med den opprinnelige turnusen. Vaktbytter du har gjort, forsvinner.</div><div class="btn-row"><button class="btn danger" id="resetYes">Ja, tilbakestill</button><button class="btn" id="resetNo">Avbryt</button></div></div>
     </div>`;
   el.querySelectorAll('[data-pref]').forEach(b => b.onclick = () => { prefs[b.dataset.pref] = b.dataset.v; applyPrefs(); persistPrefs(); renderSettings(); });
   el.querySelectorAll('[data-sw]').forEach(inp => inp.onchange = () => { prefs[inp.dataset.sw] = inp.checked; applyPrefs(); persistPrefs(); });
@@ -1136,8 +1129,14 @@ async function exportJson() {
     try { await store.downloads.save({ filename, data: new Blob([data], { type: 'application/json' }) }); toast('Sikkerhetskopien er lastet ned.'); return; }
     catch (e) { if (e?.code === 'declined' || e?.code === 'dismissed') return; }
   }
-  try { await navigator.clipboard.writeText(data); toast('Kunne ikke laste ned. Sikkerhetskopien er kopiert til utklippstavlen.'); }
-  catch { toast('Nedlasting er ikke tilgjengelig her.'); }
+  const blob = new Blob([data], { type: 'application/json' });
+  try {
+    const file = new File([blob], filename, { type: 'application/json' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Sikkerhetskopi av turnus' }); return; }
+  } catch (e) { if (e?.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('Sikkerhetskopien er lagret.');
 }
 function importJson(file) {
   if (!file) return;
@@ -1158,7 +1157,8 @@ async function renderImport() {
     <div class="panel">
       <h2>Importer den endelige turnusplanen</h2>
       <p class="hint" style="margin-top:0">Ta bilde av eller skjermdump fra turnusen (for eksempel fra GAT eller Visma), og last opp. Claude leser vaktkodene uke for uke. Du ser alt før noe blir lagret.</p>
-      ${!store.sample ? `<div class="banner bad"><div class="grow"><strong>Bildeimport er ikke tilgjengelig her.</strong> Den virker når siden er åpnet på claude.ai. Du kan likevel gjenopprette fra en sikkerhetskopi under Oppsett, eller endre vakter direkte i kalenderen.</div></div>` : ''}
+      ${!store.sample ? `<div class="banner info"><div class="grow"><strong>Ny turnus legges inn for deg.</strong> Når neste turnus er klar, sendes bilder av den til Tony, som legger den inn. Appen henter den nye planen neste gang du åpner den, og vaktbytter du har gjort blir stående. Vakter du bytter selv, endrer du rett i kalenderen.</div></div>
+      <div class="btn-row"><button class="btn" data-goto="kalender">Gå til kalenderen</button><button class="btn" data-goto="oppsett">Sikkerhetskopi</button></div>` : ''}
       <div style="display:grid;gap:14px;margin-top:6px">
         ${canImages ? `<label class="drop" id="drop" for="imgInput"><strong>Slipp bilder her eller trykk for å velge</strong><span class="hint">Opptil ${maxImgs} bilder (JPG, PNG, WebP). Ta med hele tabellen, også ukenummer og datoer.</span></label>
         <input type="file" id="imgInput" accept="${esc((caps.images.mediaTypes || ['image/jpeg', 'image/png', 'image/webp']).join(','))}" multiple hidden>
@@ -1408,3 +1408,5 @@ function bindChrome() {
 }
 boot();
 </script>
+</body>
+</html>
