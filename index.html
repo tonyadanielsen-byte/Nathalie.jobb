@@ -568,6 +568,7 @@ function monthAgg(k) {
   agg.tillegg = Object.values(agg.amt).reduce((a, b) => a + b, 0);
   return agg;
 }
+function periodText(k) { if (!k) return '–'; const [y, m] = k.split('-').map(Number); return `1.–${new Date(y, m, 0).getDate()}. ${MONTHS[m - 1]}`; }
 function payroll() {
   const months = planMonths(); if (!months.length) return [];
   const sal = state.salary, fast = sal.annual * (sal.pct / 100) / 12;
@@ -669,7 +670,7 @@ function renderOverview() {
         ${nextPay ? `<div class="eyebrow">Neste utbetaling · ${nextPay.payDate.getDate()}. ${MONTHS[nextPay.payDate.getMonth()]}</div>
         <div class="pay-big">${kr(nextPay.netto)}</div><div class="hint">estimert netto utbetalt</div>
         <div class="kv"><span>Fast månedslønn</span><span>${kr(nextPay.fast)}</span>
-        <span>Tillegg ${nextPay.earnedIn ? 'for ' + MONTHS[+nextPay.earnedIn.slice(5) - 1] : ''}</span><span>${kr(nextPay.tillegg)}</span>
+        <span>Tillegg ${nextPay.earnedIn ? periodText(nextPay.earnedIn) : ''}</span><span>${kr(nextPay.tillegg)}</span>
         <span>Skattetrekk ${nf1.format(nextPay.taxPct * 100)} %</span><span>− ${kr(nextPay.skatt)}</span></div>
         <button class="btn ghost" data-goto="lonn" style="justify-self:start;padding-left:0">Se hele lønnsoversikten →</button>` : '<div class="hint">Ingen lønnsdata.</div>'}
       </div>
@@ -790,8 +791,8 @@ function renderPay() {
   const rows = pr.map(p => {
     const open = openPayRow === p.m;
     const a = p.tilleggAgg;
-    const br = open ? `<tr class="breakdown"><td colspan="7"><div class="grid-2">
-      <div><div class="eyebrow" style="margin-bottom:6px">Tillegg opptjent i ${p.earnedIn ? ymLabel(p.earnedIn) : '–'}</div>${a ? `<div class="kv">
+    const br = open ? `<tr class="breakdown"><td colspan="8"><div class="grid-2">
+      <div><div class="eyebrow" style="margin-bottom:6px">Tillegg for ${p.earnedIn ? periodText(p.earnedIn) + ' ' + p.earnedIn.slice(0, 4) : '–'}</div>${a ? `<div class="kv">
         <span>Kveld 17–21 · ${hrs(a.kveld)}</span><span>${kr(a.amt.kveld)}</span>
         <span>Natt 21–06 · ${hrs(a.natt)}</span><span>${kr(a.amt.natt)}</span>
         <span>Lørdag/søndag · ${hrs(a.helg)}</span><span>${kr(a.amt.helg)}</span>
@@ -799,13 +800,13 @@ function renderPay() {
         ${s.langKr > 0 ? `<span>Lokalt langvakttillegg · ${hrs(a.lang)}</span><span>${kr(a.amt.lang)}</span>` : ''}
         <span class="tot">Sum tillegg</span><span class="tot">${kr(a.tillegg)}</span></div>` : '<span class="hint">Ingen tillegg.</span>'}</div>
       <div><div class="eyebrow" style="margin-bottom:6px">Utbetaling ${p.payDate.getDate()}. ${MONTHS[p.payDate.getMonth()]}</div><div class="kv">
-        <span>Fast lønn ${nf1.format(s.pct)} % (årslønn ÷ 12)</span><span>${kr(p.fast)}</span>
+        <span>Fast lønn for ${MONTHS[p.payDate.getMonth()]} (årslønn ÷ 12)</span><span>${kr(p.fast)}</span>
         <span>Tillegg</span><span>${kr(p.tillegg)}</span>
         <span class="tot">Brutto</span><span class="tot">${kr(p.brutto)}</span>
         <span>Skattetrekk ${nf1.format(p.taxPct * 100)} %${p.taxPct * 100 < s.taxPct ? ' (halv skatt)' : ''}</span><span>− ${kr(p.skatt)}</span>
         <span class="tot">Netto</span><span class="tot">${kr(p.netto)}</span></div></div></div></td></tr>` : '';
-    return `<tr class="clickable ${open ? 'open' : ''}" data-payrow="${p.m}"><td><b>${ymLabel(p.m)}</b>${p.onlyTillegg ? ' <span class="hint">(etterbetalte tillegg)</span>' : ''}</td>
-      <td class="r">${p.agg ? nf1.format(p.agg.hours) : '–'}</td><td class="r">${kr(p.fast)}</td><td class="r">${kr(p.tillegg)}</td><td class="r">${kr(p.brutto)}</td><td class="r">− ${kr(p.skatt)}</td><td class="r"><b>${kr(p.netto)}</b></td></tr>${br}`;
+    return `<tr class="clickable ${open ? 'open' : ''}" data-payrow="${p.m}"><td><b>${p.payDate.getDate()}. ${MONTHS[p.payDate.getMonth()]} ${p.payDate.getFullYear()}</b>${p.onlyTillegg ? ' <span class="hint">(bare tillegg)</span>' : ''}</td>
+      <td>${periodText(p.earnedIn)}</td><td class="r">${p.tilleggAgg ? nf1.format(p.tilleggAgg.hours) : '–'}</td><td class="r">${kr(p.fast)}</td><td class="r">${kr(p.tillegg)}</td><td class="r">${kr(p.brutto)}</td><td class="r">− ${kr(p.skatt)}</td><td class="r"><b>${kr(p.netto)}</b></td></tr>${br}`;
   }).join('');
   const ratesRows = s.rates.map((r, i) => `<tr>
     <td><input class="input" type="date" data-rate="${i}" data-f="from" value="${esc(r.from)}"></td>
@@ -824,7 +825,7 @@ function renderPay() {
         <div class="field"><label for="s-week">Full stilling per uke (t)</label><input class="input num" id="s-week" type="number" step="0.5" data-sal="fullWeek" value="${s.fullWeek}"></div>
       </div>
       <div class="btn-row" style="margin-top:12px; gap:18px">
-        <label class="check"><input type="checkbox" data-salc="lag" ${s.lag ? 'checked' : ''}> Tillegg utbetales måneden etter</label>
+        <label class="check"><input type="checkbox" data-salc="lag" ${s.lag ? 'checked' : ''}> Tillegg for hele forrige måned (1. til siste dag) utbetales sammen med lønnen</label>
         <label class="check"><input type="checkbox" data-salc="decHalf" ${s.decHalf ? 'checked' : ''}> Halv skatt i desember</label>
       </div>
       <p class="hint" style="margin:12px 0 0">Timelønn: ${kr(s.annual)} ÷ ${s.divisor} = <b class="num">${nf1.format(tl)} kr/t</b>. Fast månedslønn: <b class="num">${kr(s.annual * s.pct / 100 / 12)}</b>.</p>
@@ -840,7 +841,7 @@ function renderPay() {
       ${payChart(pr)}
     </div>
     <div class="table-wrap"><table>
-      <thead><tr><th>Utbetaling</th><th class="r">Timer jobbet</th><th class="r">Fast lønn</th><th class="r">Tillegg</th><th class="r">Brutto</th><th class="r">Skatt</th><th class="r">Netto</th></tr></thead>
+      <thead><tr><th>Utbetales</th><th>Tillegg for perioden</th><th class="r">Timer i perioden</th><th class="r">Fast lønn</th><th class="r">Tillegg</th><th class="r">Brutto</th><th class="r">Skatt</th><th class="r">Netto</th></tr></thead>
       <tbody>${rows}</tbody></table></div>
     <p class="hint" style="margin:0">Trykk på en måned for å se hvordan tilleggene er regnet ut.</p>
     <div class="panel">
